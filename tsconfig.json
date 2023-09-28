@@ -17,6 +17,6 @@
     "moduleResolution": "node",
     "lib": ["dom", "esnext"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/scripts/objects/.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
