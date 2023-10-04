@@ -1,6 +1,7 @@
 import 'phaser'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
+import CutJigsawImagePlugin from "phaser3-rex-plugins/plugins/cutjigsawimage-plugin";
 
 
 
@@ -15,6 +16,15 @@ const config = {
     mode: Phaser.Scale.ScaleModes.RESIZE ,
   },
   scene: [PreloadScene, MainScene],
+  plugins: {
+    global: [{
+      key: 'rexCutJigsawImage',
+      plugin: CutJigsawImagePlugin,
+      start: true
+    },
+      // ...
+    ]
+  },
   physics: {
     default: 'arcade',
     arcade: {
