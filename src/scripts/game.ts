@@ -1,9 +1,7 @@
 import 'phaser'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
-import CutJigsawImagePlugin from "phaser3-rex-plugins/plugins/cutjigsawimage-plugin";
-
-
+import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
 
 const config = {
   type: Phaser.AUTO,
@@ -11,17 +9,18 @@ const config = {
   width: 1024,
   height: 768,
   scale: {
-    parent: "phaser-engine",
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    mode: Phaser.Scale.ScaleModes.RESIZE ,
+    parent: 'phaser-engine',
+    autoCenter: Phaser.Scale.FIT,
+    mode: Phaser.Scale.ScaleModes.RESIZE
   },
   scene: [PreloadScene, MainScene],
   plugins: {
-    global: [{
-      key: 'rexCutJigsawImage',
-      plugin: CutJigsawImagePlugin,
-      start: true
-    },
+    global: [
+      {
+        key: 'rexCutJigsawImage',
+        plugin: CutJigsawImagePlugin,
+        start: true
+      }
       // ...
     ]
   },

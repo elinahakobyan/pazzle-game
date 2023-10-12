@@ -40,6 +40,7 @@
   "license": "MIT",
   "dependencies": {
     "10": "^0.0.1",
+    "lodash": "^4.17.21",
     "phaser": "^3.55.2",
     "phaser3-rex-plugins": "^1.60.6",
     "v": "^0.3.0"
