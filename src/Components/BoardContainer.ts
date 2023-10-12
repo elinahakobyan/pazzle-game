@@ -1,6 +1,6 @@
 import Sprite = Phaser.GameObjects.Sprite
-import { Cell } from './Cell'
 import GridCutImage from 'phaser3-rex-plugins/plugins/actions/GridCutImage'
+import { Cell } from './Cell'
 import { PieceContainer } from './PieceContainer'
 
 export class BoardContainer extends Phaser.GameObjects.Container {
@@ -52,32 +52,27 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         this.cells.push(cell)
       }
     }
-
-    console.log(this.cells)
   }
 
   private initPieces(): void {
     const images = GridCutImage(this.bkg, this.cols, this.rows)
     images.forEach((img, i) => {
       const { tx, ty } = this.getWorldTransformMatrix()
-      // img.setPosition(tx, ty)
-      // img.setAlpha(0)
+      img.setPosition(tx, ty)
       const cellX = this.cells[i].getPosition().x
       const cellY = this.cells[i].getPosition().y
 
+      //test
       const gr = this.scene.add.graphics()
       gr.fillStyle(0xfff000)
       gr.fillCircle(cellX, cellY, 5)
       this.add(gr)
+
       const piece = new PieceContainer(this.scene, this.cells[i].id)
       piece.setContext(img)
-      piece.setPosition(cellX, cellY)
-      // piece.add(img)
-      // console.log(piece.x, piece.y)
-      console.log(img.x, img.y)
+      piece.setPosition(cellX + piece.width / 2, cellY + piece.height / 2)
       this.add(piece)
     })
-    console.log(images)
   }
 
   private drawRowCols(): void {
@@ -109,6 +104,5 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.bkg.setScale(1.5)
     this.bkg.setAlpha(0.5)
     this.add(this.bkg)
-    console.log(this.bkg.displayWidth)
   }
 }
