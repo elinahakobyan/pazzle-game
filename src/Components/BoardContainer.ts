@@ -18,9 +18,9 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   private initialize(): void {
     this.initBkg()
     // this.drawBorders()
-    this.drawRowCols()
     this.initCells()
     this.initPieces()
+    this.drawRowCols()
   }
 
   private drawBorders(): void {
@@ -71,6 +71,20 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       const piece = new PieceContainer(this.scene, this.cells[i].id)
       piece.setContext(img)
       piece.setPosition(cellX + piece.width / 2, cellY + piece.height / 2)
+      piece.setInteractive({ cursor: 'pointer', draggable: true })
+
+      // const r = this.scene.add.graphics()
+      // r.fillStyle(0xfff000)
+      // r.fillRect(piece.x, piece.y, piece.width, piece.height)
+      // this.add(r)
+      // piece.on('drag', (pointer: Phaser.Input.Pointer) => {
+      //   const { tx, ty } = this.getWorldTransformMatrix()
+      //   console.log(pointer.x, pointer.y)
+      //   console.log(tx, ty)
+      //
+      //   // console.log(piece.x, piece.y)
+      //   // piece.setPosition(pointer.x, pointer.y)
+      // })
       this.add(piece)
     })
   }

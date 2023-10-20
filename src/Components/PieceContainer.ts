@@ -15,6 +15,20 @@ export class PieceContainer extends Container {
   }
 
   private initialize(): void {
-    //
+    this.attachListeners()
+  }
+  private attachListeners(): void {
+    this.handleDrag()
+  }
+
+  private handleDrag(): void {
+    this.on('pointerdown', pointer => {
+      // const { tx, ty } = this.getWorldTransformMatrix()
+      this.setPosition(pointer.x, pointer.y)
+      console.log(pointer.x, pointer.y)
+      // console.log(tx, ty)
+      // console.log(piece.x, piece.y)
+      // this.setPosition(tx - pointer.x, ty - pointer.y)
+    })
   }
 }
