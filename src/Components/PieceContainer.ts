@@ -12,23 +12,26 @@ export class PieceContainer extends Container {
   public setContext(context: Image): void {
     this.add((this.context = context))
     this.setSize(this.context.displayWidth, this.context.displayHeight)
+    this.initZone()
   }
 
   private initialize(): void {
     this.attachListeners()
   }
+
+  private initZone(): void {
+    console.log(this.displayWidth, this.displayHeight)
+    const zone = this.scene.add.zone(-this.width / 2, -this.height / 2, this.width, this.height)
+    this.add(zone)
+
+    const gr = this.scene.add.graphics()
+    gr.fillStyle(0xfff000, 0.5)
+    gr.fillRect(-this.width / 2, -this.height / 2, this.width, this.height)
+    this.add(gr)
+  }
   private attachListeners(): void {
     this.handleDrag()
   }
 
-  private handleDrag(): void {
-    this.on('pointerdown', pointer => {
-      // const { tx, ty } = this.getWorldTransformMatrix()
-      this.setPosition(pointer.x, pointer.y)
-      console.log(pointer.x, pointer.y)
-      // console.log(tx, ty)
-      // console.log(piece.x, piece.y)
-      // this.setPosition(tx - pointer.x, ty - pointer.y)
-    })
-  }
+  private handleDrag(): void {}
 }

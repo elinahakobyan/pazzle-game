@@ -2,6 +2,7 @@ import Sprite = Phaser.GameObjects.Sprite
 import GridCutImage from 'phaser3-rex-plugins/plugins/actions/GridCutImage'
 import { Cell } from './Cell'
 import { PieceContainer } from './PieceContainer'
+import { GameScreen } from '../scripts/screens/GameScreen'
 
 export class BoardContainer extends Phaser.GameObjects.Container {
   private bkg: Phaser.GameObjects.Sprite
@@ -13,6 +14,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.rows = 2
     this.cols = 2
     this.initialize()
+    this.setSize(this.bkg.displayWidth, this.bkg.displayHeight)
   }
 
   private initialize(): void {
@@ -49,6 +51,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
           width: cellW,
           height: cellH
         })
+        // cell.input.
         this.cells.push(cell)
       }
     }
@@ -67,24 +70,16 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       gr.fillStyle(0xfff000)
       gr.fillCircle(cellX, cellY, 5)
       this.add(gr)
-
+      //
       const piece = new PieceContainer(this.scene, this.cells[i].id)
       piece.setContext(img)
       piece.setPosition(cellX + piece.width / 2, cellY + piece.height / 2)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
 
-      // const r = this.scene.add.graphics()
-      // r.fillStyle(0xfff000)
-      // r.fillRect(piece.x, piece.y, piece.width, piece.height)
-      // this.add(r)
-      // piece.on('drag', (pointer: Phaser.Input.Pointer) => {
-      //   const { tx, ty } = this.getWorldTransformMatrix()
-      //   console.log(pointer.x, pointer.y)
-      //   console.log(tx, ty)
-      //
-      //   // console.log(piece.x, piece.y)
-      //   // piece.setPosition(pointer.x, pointer.y)
-      // })
+      piece.on('drag', pointer => {
+        ;(this.parentContainer as GameScreen).gameLayer.add(piece)
+        piece.setPosition(pointer.x, pointer.y)
+      })
       this.add(piece)
     })
   }
