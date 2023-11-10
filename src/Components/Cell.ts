@@ -13,6 +13,10 @@ export class Cell {
     this.initialize()
   }
 
+  public getSize(): { width: number; height: number } {
+    return { width: this.dimensions.width, height: this.dimensions.height }
+  }
+
   public getPosition(): { x: number; y: number } {
     return { x: this.dimensions.x, y: this.dimensions.y }
   }
