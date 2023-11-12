@@ -2,19 +2,12 @@ import Container = Phaser.GameObjects.Container
 import Image = Phaser.GameObjects.Image
 
 export class PieceContainer extends Container {
-  private context: Phaser.GameObjects.Image
   private gr: Phaser.GameObjects.Graphics
   public absolutePosition: { x: number; y: number }
-  constructor(scene, public id: string) {
+  constructor(scene, public id: string, private context: Image) {
     super(scene)
-
+    this.add(this.context)
     this.initialize()
-  }
-
-  public setContext(context: Image): void {
-    this.add((this.context = context))
-    this.setSize(this.context.displayWidth, this.context.displayHeight)
-    // this.initZone()
   }
 
   private initialize(): void {

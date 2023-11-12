@@ -1,8 +1,7 @@
 import Sprite = Phaser.GameObjects.Sprite
-import GridCutImage from 'phaser3-rex-plugins/plugins/actions/GridCutImage'
+import { GameScreen } from '../scripts/screens/GameScreen'
 import { Cell } from './Cell'
 import { PieceContainer } from './PieceContainer'
-import { GameScreen } from '../scripts/screens/GameScreen'
 import Pointer = Phaser.Input.Pointer
 
 export class BoardContainer extends Phaser.GameObjects.Container {
@@ -25,7 +24,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     // this.drawBorders()
     this.initCells()
     // this.initPieces()
-    this.initLayers()
+    // this.initLayers()
     this.drawRowCols()
   }
 
@@ -62,97 +61,49 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         })
         this.cells.push(cell)
 
-        const gr = this.scene.add.graphics()
-        gr.fillStyle(0x000fff, 0.5)
-        gr.fillRect(x - displayWidth / 2 + j * cellW, y - displayHeight / 2 + i * cellH, cellW, cellH)
-        this.add(gr)
+        // const gr = this.scene.add.graphics()
+        // gr.fillStyle(0x000fff, 0.5)
+        // gr.fillRect(x - displayWidth / 2 + j * cellW, y - displayHeight / 2 + i * cellH, cellW, cellH)
+        // this.add(gr)
       }
     }
   }
 
   private initPieces(): void {
-    const images = GridCutImage(this.bkg, this.cols, this.rows)
-    images.forEach((img, i) => {
-      const { tx, ty } = this.getWorldTransformMatrix()
-      // img.setPosition(tx, ty)
-      const { x, y } = this.cells[i].getPosition()
-      //test
-      const gr = this.scene.add.graphics()
-      gr.fillStyle(0xfff000)
-      gr.fillCircle(x, y, 5)
-      this.add(gr)
-      //
-      const piece = new PieceContainer(this.scene, this.cells[i].id)
-      piece.setContext(img)
-      piece.absolutePosition = { x: x + piece.width / 2, y: y + piece.height / 2 }
-      piece.setPosition(x + piece.width / 2, y + piece.height / 2)
-      // piece.setPosition(x + piece.width / 2 + 500 + i * 10, y + piece.height / 2)
-      piece.setInteractive({ cursor: 'pointer', draggable: true })
-
-      piece.on('drag', pointer => {
-        // this.dragPieceContainer(pointer, piece)
-        // this.checkForPlace(piece)
-      })
-      piece.on('dragend', pointer => {
-        // console.log(this.allowToPLace, 'dragend')
-        // if (this.allowToPLace) {
-        //   const { tx, ty } = this.getLocalTransformMatrix()
-        //   piece.setPosition(piece.absolutePosition.x + tx, piece.absolutePosition.y + ty)
-        //   this.allowToPLace = false
-        // } else {
-        // }
-      })
-      console.log(this.parentContainer as GameScreen)
-      ;(this.parentContainer as GameScreen).gameLayer.add(piece)
-      // this.add(piece)
-    })
-  }
-
-  private checkForPlace(piece: PieceContainer): void {
-    this.cells.forEach(cell => {
-      const { tx, ty } = this.getLocalTransformMatrix()
-      console.log(tx, ty, 'a')
-
-      const cellX = cell.getPosition().x + tx
-      const cellY = cell.getPosition().y + ty
-      const cellW = cell.getSize().width
-      const cellH = cell.getSize().height
-
-      console.log(cellX, cellY, 'cell')
-      console.log(piece.x, piece.y, 'piece')
-      // console.log(
-      //   this.isIntoCell(piece.x, cellX, cellX + cellW),
-      //   this.isIntoCell(piece.y, cellY, cellY + cellH),
-      //   cell.id === piece.id
-      // )
-
-      const gr = this.scene.add.graphics()
-      gr.fillStyle(0xfff000)
-      gr.fillCircle(cellX + 406, cellY + 469, 5)
-      this.add(gr)
-
-      if (
-        this.isIntoCell(piece.x, cellX, cellX + cellW) &&
-        this.isIntoCell(piece.y, cellY, cellY + cellH) &&
-        cell.id === piece.id
-      ) {
-        this.allowToPLace = true
-        // console.log(this.allowToPLace)
-      } else {
-        this.allowToPLace = false
-
-        // console.log(this.allowToPLace)
-      }
-    })
-  }
-
-  private isIntoCell(p: number, min: number, max: number): boolean {
-    return p < Math.max(min, max) && p > Math.min(min, max)
-  }
-
-  private dragPieceContainer(pointer: Pointer, piece: PieceContainer): void {
-    ;(this.parentContainer as GameScreen).gameLayer.add(piece)
-    piece.setPosition(pointer.x, pointer.y)
+    // const images = GridCutImage(this.bkg, this.cols, this.rows)
+    // images.forEach((img, i) => {
+    //   const { tx, ty } = this.getWorldTransformMatrix()
+    //   // img.setPosition(tx, ty)
+    //   const { x, y } = this.cells[i].getPosition()
+    //   //test
+    //   const gr = this.scene.add.graphics()
+    //   gr.fillStyle(0xfff000)
+    //   gr.fillCircle(x, y, 5)
+    //   this.add(gr)
+    //   //
+    //   const piece = new PieceContainer(this.scene, this.cells[i].id)
+    //   piece.setContext(img)
+    //   piece.absolutePosition = { x: x + piece.width / 2, y: y + piece.height / 2 }
+    //   piece.setPosition(x + piece.width / 2, y + piece.height / 2)
+    //   // piece.setPosition(x + piece.width / 2 + 500 + i * 10, y + piece.height / 2)
+    //   piece.setInteractive({ cursor: 'pointer', draggable: true })
+    //   piece.on('drag', pointer => {
+    //     // this.dragPieceContainer(pointer, piece)
+    //     // this.checkForPlace(piece)
+    //   })
+    //   piece.on('dragend', pointer => {
+    //     // console.log(this.allowToPLace, 'dragend')
+    //     // if (this.allowToPLace) {
+    //     //   const { tx, ty } = this.getLocalTransformMatrix()
+    //     //   piece.setPosition(piece.absolutePosition.x + tx, piece.absolutePosition.y + ty)
+    //     //   this.allowToPLace = false
+    //     // } else {
+    //     // }
+    //   })
+    //   console.log(this.parentContainer as GameScreen)
+    //   ;(this.parentContainer as GameScreen).gameLayer.add(piece)
+    //   // this.add(piece)
+    // })
   }
 
   private drawRowCols(): void {
