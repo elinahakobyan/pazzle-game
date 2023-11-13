@@ -2,18 +2,20 @@ import 'phaser'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
 import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
-
+const width = window.innerWidth
+const height = window.innerHeight
 const config = {
   type: Phaser.AUTO,
   backgroundColor: '#ffffff',
-  width: 1024,
-  height: 768,
+  width: width,
+  height: height,
   scale: {
     parent: 'phaser-engine',
-    autoCenter: Phaser.Scale.FIT,
-    mode: Phaser.Scale.ScaleModes.RESIZE
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    mode: Phaser.Scale.ScaleModes.FIT
   },
   scene: [PreloadScene, MainScene],
+
   plugins: {
     global: [
       {
@@ -21,7 +23,6 @@ const config = {
         plugin: CutJigsawImagePlugin,
         start: true
       }
-      // ...
     ]
   },
   physics: {

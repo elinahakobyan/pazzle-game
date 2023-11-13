@@ -15,9 +15,26 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initialize(): void {
-    this.initLayers()
-    this.initBoardContainer()
-    this.initPieces()
+    // this.initLayers()
+    const sprite = this.scene.add.sprite(0, 0, 'bkg')
+    sprite.setPosition(sprite.width / 2, sprite.height / 2)
+    this.add(sprite)
+    // this.initBoardContainer()
+    // this.initPieces()
+
+    // this.boardContainer.cells.forEach(cell => {
+    //   const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
+    //   const cellX = cell.getPosition().x + tx
+    //   const cellY = cell.getPosition().y + ty
+    //   const cellW = cell.getSize().width
+    //   const cellH = cell.getSize().height
+    //
+    //   const gr = this.scene.add.graphics()
+    //   gr.fillStyle(0x000fff, 0.2)
+    //   gr.fillRect(cellX, cellY, cellW, cellH)
+    //   this.add(gr)
+    // })
+
     // const row = 4
     // const col = 4
     // const sprite = new Sprite(this.scene, window.innerWidth * 0.5, window.innerHeight * 0.5, 'phaser-logo')
@@ -33,12 +50,12 @@ export class GameScreen extends Phaser.GameObjects.Container {
     //   img.setInteractive({ cursor: 'pointer', draggable: true })
     //   img.on('drag', (pointer: Phaser.Input.Pointer) => {
     //     img.setPosition(pointer.x, pointer.y)
-    //   })
+    //   })'
     // })
   }
 
   private initPieces(): void {
-    const images = GridCutImage(this.boardContainer.bkg, 2, 2)
+    const images = GridCutImage(this.boardContainer.bkg, 4, 4)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
       const { tx, ty } = this.boardContainer.getWorldTransformMatrix()
@@ -52,8 +69,9 @@ export class GameScreen extends Phaser.GameObjects.Container {
       //
       const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id, img)
       piece.setSize(img.displayWidth, img.displayHeight)
+      const initialPos = { x: tx + piece.width / 2 + x + i * 10 + 500, y: ty + piece.height / 2 + y }
       piece.absolutePosition = { x: tx + piece.width / 2 + x, y: ty + piece.height / 2 + y }
-      piece.setPosition(tx + piece.width / 2 + x + i * 10 + 500, ty + piece.height / 2 + y)
+      piece.setPosition(initialPos.x, initialPos.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
 
       const gra = this.scene.add.graphics()
@@ -67,48 +85,33 @@ export class GameScreen extends Phaser.GameObjects.Container {
       })
       piece.on('dragend', pointer => {
         // console.log(this.allowToPLace, 'dragend')
-        // if (this.allowToPLace) {
-        //   const { tx, ty } = this.getLocalTransformMatrix()
-        //   piece.setPosition(piece.absolutePosition.x + tx, piece.absolutePosition.y + ty)
-        //   this.allowToPLace = false
-        // } else {
-        // }
+        if (this.allowToPLace) {
+          piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
+        } else {
+          piece.setPosition(initialPos.x, initialPos.y)
+        }
       })
-      // ;(this.parentContainer as GameScreen).gameLayer.add(piece)
       this.add(piece)
     })
   }
 
   private checkForPlace(piece: PieceContainer): void {
-    this.boardContainer.cells.forEach(cell => {
-      const { tx, ty } = this.getLocalTransformMatrix()
-      console.log(tx, ty, 'a')
-
+    this.boardContainer.cells.find(cell => {
+      const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
       const cellX = cell.getPosition().x + tx
       const cellY = cell.getPosition().y + ty
       const cellW = cell.getSize().width
       const cellH = cell.getSize().height
-
-      console.log(cellX, cellY, 'cell')
-      console.log(piece.x, piece.y, 'piece')
-      // console.log(
-      //   this.isIntoCell(piece.x, cellX, cellX + cellW),
-      //   this.isIntoCell(piece.y, cellY, cellY + cellH),
-      //   cell.id === piece.id
-      // )
-
       if (
         this.isIntoCell(piece.x, cellX, cellX + cellW) &&
         this.isIntoCell(piece.y, cellY, cellY + cellH) &&
         cell.id === piece.id
       ) {
         this.allowToPLace = true
-        // console.log(this.allowToPLace)
       } else {
         this.allowToPLace = false
-
-        // console.log(this.allowToPLace)
       }
+      return this.allowToPLace
     })
   }
 
