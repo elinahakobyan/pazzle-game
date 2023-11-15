@@ -9,6 +9,9 @@ export class GameScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
   private boardContainer: BoardContainer
   private allowToPLace: boolean = false
+  private placedPiecesCount: number = 0
+  private isGameOver: boolean = false
+  private pieceContainers: PieceContainer[] = []
   constructor(scene: Phaser.Scene) {
     super(scene)
     this.initialize()
@@ -16,11 +19,11 @@ export class GameScreen extends Phaser.GameObjects.Container {
 
   private initialize(): void {
     // this.initLayers()
-    const sprite = this.scene.add.sprite(0, 0, 'bkg')
-    sprite.setPosition(sprite.width / 2, sprite.height / 2)
-    this.add(sprite)
-    // this.initBoardContainer()
-    // this.initPieces()
+    // const sprite = this.scene.add.sprite(0, 0, 'bkg')
+    // sprite.setPosition(sprite.width / 2, sprite.height / 2)
+    // this.add(sprite)
+    this.initBoardContainer()
+    this.initPieces()
 
     // this.boardContainer.cells.forEach(cell => {
     //   const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
@@ -34,7 +37,6 @@ export class GameScreen extends Phaser.GameObjects.Container {
     //   gr.fillRect(cellX, cellY, cellW, cellH)
     //   this.add(gr)
     // })
-
     // const row = 4
     // const col = 4
     // const sprite = new Sprite(this.scene, window.innerWidth * 0.5, window.innerHeight * 0.5, 'phaser-logo')
@@ -55,7 +57,7 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initPieces(): void {
-    const images = GridCutImage(this.boardContainer.bkg, 4, 4)
+    const images = GridCutImage(this.boardContainer.bkg, 2, 2)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
       const { tx, ty } = this.boardContainer.getWorldTransformMatrix()
@@ -84,15 +86,28 @@ export class GameScreen extends Phaser.GameObjects.Container {
         this.checkForPlace(piece)
       })
       piece.on('dragend', pointer => {
-        // console.log(this.allowToPLace, 'dragend')
+        console.log(this.allowToPLace, 'dragend')
         if (this.allowToPLace) {
           piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
+          this.placedPiecesCount += 1
+          this.allowToPLace = false
+          this.checkForGameOver()
         } else {
           piece.setPosition(initialPos.x, initialPos.y)
         }
       })
       this.add(piece)
+      this.pieceContainers.push(piece)
     })
+  }
+
+  private checkForGameOver(): void {
+    console.log('ahfdjsdh')
+    if (this.placedPiecesCount === this.pieceContainers.length) {
+      this.isGameOver = true
+
+      console.warn('GAMEOVER')
+    }
   }
 
   private checkForPlace(piece: PieceContainer): void {

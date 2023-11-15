@@ -13,8 +13,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   private allowToPLace: boolean = false
   constructor(scene: Phaser.Scene) {
     super(scene)
-    this.rows = 4
-    this.cols = 4
+    this.rows = 2
+    this.cols = 2
     this.initialize()
     this.setSize(this.bkg.displayWidth, this.bkg.displayHeight)
   }
