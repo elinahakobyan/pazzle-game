@@ -131,8 +131,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private initBkg(): void {
-    this.bkg = new Sprite(this.scene, 0, 0, 'phaser-logo')
-    this.bkg.setScale(1.5)
+    this.bkg = new Sprite(this.scene, 0, 0, 'car1')
+    this.bkg.setScale(1)
     this.bkg.setAlpha(0.5)
     this.add(this.bkg)
   }

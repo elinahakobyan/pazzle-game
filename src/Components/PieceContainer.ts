@@ -4,14 +4,21 @@ import Image = Phaser.GameObjects.Image
 export class PieceContainer extends Container {
   private gr: Phaser.GameObjects.Graphics
   public absolutePosition: { x: number; y: number }
-  constructor(scene, public id: string, private context: Image) {
+  public initialPos: { x: number; y: number }
+  public context: Phaser.GameObjects.Image
+  constructor(scene, public id: string) {
     super(scene)
-    this.add(this.context)
     this.initialize()
   }
 
   private initialize(): void {
     this.attachListeners()
+  }
+
+  public setContext(context: Image): void {
+    this.context = context
+    this.add(this.context)
+    this.setSize(this.context.displayWidth, this.context.displayHeight)
   }
 
   private initZone(): void {

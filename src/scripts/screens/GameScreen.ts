@@ -4,6 +4,9 @@ import { BoardContainer } from '../../Components/BoardContainer'
 import { PieceContainer } from '../../Components/PieceContainer'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
+import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
+import BasePlugin = Phaser.Plugins.BasePlugin
+import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 
 export class GameScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
@@ -57,23 +60,32 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initPieces(): void {
-    const images = GridCutImage(this.boardContainer.bkg, 2, 2)
+    const images = CutJigsawImage(this.boardContainer.bkg, {
+      columns: 2,
+      rows: 2,
+      edgeWidth: 20
+      // drawShapeCallback: this.drawShapeCallback
+    })
+    // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
+    console.log(images)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
       const { tx, ty } = this.boardContainer.getWorldTransformMatrix()
       const { x, y } = this.boardContainer.cells[i].getPosition()
-
       //test
       const gr = this.scene.add.graphics()
       gr.fillStyle(0xfff000)
       gr.fillCircle(this.boardContainer.x + x, this.boardContainer.y + y, 5)
       this.add(gr)
       //
-      const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id, img)
-      piece.setSize(img.displayWidth, img.displayHeight)
-      const initialPos = { x: tx + piece.width / 2 + x + i * 10 + 500, y: ty + piece.height / 2 + y }
-      piece.absolutePosition = { x: tx + piece.width / 2 + x, y: ty + piece.height / 2 + y }
-      piece.setPosition(initialPos.x, initialPos.y)
+      const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
+      piece.setContext(img)
+      piece.initialPos = { x: tx + piece.width / 2 + x + i * 10 + 500, y: ty + piece.height / 2 + y }
+      piece.absolutePosition = { x: x + tx + piece.width / 2, y: y + ty }
+      piece.context.preFX?.setPadding(1)
+      piece.context.preFX?.addGlow(0xff0000, 2, 0)
+      // piece.absolutePosition = { x: tx + piece.width / 2 + x, y: ty + piece.height / 2 + y }
+      piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
 
       const gra = this.scene.add.graphics()
@@ -87,25 +99,95 @@ export class GameScreen extends Phaser.GameObjects.Container {
       })
       piece.on('dragend', pointer => {
         console.log(this.allowToPLace, 'dragend')
-        if (this.allowToPLace) {
-          piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
-          this.placedPiecesCount += 1
-          this.allowToPLace = false
-          this.checkForGameOver()
-        } else {
-          piece.setPosition(initialPos.x, initialPos.y)
-        }
+        this.onDragend(piece)
       })
       this.add(piece)
       this.pieceContainers.push(piece)
     })
   }
 
+  private drawShapeCallback(graphics, width, height, edgeWidth, edgeHeight, edgeMode): void {
+    console.log('drawShapeCallback')
+    const centerX = width / 2,
+      centerY = height / 2
+
+    graphics.clear()
+    graphics.beginPath()
+
+    graphics.moveTo(edgeWidth, edgeHeight)
+
+    switch (edgeMode.top) {
+      case 1:
+        graphics.lineTo(centerX - edgeHeight, edgeHeight)
+        graphics.lineTo(centerX, 0)
+        graphics.lineTo(centerX + edgeHeight, edgeHeight)
+        break
+      case 2:
+        graphics.lineTo(centerX - edgeHeight, edgeHeight)
+        graphics.lineTo(centerX, edgeHeight + edgeHeight)
+        graphics.lineTo(centerX + edgeHeight, edgeHeight)
+        break
+    }
+    graphics.lineTo(width - edgeWidth, edgeHeight)
+    switch (edgeMode.right) {
+      case 1:
+        graphics.lineTo(width - edgeWidth, centerY - edgeWidth)
+        graphics.lineTo(width, centerY)
+        graphics.lineTo(width - edgeWidth, centerY + edgeWidth)
+        break
+      case 2:
+        graphics.lineTo(width - edgeWidth, centerY - edgeWidth)
+        graphics.lineTo(width - edgeWidth - edgeWidth, centerY)
+        graphics.lineTo(width - edgeWidth, centerY + edgeWidth)
+        break
+    }
+    graphics.lineTo(width - edgeWidth, height - edgeHeight)
+    switch (edgeMode.bottom) {
+      case 1:
+        graphics.lineTo(centerX + edgeHeight, height - edgeHeight)
+        graphics.lineTo(centerX, height)
+        graphics.lineTo(centerX - edgeHeight, height - edgeHeight)
+        break
+      case 2:
+        graphics.lineTo(centerX + edgeHeight, height - edgeHeight)
+        graphics.lineTo(centerX, height - edgeHeight - edgeHeight)
+        graphics.lineTo(centerX - edgeHeight, height - edgeHeight)
+        break
+    }
+    graphics.lineTo(edgeWidth, height - edgeHeight)
+
+    switch (edgeMode.left) {
+      case 1:
+        graphics.lineTo(edgeWidth, centerY + edgeWidth)
+        graphics.lineTo(0, centerY)
+        graphics.lineTo(edgeWidth, centerY - edgeWidth)
+        break
+      case 2:
+        graphics.lineTo(edgeWidth, centerY + edgeWidth)
+        graphics.lineTo(edgeWidth + edgeWidth, centerY)
+        graphics.lineTo(edgeWidth, centerY - edgeWidth)
+        break
+    }
+    graphics.lineTo(edgeWidth, edgeHeight)
+
+    graphics.closePath()
+    graphics.fillPath()
+  }
+
+  private onDragend(piece: PieceContainer): void {
+    if (this.allowToPLace) {
+      piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
+      this.placedPiecesCount += 1
+      this.allowToPLace = false
+      this.checkForGameOver()
+    } else {
+      piece.setPosition(piece.initialPos.x, piece.initialPos.y)
+    }
+  }
+
   private checkForGameOver(): void {
-    console.log('ahfdjsdh')
     if (this.placedPiecesCount === this.pieceContainers.length) {
       this.isGameOver = true
-
       console.warn('GAMEOVER')
     }
   }
