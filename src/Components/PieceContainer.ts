@@ -18,7 +18,7 @@ export class PieceContainer extends Container {
   public setContext(context: Image): void {
     this.context = context
     this.add(this.context)
-    this.setSize(this.context.displayWidth, this.context.displayHeight)
+    // this.setSize(this.context.displayWidth, this.context.displayHeight)
   }
 
   private initZone(): void {

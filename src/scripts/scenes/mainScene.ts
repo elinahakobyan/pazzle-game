@@ -11,8 +11,12 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    const gameConfig = {}
-    const game = new GameScreen(this)
+    const gameConfig = {
+      themeName: 'car',
+      row: 3,
+      col: 3
+    }
+    const game = new GameScreen(this, gameConfig)
     this.add.existing(game)
     this.initStatJS()
   }

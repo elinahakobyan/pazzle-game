@@ -1,24 +1,18 @@
 import Phaser from 'phaser'
+import Container = Phaser.GameObjects.Container
+import Image = Phaser.GameObjects.Image
 
-export class Cell {
+export class Cell extends Container {
   public id: string
-  constructor(
-    scene: Phaser.Scene,
-    row: number,
-    col: number,
-    private dimensions: { x: number; y: number; width: number; height: number }
-  ) {
-    this.id = `${row}${col}`
-    this.dimensions = dimensions
+  constructor(scene: Phaser.Scene, index: number, private context: Image) {
+    super(scene)
+    this.id = `${index}`
+    this.add(context)
     this.initialize()
   }
 
   public getSize(): { width: number; height: number } {
-    return { width: this.dimensions.width, height: this.dimensions.height }
-  }
-
-  public getPosition(): { x: number; y: number } {
-    return { x: this.dimensions.x, y: this.dimensions.y }
+    return { width: this.context.displayWidth, height: this.context.displayHeight }
   }
 
   private initialize(): void {

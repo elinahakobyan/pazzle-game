@@ -3,29 +3,27 @@ import { GameScreen } from '../scripts/screens/GameScreen'
 import { Cell } from './Cell'
 import { PieceContainer } from './PieceContainer'
 import Pointer = Phaser.Input.Pointer
+import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 
 export class BoardContainer extends Phaser.GameObjects.Container {
   public bkg: Phaser.GameObjects.Sprite
-  readonly rows: number
-  readonly cols: number
-  public cells: Cell[] = []
   private boardLayer: Phaser.GameObjects.Container
   private allowToPLace: boolean = false
-  constructor(scene: Phaser.Scene) {
+  public hintBkg: Phaser.GameObjects.Sprite
+  private cellsBkg: Phaser.GameObjects.Sprite
+  public cellsContainer: Cell[] = []
+  constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
     super(scene)
-    this.rows = 2
-    this.cols = 2
     this.initialize()
-    this.setSize(this.bkg.displayWidth, this.bkg.displayHeight)
+    // this.setSize(700, 500)
   }
 
   private initialize(): void {
     this.initBkg()
-    // this.drawBorders()
     this.initCells()
-    // this.initPieces()
-    // this.initLayers()
-    this.drawRowCols()
+    this.initHintBkg()
+    // this.drawBorders()
+    // this.drawRowCols()
   }
 
   private initLayers(): void {
@@ -48,92 +46,99 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private initCells(): void {
-    const { x, y, displayWidth, displayHeight } = this.bkg
-    const cellW = displayWidth / this.cols
-    const cellH = displayHeight / this.rows
-    for (let i = 0; i <= this.rows - 1; i++) {
-      for (let j = 0; j <= this.cols - 1; j++) {
-        const cell = new Cell(this.scene, j, i, {
-          x: x - displayWidth / 2 + j * cellW,
-          y: y - displayHeight / 2 + i * cellH,
-          width: cellW,
-          height: cellH
-        })
-        this.cells.push(cell)
+    this.generateCellsBkg()
+    const images = CutJigsawImage(this.cellsBkg, {
+      columns: this.config.col,
+      rows: this.config.row,
+      edgeWidth: 30,
+      edgeHeight: 30
+    })
+    console.log(images)
+    images.forEach((img, i) => {
+      const cell = new Cell(this.scene, i, img)
+      cell.setSize(img.displayWidth, img.displayHeight)
+      img.preFX?.addGlow(0xffffff, 2)
+      this.add(cell)
+      this.cellsContainer.push(cell)
+    })
 
-        // const gr = this.scene.add.graphics()
-        // gr.fillStyle(0x000fff, 0.5)
-        // gr.fillRect(x - displayWidth / 2 + j * cellW, y - displayHeight / 2 + i * cellH, cellW, cellH)
-        // this.add(gr)
-      }
-    }
+    // const { row, col } = this.config
+    // const { x, y, displayWidth, displayHeight } = this.hintBkg
+    // const cellW = displayWidth / col
+    // const cellH = displayHeight / row
+    // for (let i = 0; i <= row - 1; i++) {
+    //   for (let j = 0; j <= col - 1; j++) {
+    //     const cell = new Cell(this.scene, j, i, {
+    //       x: x - displayWidth / 2 + j * cellW,
+    //       y: y - displayHeight / 2 + i * cellH,
+    //       width: cellW,
+    //       height: cellH
+    //     })
+    //     this.cells.push(cell)
+    //   }
+    // }
   }
 
-  private initPieces(): void {
-    // const images = GridCutImage(this.bkg, this.cols, this.rows)
-    // images.forEach((img, i) => {
-    //   const { tx, ty } = this.getWorldTransformMatrix()
-    //   // img.setPosition(tx, ty)
-    //   const { x, y } = this.cells[i].getPosition()
-    //   //test
-    //   const gr = this.scene.add.graphics()
-    //   gr.fillStyle(0xfff000)
-    //   gr.fillCircle(x, y, 5)
-    //   this.add(gr)
-    //   //
-    //   const piece = new PieceContainer(this.scene, this.cells[i].id)
-    //   piece.setContext(img)
-    //   piece.absolutePosition = { x: x + piece.width / 2, y: y + piece.height / 2 }
-    //   piece.setPosition(x + piece.width / 2, y + piece.height / 2)
-    //   // piece.setPosition(x + piece.width / 2 + 500 + i * 10, y + piece.height / 2)
-    //   piece.setInteractive({ cursor: 'pointer', draggable: true })
-    //   piece.on('drag', pointer => {
-    //     // this.dragPieceContainer(pointer, piece)
-    //     // this.checkForPlace(piece)
-    //   })
-    //   piece.on('dragend', pointer => {
-    //     // console.log(this.allowToPLace, 'dragend')
-    //     // if (this.allowToPLace) {
-    //     //   const { tx, ty } = this.getLocalTransformMatrix()
-    //     //   piece.setPosition(piece.absolutePosition.x + tx, piece.absolutePosition.y + ty)
-    //     //   this.allowToPLace = false
-    //     // } else {
-    //     // }
-    //   })
-    //   console.log(this.parentContainer as GameScreen)
-    //   ;(this.parentContainer as GameScreen).gameLayer.add(piece)
-    //   // this.add(piece)
-    // })
+  private generateCellsBkg(): void {
+    const w = 660
+    const h = 500
+    const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
+    gr.fillStyle(0xffe8cd)
+    gr.fillRect(0, 0, w, h)
+    gr.generateTexture('cellsBkg', w, h)
+    gr.destroy()
+    this.cellsBkg = this.scene.add.sprite(0, 0, 'cellsBkg')
+    this.cellsBkg.setAlpha(0)
+    this.add(this.cellsBkg)
   }
 
   private drawRowCols(): void {
-    const { x, y, displayWidth, displayHeight } = this.bkg
-    const cellW = displayWidth / this.cols
-    const cellH = displayHeight / this.rows
-    for (let i = 0; i <= this.rows; i++) {
+    const { row, col } = this.config
+
+    const { x, y, displayWidth, displayHeight } = this.hintBkg
+    const cellW = displayWidth / col
+    const cellH = displayHeight / row
+    for (let i = 0; i <= row; i++) {
       const gr = this.scene.add.graphics()
       gr.lineStyle(2, 0x000000)
       gr.beginPath()
       gr.moveTo(x - displayWidth / 2, y - displayHeight / 2 + i * cellH)
-      gr.lineTo(x - displayWidth / 2 + this.cols * cellW, y - displayHeight / 2 + i * cellH)
+      gr.lineTo(x - displayWidth / 2 + col * cellW, y - displayHeight / 2 + i * cellH)
       gr.strokePath()
       this.add(gr)
     }
-    for (let i = 0; i <= this.cols; i++) {
+    for (let i = 0; i <= col; i++) {
       const gr = this.scene.add.graphics()
       gr.lineStyle(2, 0x000000)
       gr.beginPath()
       gr.moveTo(x - displayWidth / 2 + i * cellW, y - displayHeight / 2)
-      gr.lineTo(x - displayWidth / 2 + i * cellW, y - displayHeight / 2 + this.rows * cellH)
+      gr.lineTo(x - displayWidth / 2 + i * cellW, y - displayHeight / 2 + row * cellH)
       gr.strokePath()
       this.add(gr)
     }
   }
 
   private initBkg(): void {
-    this.bkg = new Sprite(this.scene, 0, 0, 'car1')
-    this.bkg.setScale(1)
-    this.bkg.setAlpha(0.5)
+    const boardW = 680
+    const boardH = 518
+    const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
+    gr.fillStyle(0xffffff)
+    gr.fillRoundedRect(0, 0, boardW, boardH, 20)
+    gr.generateTexture('boardBkg', boardW, boardH)
+    gr.destroy()
+
+    this.bkg = this.scene.add.sprite(0, 0, 'boardBkg')
     this.add(this.bkg)
+  }
+
+  private initHintBkg(): void {
+    this.hintBkg = this.scene.add.sprite(0, 0, 'car')
+    console.log(this.hintBkg.width, this.hintBkg.height)
+    this.updateHintState(true)
+    this.add(this.hintBkg)
+  }
+
+  private updateHintState(state: boolean): void {
+    state ? this.hintBkg.setAlpha(0.3) : this.hintBkg.setAlpha(0)
   }
 }

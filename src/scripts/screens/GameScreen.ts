@@ -15,7 +15,7 @@ export class GameScreen extends Phaser.GameObjects.Container {
   private placedPiecesCount: number = 0
   private isGameOver: boolean = false
   private pieceContainers: PieceContainer[] = []
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
     super(scene)
     this.initialize()
   }
@@ -60,32 +60,38 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initPieces(): void {
-    const images = CutJigsawImage(this.boardContainer.bkg, {
-      columns: 2,
-      rows: 2,
-      edgeWidth: 20
+    const row = 3
+    const col = 3
+    const images = CutJigsawImage(this.boardContainer.hintBkg, {
+      columns: col,
+      rows: row,
+      edgeWidth: 30,
+      edgeHeight: 30
       // drawShapeCallback: this.drawShapeCallback
     })
+
+    const pieceW = this.boardContainer.bkg.displayWidth / row
+    const pieceH = this.boardContainer.bkg.displayHeight / col
     // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
-    console.log(images)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
-      const { tx, ty } = this.boardContainer.getWorldTransformMatrix()
-      const { x, y } = this.boardContainer.cells[i].getPosition()
+      const { tx: cellX, ty: cellY } = this.boardContainer.cellsContainer[i].getWorldTransformMatrix()
       //test
       const gr = this.scene.add.graphics()
       gr.fillStyle(0xfff000)
-      gr.fillCircle(this.boardContainer.x + x, this.boardContainer.y + y, 5)
+      gr.fillCircle(cellX, cellY, 5)
       this.add(gr)
       //
-      const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
+      const piece = new PieceContainer(this.scene, '1')
+      // const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
       piece.setContext(img)
-      piece.initialPos = { x: tx + piece.width / 2 + x + i * 10 + 500, y: ty + piece.height / 2 + y }
-      piece.absolutePosition = { x: x + tx + piece.width / 2, y: y + ty }
+      piece.setSize(pieceW, pieceH)
+      piece.initialPos = { x: piece.width / 2 + cellX + i * 10 + 700, y: piece.height / 2 + cellY }
+      piece.absolutePosition = { x: cellX + piece.width / 2, y: cellY + piece.height / 2 }
+
       piece.context.preFX?.setPadding(1)
-      piece.context.preFX?.addGlow(0xff0000, 2, 0)
-      // piece.absolutePosition = { x: tx + piece.width / 2 + x, y: ty + piece.height / 2 + y }
-      piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
+      piece.context.preFX?.addGlow(0xffffff, 1)
+      piece.setPosition(piece.initialPos.x, piece.initialPos.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
 
       const gra = this.scene.add.graphics()
@@ -193,15 +199,11 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private checkForPlace(piece: PieceContainer): void {
-    this.boardContainer.cells.find(cell => {
-      const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
-      const cellX = cell.getPosition().x + tx
-      const cellY = cell.getPosition().y + ty
-      const cellW = cell.getSize().width
-      const cellH = cell.getSize().height
+    this.boardContainer.cellsContainer.find(cell => {
+      const { tx, ty } = cell.getWorldTransformMatrix()
       if (
-        this.isIntoCell(piece.x, cellX, cellX + cellW) &&
-        this.isIntoCell(piece.y, cellY, cellY + cellH) &&
+        this.isIntoCell(piece.x, tx, tx + cell.width) &&
+        this.isIntoCell(piece.y, ty, ty + cell.height) &&
         cell.id === piece.id
       ) {
         this.allowToPLace = true
@@ -221,8 +223,8 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initBoardContainer(): void {
-    const board = new BoardContainer(this.scene)
-    board.setInteractive({ cursor: 'pointer', draggable: true })
+    const board = new BoardContainer(this.scene, this.config)
+    // board.setInteractive({ cursor: 'pointer', draggable: true })
     board.setPosition(window.innerWidth * 0.5 - 250, window.innerHeight * 0.5)
     this.add((this.boardContainer = board))
   }

@@ -7,7 +7,7 @@ const height = window.innerHeight
 console.log(width, height)
 const config = {
   type: Phaser.AUTO,
-  backgroundColor: '#fff4e2',
+  backgroundColor: '#e7d0be',
   width: 1920,
   height: 1080,
   scale: {
