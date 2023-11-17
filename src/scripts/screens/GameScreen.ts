@@ -60,36 +60,41 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private initPieces(): void {
-    const row = 3
-    const col = 3
+    const { row, col } = this.config
     const images = CutJigsawImage(this.boardContainer.hintBkg, {
       columns: col,
       rows: row,
       edgeWidth: 30,
-      edgeHeight: 30
-      // drawShapeCallback: this.drawShapeCallback
+      edgeHeight: 30,
+      drawShapeCallback: this.drawShapeCallback,
+      edges: [
+        [{ left: 0, right: 1, top: 0, bottom: 2 }],
+        [{ left: 2, right: 0, top: 0, bottom: 1 }],
+        [{ left: 1, right: 0, top: 2, bottom: 0 }],
+        [{ left: 0, right: 2, top: 1, bottom: 0 }],
+        [{ left: 1, right: 0, top: 2, bottom: 0 }],
+        [{ left: 0, right: 2, top: 1, bottom: 0 }]
+      ]
     })
-
     const pieceW = this.boardContainer.bkg.displayWidth / row
     const pieceH = this.boardContainer.bkg.displayHeight / col
     // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
-      const { tx: cellX, ty: cellY } = this.boardContainer.cellsContainer[i].getWorldTransformMatrix()
+      const { tx: cellX, ty: cellY } = this.boardContainer.cells[i].getWorldTransformMatrix()
       //test
       const gr = this.scene.add.graphics()
       gr.fillStyle(0xfff000)
       gr.fillCircle(cellX, cellY, 5)
       this.add(gr)
       //
-      const piece = new PieceContainer(this.scene, '1')
+      const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
       // const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
       piece.setContext(img)
       piece.setSize(pieceW, pieceH)
-      piece.initialPos = { x: piece.width / 2 + cellX + i * 10 + 700, y: piece.height / 2 + cellY }
-      piece.absolutePosition = { x: cellX + piece.width / 2, y: cellY + piece.height / 2 }
-
-      piece.context.preFX?.setPadding(1)
+      piece.initialPos = { x: cellX + i * 10 + 700, y: cellY }
+      piece.absolutePosition = { x: cellX, y: cellY }
+      // piece.context.preFX?.setPadding(1)
       piece.context.preFX?.addGlow(0xffffff, 1)
       piece.setPosition(piece.initialPos.x, piece.initialPos.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
@@ -113,68 +118,68 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private drawShapeCallback(graphics, width, height, edgeWidth, edgeHeight, edgeMode): void {
-    console.log('drawShapeCallback')
+    const DegToRad = Phaser.Math.DegToRad
+    const RAD0 = DegToRad(0)
+    const RAD90 = DegToRad(90)
+    const RAD180 = DegToRad(180)
+    const RAD270 = DegToRad(270)
+    const RAD360 = DegToRad(360)
+
     const centerX = width / 2,
       centerY = height / 2
+    const leftX = edgeWidth,
+      rightX = width - edgeWidth,
+      topY = edgeHeight,
+      bottomY = height - edgeHeight
 
     graphics.clear()
     graphics.beginPath()
 
-    graphics.moveTo(edgeWidth, edgeHeight)
+    graphics.moveTo(leftX, topY)
+    console.log(edgeMode)
+    if (!edgeMode) return
 
     switch (edgeMode.top) {
       case 1:
-        graphics.lineTo(centerX - edgeHeight, edgeHeight)
-        graphics.lineTo(centerX, 0)
-        graphics.lineTo(centerX + edgeHeight, edgeHeight)
+        graphics.lineTo(centerX - edgeHeight, topY)
+        graphics.arc(centerX, topY, edgeHeight, RAD180, RAD360, false)
         break
       case 2:
-        graphics.lineTo(centerX - edgeHeight, edgeHeight)
-        graphics.lineTo(centerX, edgeHeight + edgeHeight)
-        graphics.lineTo(centerX + edgeHeight, edgeHeight)
+        graphics.lineTo(centerX - edgeHeight, topY)
+        graphics.arc(centerX, topY, edgeHeight, RAD180, RAD360, true)
         break
     }
-    graphics.lineTo(width - edgeWidth, edgeHeight)
+    graphics.lineTo(rightX, topY)
+
     switch (edgeMode.right) {
       case 1:
-        graphics.lineTo(width - edgeWidth, centerY - edgeWidth)
-        graphics.lineTo(width, centerY)
-        graphics.lineTo(width - edgeWidth, centerY + edgeWidth)
+        graphics.arc(rightX, centerY, edgeWidth, RAD270, RAD90, false)
         break
       case 2:
-        graphics.lineTo(width - edgeWidth, centerY - edgeWidth)
-        graphics.lineTo(width - edgeWidth - edgeWidth, centerY)
-        graphics.lineTo(width - edgeWidth, centerY + edgeWidth)
+        graphics.arc(rightX, centerY, edgeWidth, RAD270, RAD90, true)
         break
     }
-    graphics.lineTo(width - edgeWidth, height - edgeHeight)
+    graphics.lineTo(rightX, bottomY)
+
     switch (edgeMode.bottom) {
       case 1:
-        graphics.lineTo(centerX + edgeHeight, height - edgeHeight)
-        graphics.lineTo(centerX, height)
-        graphics.lineTo(centerX - edgeHeight, height - edgeHeight)
+        graphics.arc(centerX, bottomY, edgeHeight, RAD0, RAD180, false)
         break
       case 2:
-        graphics.lineTo(centerX + edgeHeight, height - edgeHeight)
-        graphics.lineTo(centerX, height - edgeHeight - edgeHeight)
-        graphics.lineTo(centerX - edgeHeight, height - edgeHeight)
+        graphics.arc(centerX, bottomY, edgeHeight, RAD0, RAD180, true)
         break
     }
-    graphics.lineTo(edgeWidth, height - edgeHeight)
+    graphics.lineTo(leftX, bottomY)
 
     switch (edgeMode.left) {
       case 1:
-        graphics.lineTo(edgeWidth, centerY + edgeWidth)
-        graphics.lineTo(0, centerY)
-        graphics.lineTo(edgeWidth, centerY - edgeWidth)
+        graphics.arc(leftX, centerY, edgeWidth, RAD90, RAD270, false)
         break
       case 2:
-        graphics.lineTo(edgeWidth, centerY + edgeWidth)
-        graphics.lineTo(edgeWidth + edgeWidth, centerY)
-        graphics.lineTo(edgeWidth, centerY - edgeWidth)
+        graphics.arc(leftX, centerY, edgeWidth, RAD90, RAD270, true)
         break
     }
-    graphics.lineTo(edgeWidth, edgeHeight)
+    graphics.lineTo(leftX, topY)
 
     graphics.closePath()
     graphics.fillPath()
@@ -199,11 +204,11 @@ export class GameScreen extends Phaser.GameObjects.Container {
   }
 
   private checkForPlace(piece: PieceContainer): void {
-    this.boardContainer.cellsContainer.find(cell => {
+    this.boardContainer.cells.find(cell => {
       const { tx, ty } = cell.getWorldTransformMatrix()
       if (
-        this.isIntoCell(piece.x, tx, tx + cell.width) &&
-        this.isIntoCell(piece.y, ty, ty + cell.height) &&
+        this.isIntoCell(piece.x, tx - cell.width / 2, tx + cell.width / 2) &&
+        this.isIntoCell(piece.y, ty - cell.height / 2, ty + cell.height / 2) &&
         cell.id === piece.id
       ) {
         this.allowToPLace = true

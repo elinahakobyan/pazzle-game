@@ -6,7 +6,7 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     this.load.image('phaser-logo', 'assets/img/phaser-logo.png')
     this.load.image('bkg', 'assets/img/bkg.png')
-    this.load.image('car', 'assets/img/car1.jpg')
+    this.load.image('car', 'assets/img/car.jpg')
   }
 
   create() {

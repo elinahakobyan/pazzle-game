@@ -4,17 +4,17 @@ import Image = Phaser.GameObjects.Image
 
 export class Cell extends Container {
   public id: string
-  constructor(scene: Phaser.Scene, index: number, private context: Image) {
+  private context: Phaser.GameObjects.Image
+  constructor(scene: Phaser.Scene, index: number) {
     super(scene)
     this.id = `${index}`
-    this.add(context)
     this.initialize()
   }
 
-  public getSize(): { width: number; height: number } {
-    return { width: this.context.displayWidth, height: this.context.displayHeight }
+  public setContext(context: Image): void {
+    this.context = context
+    this.add(this.context)
   }
-
   private initialize(): void {
     //
   }

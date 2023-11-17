@@ -4,6 +4,8 @@ import { Cell } from './Cell'
 import { PieceContainer } from './PieceContainer'
 import Pointer = Phaser.Input.Pointer
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
+import GenerateFrames from 'phaser3-rex-plugins/plugins/actions/CutJigsawImage/generateframes/GenerateFrames'
+import Image = Phaser.GameObjects.Image
 
 export class BoardContainer extends Phaser.GameObjects.Container {
   public bkg: Phaser.GameObjects.Sprite
@@ -11,7 +13,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   private allowToPLace: boolean = false
   public hintBkg: Phaser.GameObjects.Sprite
   private cellsBkg: Phaser.GameObjects.Sprite
-  public cellsContainer: Cell[] = []
+  public cells: Cell[] = []
   constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
     super(scene)
     this.initialize()
@@ -52,31 +54,30 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       rows: this.config.row,
       edgeWidth: 30,
       edgeHeight: 30
+      // drawShapeCallback: this.drawShapeCallback,
+      // edges: [
+      //   [{ left: 0, right: 1, top: 0, bottom: 2 }],
+      //   [{ left: 2, right: 0, top: 0, bottom: 1 }],
+      //   [{ left: 0, right: 2, top: 1, bottom: 0 }],
+      //   [{ left: 1, right: 0, top: 2, bottom: 0 }]
+      // ]
     })
     console.log(images)
     images.forEach((img, i) => {
-      const cell = new Cell(this.scene, i, img)
+      const cell = new Cell(this.scene, i)
       cell.setSize(img.displayWidth, img.displayHeight)
       img.preFX?.addGlow(0xffffff, 2)
+      cell.setPosition(img.x, img.y)
       this.add(cell)
-      this.cellsContainer.push(cell)
+      img.setPosition(0, 0)
+      cell.setContext(img)
+      this.cells.push(cell)
     })
+  }
 
-    // const { row, col } = this.config
-    // const { x, y, displayWidth, displayHeight } = this.hintBkg
-    // const cellW = displayWidth / col
-    // const cellH = displayHeight / row
-    // for (let i = 0; i <= row - 1; i++) {
-    //   for (let j = 0; j <= col - 1; j++) {
-    //     const cell = new Cell(this.scene, j, i, {
-    //       x: x - displayWidth / 2 + j * cellW,
-    //       y: y - displayHeight / 2 + i * cellH,
-    //       width: cellW,
-    //       height: cellH
-    //     })
-    //     this.cells.push(cell)
-    //   }
-    // }
+  private drawShapeCallback(graphics, width, height, edgeWidth, edgeHeight, edgeMode): void {
+    console.log(edgeMode)
+    // return this.cellsBkg
   }
 
   private generateCellsBkg(): void {
