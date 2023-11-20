@@ -9,11 +9,30 @@ export default class MainScene extends Phaser.Scene {
     super({ key: 'MainScene' })
   }
 
+  private resize(): void {
+    console.log('has')
+
+    // var canvas = this.game.canvas,
+    //   width = window.innerWidth,
+    //   height = window.innerHeight
+    // var wratio = width / height,
+    //   ratio = canvas.width / canvas.height
+    // if (wratio < ratio) {
+    //   canvas.style.width = width + 'px'
+    //   canvas.style.height = width / ratio + 'px'
+    // } else {
+    //   canvas.style.width = height * ratio + 'px'
+    //   canvas.style.height = height + 'px'
+    // }
+  }
+
   create() {
+    window.addEventListener('resize', this.resize)
+    this.resize()
     const gameConfig = {
       themeName: 'car',
-      row: 4,
-      col: 4
+      row: 2,
+      col: 2
     }
     const game = new GameScreen(this, gameConfig)
     this.add.existing(game)

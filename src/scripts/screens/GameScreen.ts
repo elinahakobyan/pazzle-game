@@ -21,12 +21,11 @@ export class GameScreen extends Phaser.GameObjects.Container {
 
   private initialize(): void {
     // this.initLayers()
-    // const sprite = this.scene.add.sprite(0, 0, 'bkg')
+    const sprite = this.scene.add.sprite(0, 0, 'bkg').setOrigin(0)
+    this.add(sprite)
     // sprite.setPosition(sprite.width / 2, sprite.height / 2)
-    // this.add(sprite)
-    this.initBoardContainer()
-    this.initPieces()
-
+    // this.initBoardContainer()
+    // this.initPieces()
     // this.boardContainer.cells.forEach(cell => {
     //   const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
     //   const cellX = cell.getPosition().x + tx

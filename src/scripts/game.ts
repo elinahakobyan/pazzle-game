@@ -1,19 +1,19 @@
 import 'phaser'
+import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
-import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
 const width = window.innerWidth
 const height = window.innerHeight
 console.log(width, height)
 const config = {
   type: Phaser.AUTO,
   backgroundColor: '#e7d0be',
-  width: 1920,
-  height: 1080,
+  width: width,
+  height: height,
   scale: {
     parent: 'phaser-engine',
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    mode: Phaser.Scale.ScaleModes.FIT
+    mode: Phaser.Scale.ScaleModes.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH
   },
   scene: [PreloadScene, MainScene],
 
@@ -34,7 +34,7 @@ const config = {
     }
   }
 }
-
-window.addEventListener('load', () => {
-  const game = new Phaser.Game(config)
-})
+// window.addEventListener('resize', () => {})
+const game = new Phaser.Game(config)
+// window.addEventListener('load', () => {
+// })
