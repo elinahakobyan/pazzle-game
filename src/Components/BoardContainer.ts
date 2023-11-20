@@ -1,10 +1,9 @@
 import Sprite = Phaser.GameObjects.Sprite
-import { GameScreen } from '../scripts/screens/GameScreen'
-import { Cell } from './Cell'
-import { PieceContainer } from './PieceContainer'
-import Pointer = Phaser.Input.Pointer
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
-import GenerateFrames from 'phaser3-rex-plugins/plugins/actions/CutJigsawImage/generateframes/GenerateFrames'
+import { EdgesConfig } from '../configs/EdgesConfig'
+import { Cell } from './Cell'
+import Pointer = Phaser.Input.Pointer
+
 import Image = Phaser.GameObjects.Image
 
 export class BoardContainer extends Phaser.GameObjects.Container {
@@ -53,14 +52,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       columns: this.config.col,
       rows: this.config.row,
       edgeWidth: 30,
-      edgeHeight: 30
-      // drawShapeCallback: this.drawShapeCallback,
-      // edges: [
-      //   [{ left: 0, right: 1, top: 0, bottom: 2 }],
-      //   [{ left: 2, right: 0, top: 0, bottom: 1 }],
-      //   [{ left: 0, right: 2, top: 1, bottom: 0 }],
-      //   [{ left: 1, right: 0, top: 2, bottom: 0 }]
-      // ]
+      edgeHeight: 30,
+      edges: EdgesConfig[this.config.row]
     })
     console.log(images)
     images.forEach((img, i) => {
@@ -73,11 +66,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       cell.setContext(img)
       this.cells.push(cell)
     })
-  }
-
-  private drawShapeCallback(graphics, width, height, edgeWidth, edgeHeight, edgeMode): void {
-    console.log(edgeMode)
-    // return this.cellsBkg
   }
 
   private generateCellsBkg(): void {

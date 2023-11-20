@@ -1,12 +1,11 @@
 import Phaser from 'phaser'
-import GridCutImage from 'phaser3-rex-plugins/plugins/actions/GridCutImage'
+import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 import { BoardContainer } from '../../Components/BoardContainer'
 import { PieceContainer } from '../../Components/PieceContainer'
+import { EdgesConfig } from '../../configs/EdgesConfig'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
-import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
 import BasePlugin = Phaser.Plugins.BasePlugin
-import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 
 export class GameScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
@@ -66,16 +65,10 @@ export class GameScreen extends Phaser.GameObjects.Container {
       rows: row,
       edgeWidth: 30,
       edgeHeight: 30,
-      drawShapeCallback: this.drawShapeCallback,
-      edges: [
-        [{ left: 0, right: 1, top: 0, bottom: 2 }],
-        [{ left: 2, right: 0, top: 0, bottom: 1 }],
-        [{ left: 1, right: 0, top: 2, bottom: 0 }],
-        [{ left: 0, right: 2, top: 1, bottom: 0 }],
-        [{ left: 1, right: 0, top: 2, bottom: 0 }],
-        [{ left: 0, right: 2, top: 1, bottom: 0 }]
-      ]
+      edges: EdgesConfig[row]
     })
+    console.log()
+
     const pieceW = this.boardContainer.bkg.displayWidth / row
     const pieceH = this.boardContainer.bkg.displayHeight / col
     // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
@@ -115,74 +108,6 @@ export class GameScreen extends Phaser.GameObjects.Container {
       this.add(piece)
       this.pieceContainers.push(piece)
     })
-  }
-
-  private drawShapeCallback(graphics, width, height, edgeWidth, edgeHeight, edgeMode): void {
-    const DegToRad = Phaser.Math.DegToRad
-    const RAD0 = DegToRad(0)
-    const RAD90 = DegToRad(90)
-    const RAD180 = DegToRad(180)
-    const RAD270 = DegToRad(270)
-    const RAD360 = DegToRad(360)
-
-    const centerX = width / 2,
-      centerY = height / 2
-    const leftX = edgeWidth,
-      rightX = width - edgeWidth,
-      topY = edgeHeight,
-      bottomY = height - edgeHeight
-
-    graphics.clear()
-    graphics.beginPath()
-
-    graphics.moveTo(leftX, topY)
-    console.log(edgeMode)
-    if (!edgeMode) return
-
-    switch (edgeMode.top) {
-      case 1:
-        graphics.lineTo(centerX - edgeHeight, topY)
-        graphics.arc(centerX, topY, edgeHeight, RAD180, RAD360, false)
-        break
-      case 2:
-        graphics.lineTo(centerX - edgeHeight, topY)
-        graphics.arc(centerX, topY, edgeHeight, RAD180, RAD360, true)
-        break
-    }
-    graphics.lineTo(rightX, topY)
-
-    switch (edgeMode.right) {
-      case 1:
-        graphics.arc(rightX, centerY, edgeWidth, RAD270, RAD90, false)
-        break
-      case 2:
-        graphics.arc(rightX, centerY, edgeWidth, RAD270, RAD90, true)
-        break
-    }
-    graphics.lineTo(rightX, bottomY)
-
-    switch (edgeMode.bottom) {
-      case 1:
-        graphics.arc(centerX, bottomY, edgeHeight, RAD0, RAD180, false)
-        break
-      case 2:
-        graphics.arc(centerX, bottomY, edgeHeight, RAD0, RAD180, true)
-        break
-    }
-    graphics.lineTo(leftX, bottomY)
-
-    switch (edgeMode.left) {
-      case 1:
-        graphics.arc(leftX, centerY, edgeWidth, RAD90, RAD270, false)
-        break
-      case 2:
-        graphics.arc(leftX, centerY, edgeWidth, RAD90, RAD270, true)
-        break
-    }
-    graphics.lineTo(leftX, topY)
-
-    graphics.closePath()
-    graphics.fillPath()
   }
 
   private onDragend(piece: PieceContainer): void {
@@ -230,7 +155,7 @@ export class GameScreen extends Phaser.GameObjects.Container {
   private initBoardContainer(): void {
     const board = new BoardContainer(this.scene, this.config)
     // board.setInteractive({ cursor: 'pointer', draggable: true })
-    board.setPosition(window.innerWidth * 0.5 - 250, window.innerHeight * 0.5)
+    board.setPosition(window.innerWidth * 0.5 - 100, window.innerHeight * 0.5)
     this.add((this.boardContainer = board))
   }
 
