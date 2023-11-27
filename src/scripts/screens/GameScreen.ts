@@ -21,40 +21,9 @@ export class GameScreen extends Phaser.GameObjects.Container {
 
   private initialize(): void {
     // this.initLayers()
-    const sprite = this.scene.add.sprite(0, 0, 'bkg').setOrigin(0)
-    this.add(sprite)
-    // sprite.setPosition(sprite.width / 2, sprite.height / 2)
-    // this.initBoardContainer()
-    // this.initPieces()
-    // this.boardContainer.cells.forEach(cell => {
-    //   const { tx, ty } = this.boardContainer.getLocalTransformMatrix()
-    //   const cellX = cell.getPosition().x + tx
-    //   const cellY = cell.getPosition().y + ty
-    //   const cellW = cell.getSize().width
-    //   const cellH = cell.getSize().height
-    //
-    //   const gr = this.scene.add.graphics()
-    //   gr.fillStyle(0x000fff, 0.2)
-    //   gr.fillRect(cellX, cellY, cellW, cellH)
-    //   this.add(gr)
-    // })
-    // const row = 4
-    // const col = 4
-    // const sprite = new Sprite(this.scene, window.innerWidth * 0.5, window.innerHeight * 0.5, 'phaser-logo')
-    // sprite.setAlpha(0.5)
-    // this.add(sprite)
-    // const images = GridCutImage(sprite, row, col)
-    // console.log(images)
-    // const arr2d = _.chunk(images, row)
-    // console.log(arr2d)
-    // images.forEach((img, i) => {
-    //   img.x += i * 5
-    //   // img.y += i * 10
-    //   img.setInteractive({ cursor: 'pointer', draggable: true })
-    //   img.on('drag', (pointer: Phaser.Input.Pointer) => {
-    //     img.setPosition(pointer.x, pointer.y)
-    //   })'
-    // })
+    this.initBoardContainer()
+    this.initPieces()
+    // this.setSize(1920, 1080)
   }
 
   private initPieces(): void {
@@ -153,8 +122,7 @@ export class GameScreen extends Phaser.GameObjects.Container {
 
   private initBoardContainer(): void {
     const board = new BoardContainer(this.scene, this.config)
-    // board.setInteractive({ cursor: 'pointer', draggable: true })
-    board.setPosition(window.innerWidth * 0.5 - 100, window.innerHeight * 0.5)
+    board.setPosition(1920 * 0.5 - 300, 1080 * 0.5)
     this.add((this.boardContainer = board))
   }
 

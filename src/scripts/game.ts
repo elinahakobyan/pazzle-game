@@ -8,8 +8,8 @@ console.log(width, height)
 const config = {
   type: Phaser.AUTO,
   backgroundColor: '#e7d0be',
-  width: width,
-  height: height,
+  width: 1920,
+  height: 1080,
   scale: {
     parent: 'phaser-engine',
     mode: Phaser.Scale.ScaleModes.FIT,
@@ -34,7 +34,5 @@ const config = {
     }
   }
 }
-// window.addEventListener('resize', () => {})
+
 const game = new Phaser.Game(config)
-// window.addEventListener('load', () => {
-// })
