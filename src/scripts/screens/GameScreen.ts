@@ -6,6 +6,8 @@ import { EdgesConfig } from '../../configs/EdgesConfig'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
+import { getHeaderBgNinePatchConfig, makeNinePatch } from '../../configs/NinePatcheConfigs'
+import { HeaderContainer } from '../../Components/HeaderContainer'
 
 export class GameScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
@@ -14,6 +16,7 @@ export class GameScreen extends Phaser.GameObjects.Container {
   private placedPiecesCount: number = 0
   private isGameOver: boolean = false
   private pieceContainers: PieceContainer[] = []
+  private header: HeaderContainer
   constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
     super(scene)
     this.initialize()

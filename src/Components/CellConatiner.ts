@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import Container = Phaser.GameObjects.Container
 import Image = Phaser.GameObjects.Image
 
-export class Cell extends Container {
+export class CellConatiner extends Container {
   public id: string
   private context: Phaser.GameObjects.Image
   constructor(scene: Phaser.Scene, index: number) {

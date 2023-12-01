@@ -10,6 +10,12 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
+    const h = window.innerHeight
+    const w = window.innerWidth
+    // if (w > h) {
+    // } else {
+    //   console.warn('PORTRAIT')
+    // }
     this.scene.start('MainScene')
 
     /**

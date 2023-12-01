@@ -1,7 +1,7 @@
 import Sprite = Phaser.GameObjects.Sprite
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 import { EdgesConfig } from '../configs/EdgesConfig'
-import { Cell } from './Cell'
+import { CellConatiner } from './CellConatiner'
 import Pointer = Phaser.Input.Pointer
 
 import Image = Phaser.GameObjects.Image
@@ -12,7 +12,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   private allowToPLace: boolean = false
   public hintBkg: Phaser.GameObjects.Sprite
   private cellsBkg: Phaser.GameObjects.Sprite
-  public cells: Cell[] = []
+  public cells: CellConatiner[] = []
   constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
     super(scene)
     this.initialize()
@@ -57,7 +57,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     })
     console.log(images)
     images.forEach((img, i) => {
-      const cell = new Cell(this.scene, i)
+      const cell = new CellConatiner(this.scene, i)
       cell.setSize(img.displayWidth, img.displayHeight)
       img.preFX?.addGlow(0xffffff, 2)
       cell.setPosition(img.x, img.y)
