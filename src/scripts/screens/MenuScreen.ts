@@ -3,6 +3,7 @@ import { HeaderContainer } from '../../Components/HeaderContainer'
 import { MenuConfig } from '../../../typings/types'
 import { menuConfig } from '../../configs/menuConfig'
 import { CategoryComponent } from '../../Components/CategoryComponent'
+import { getNextBtnNinePatchConfig, makeNinePatch } from '../../configs/NinePatcheConfigs'
 
 export class MenuScreen extends Container {
   private header: HeaderContainer
@@ -71,7 +72,9 @@ export class MenuScreen extends Container {
   }
 
   private initNextBtn(): void {
-    //
+    const btn = makeNinePatch(this.scene, getNextBtnNinePatchConfig(155, 50))
+    btn.setPosition(1920 / 2, 1080 / 2 + 280)
+    this.add(btn)
   }
 
   private handleCategoryPointerUp(category: CategoryComponent): void {

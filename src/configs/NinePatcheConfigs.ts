@@ -21,3 +21,19 @@ export const getHeaderBgNinePatchConfig = (width: number, height: number): INine
     }
   }
 }
+export const getNextBtnNinePatchConfig = (width: number, height: number): INinePatchConfig => {
+  return {
+    x: 0,
+    y: 0,
+    width,
+    height,
+    key: 'next-btn',
+    frame: 'next-btn',
+    patchesConfig: {
+      top: 21,
+      bottom: 23,
+      left: 15,
+      right: 15
+    }
+  }
+}
