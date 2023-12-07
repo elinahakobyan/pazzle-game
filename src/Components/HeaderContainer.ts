@@ -1,17 +1,34 @@
 import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 
 export class HeaderContainer extends Phaser.GameObjects.Container {
+  private title: Phaser.GameObjects.Text
   constructor(scene: Phaser.Scene) {
     super(scene)
 
     this.initialise()
   }
 
+  public updateTitleVisibility(visibility: boolean, text?: string): void {
+    this.title.text = text ? text : ''
+    this.title.setVisible(visibility)
+  }
+
   private initialise(): void {
     this.initHeaderBg()
+    this.initTitle()
     this.initBackButton()
     this.initHint1()
     this.initHint2()
+  }
+
+  private initTitle(): void {
+    const title = this.scene.add.text(0, 20, '', {
+      color: '0x000000',
+      fontSize: '24px'
+    })
+    title.setOrigin(0.5)
+    title.setVisible(false)
+    this.add((this.title = title))
   }
 
   private initHeaderBg(): void {
