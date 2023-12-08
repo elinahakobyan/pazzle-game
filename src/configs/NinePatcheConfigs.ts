@@ -30,9 +30,9 @@ export const getNextBtnNinePatchConfig = (width: number, height: number): INineP
     key: 'next-btn',
     frame: 'next-btn',
     patchesConfig: {
-      top: 21,
-      bottom: 23,
-      left: 15,
+      top: 11,
+      bottom: 10,
+      left: 25,
       right: 15
     }
   }
