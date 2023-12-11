@@ -5,12 +5,15 @@ import { menuConfig } from '../../configs/menuConfig'
 import { CategoryComponent } from '../../Components/CategoryComponent'
 import { getNextBtnNinePatchConfig, makeNinePatch } from '../../configs/NinePatcheConfigs'
 import { BasicButton } from '../../Components/BasicButton'
+import { GameStates } from '../../enums/GameStates'
 
 export class MenuScreen extends Container {
   private header: HeaderContainer
   private categories: CategoryComponent[] = []
   private categoriesView: Phaser.GameObjects.Container
   private activeItem: CategoryComponent | null
+  private nextBtn: BasicButton
+  private whiteScreen: Phaser.GameObjects.Sprite
   constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
     super(scene)
     this.activeItem = null
@@ -27,6 +30,7 @@ export class MenuScreen extends Container {
     this.initHeader()
     this.initCategories()
     this.initNextBtn()
+    this.crateWhiteScreen()
     this.attachListeners()
     // this.gameScreen = new GameScreen(this, gameConfig)
     // this.add.existing(this.gameScreen)
@@ -40,14 +44,17 @@ export class MenuScreen extends Container {
     )
     this.on('pointerup', () => {
       if (this.activeItem) {
+        this.nextBtn.disable()
         this.activeItem.deactivate()
         this.activeItem = null
       }
+      this.nextBtn.scaleUpTween()
     })
   }
 
   private initCategories(): void {
     this.header.updateTitleVisibility(true, 'Categories')
+    this.state = GameStates.CategoriesState
     this.categoriesView = this.scene.add.container()
     const w = 1920
     const h = 1080 - this.header.height + 20
@@ -69,13 +76,66 @@ export class MenuScreen extends Container {
       this.categoriesView.add(category)
       this.categories.push(category)
     })
-    console.log(categories)
   }
 
   private initNextBtn(): void {
     const btn = new BasicButton(this.scene, { text: 'NEXT', frame: 'next' })
     btn.setPosition(1920 / 2, 1080 / 2 + 320)
-    this.add(btn)
+    btn.disable()
+    btn.on('pointerdown', () => {
+      btn.scaleDownTween()
+    })
+    btn.on('pointerup', () => {
+      btn.scaleUpTween()
+    })
+    btn.on('onBtnClickedComplete', () => {
+      this.onNextBtnClick(this.activeItem)
+    })
+    this.add((this.nextBtn = btn))
+  }
+
+  private onNextBtnClick(category: CategoryComponent | null): void {
+    const whiteScreen = this.showWhiteScreenTween()
+    whiteScreen.on('complete', () => {
+      this.categoriesView.setVisible(false)
+      this.nextBtn.setVisible(false)
+      this.header.updateTitleVisibility(true, 'Vehicles')
+      this.hideWhiteScreen()
+    })
+  }
+
+  private crateWhiteScreen(): void {
+    const whiteGr = this.scene.make.graphics({ x: 0, y: 0 }, false)
+    whiteGr.fillStyle(0xffffff)
+    whiteGr.fillRect(0, 0, 1920, 1080)
+    whiteGr.generateTexture('whiteScreen', 1920, 1080)
+    whiteGr.destroy()
+
+    this.whiteScreen = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
+    this.whiteScreen.setAlpha(0)
+    this.whiteScreen.setVisible(false)
+    this.add(this.whiteScreen)
+  }
+
+  private showWhiteScreenTween(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 1,
+      duration: 500,
+      onStart: () => {
+        this.whiteScreen.setVisible(true)
+      }
+    })
+  }
+  private hideWhiteScreen(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 0,
+      duration: 500,
+      onComplete: () => {
+        this.whiteScreen.setVisible(false)
+      }
+    })
   }
 
   private handleCategoryPointerUp(category: CategoryComponent): void {
@@ -83,14 +143,17 @@ export class MenuScreen extends Container {
       if (this.activeItem.categoryConfig.name === category.categoryConfig.name) {
         this.activeItem.deactivate()
         this.activeItem = null
+        this.nextBtn.disable()
       } else {
         this.activeItem.deactivate()
         this.activeItem = category
         this.activeItem.activate()
+        this.nextBtn.enable()
       }
     } else {
       this.activeItem = category
       this.activeItem.activate()
+      this.nextBtn.enable()
     }
   }
 
