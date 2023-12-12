@@ -4,7 +4,7 @@ import { MenuConfig } from '../../../typings/types'
 import { menuConfig } from '../../configs/menuConfig'
 import { CategoryComponent } from '../../Components/CategoryComponent'
 import { getNextBtnNinePatchConfig, makeNinePatch } from '../../configs/NinePatcheConfigs'
-import { BasicButton } from '../../Components/BasicButton'
+import { NextButton } from '../../buttons/NextButton'
 import { GameStates } from '../../enums/GameStates'
 
 export class MenuScreen extends Container {
@@ -12,7 +12,7 @@ export class MenuScreen extends Container {
   private categories: CategoryComponent[] = []
   private categoriesView: Phaser.GameObjects.Container
   private activeItem: CategoryComponent | null
-  private nextBtn: BasicButton
+  private nextBtn: NextButton
   private whiteScreen: Phaser.GameObjects.Sprite
   constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
     super(scene)
@@ -48,12 +48,12 @@ export class MenuScreen extends Container {
         this.activeItem.deactivate()
         this.activeItem = null
       }
-      this.nextBtn.scaleUpTween()
     })
   }
 
   private initCategories(): void {
     this.header.updateTitleVisibility(true, 'Categories')
+    this.header.hideButtons()
     this.state = GameStates.CategoriesState
     this.categoriesView = this.scene.add.container()
     const w = 1920
@@ -79,7 +79,7 @@ export class MenuScreen extends Container {
   }
 
   private initNextBtn(): void {
-    const btn = new BasicButton(this.scene, { text: 'NEXT', frame: 'next' })
+    const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
     btn.setPosition(1920 / 2, 1080 / 2 + 320)
     btn.disable()
     btn.on('pointerdown', () => {
@@ -95,13 +95,20 @@ export class MenuScreen extends Container {
   }
 
   private onNextBtnClick(category: CategoryComponent | null): void {
+    console.log(category)
     const whiteScreen = this.showWhiteScreenTween()
     whiteScreen.on('complete', () => {
       this.categoriesView.setVisible(false)
       this.nextBtn.setVisible(false)
-      this.header.updateTitleVisibility(true, 'Vehicles')
+      this.header.updateTitleVisibility(true, category?.categoryConfig.name)
+      this.header.showButtons()
       this.hideWhiteScreen()
+      this.showCategoryView()
     })
+  }
+
+  private showCategoryView(): void {
+    //
   }
 
   private crateWhiteScreen(): void {
@@ -157,9 +164,12 @@ export class MenuScreen extends Container {
     }
   }
 
+  private handleBackBtnClicked(): void {}
+
   private initHeader(): void {
     const header = new HeaderContainer(this.scene)
     header.setPosition(header.width / 2, header.height / 2)
+    header.on('onBackBtnClick', this.handleBackBtnClicked, this)
     this.add((this.header = header))
   }
 }

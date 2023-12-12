@@ -1,11 +1,20 @@
 import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
+import { BackButton } from '../buttons/BackButton'
 
 export class HeaderContainer extends Phaser.GameObjects.Container {
   private title: Phaser.GameObjects.Text
+  private backBtn: BackButton
   constructor(scene: Phaser.Scene) {
     super(scene)
 
     this.initialise()
+  }
+
+  public hideButtons(): void {
+    this.backBtn.setVisible(false)
+  }
+  public showButtons(): void {
+    this.backBtn.setVisible(true)
   }
 
   public updateTitleVisibility(visibility: boolean, text?: string): void {
@@ -24,7 +33,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
   private initTitle(): void {
     const title = this.scene.add.text(0, 20, '', {
       color: '0x000000',
-      fontSize: '24px'
+      fontSize: '32px'
     })
     title.setOrigin(0.5)
     title.setVisible(false)
@@ -45,7 +54,18 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     this.setSize(headerBg.width, headerBg.height)
   }
 
-  private initBackButton(): void {}
+  private initBackButton(): void {
+    this.backBtn = new BackButton(this.scene)
+    this.backBtn.setPosition(-this.width / 2 + 90, 20)
+    this.backBtn.on('pointerdown', () => {
+      this.backBtn.setScale(0.95)
+    })
+    this.backBtn.on('pointerup', () => {
+      this.backBtn.setScale(1)
+      this.emit('onBackBtnClick')
+    })
+    this.add(this.backBtn)
+  }
   private initHint1(): void {}
   private initHint2(): void {}
 }

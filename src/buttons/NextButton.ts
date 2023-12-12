@@ -1,7 +1,7 @@
 import { getNextBtnNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 import WebGLRenderer = Phaser.Renderer.WebGL.WebGLRenderer
 
-export class BasicButton extends Phaser.GameObjects.Container {
+export class NextButton extends Phaser.GameObjects.Container {
   private grayScaleAsset: Phaser.GameObjects.Sprite
   constructor(scene: Phaser.Scene, private config: { text: string; frame: string }) {
     super(scene)
