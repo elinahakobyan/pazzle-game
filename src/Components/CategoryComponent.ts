@@ -2,9 +2,17 @@ import Container = Phaser.GameObjects.Container
 import { Category } from '../../typings/types'
 
 export class CategoryComponent extends Container {
-  constructor(scene: Phaser.Scene, public categoryConfig: Category) {
+  private frame: Phaser.GameObjects.Sprite
+  private label: Phaser.GameObjects.Text
+  constructor(scene: Phaser.Scene, public categoryConfig?: Category) {
     super(scene)
     this.initialise()
+  }
+
+  public setContent(content): void {
+    this.categoryConfig = content
+    this.frame.texture = content.frame
+    this.label.text = content.name
   }
 
   public deactivate(): void {
@@ -37,16 +45,16 @@ export class CategoryComponent extends Container {
     this.add(gra)
   }
   private initFrame(): void {
-    const frame = this.scene.add.sprite(0, -50, this.categoryConfig.frame)
-    this.add(frame)
+    const frame = this.scene.add.sprite(0, -50, this.categoryConfig ? this.categoryConfig.frame : 'phaser-logo')
+    this.add((this.frame = frame))
   }
   private initName(): void {
-    const label = this.scene.add.text(0, 100, this.categoryConfig.name, {
+    const label = this.scene.add.text(0, 100, this.categoryConfig ? this.categoryConfig.name : 'AA', {
       color: '0x000000',
       fontSize: '24px'
     })
     label.setOrigin(0.5)
-    this.add(label)
+    this.add((this.label = label))
   }
 
   private attachListeners(): void {

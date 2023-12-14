@@ -21,7 +21,7 @@ export class NextButton extends Phaser.GameObjects.Container {
       duration: 150,
       scale: 1,
       complete: () => {
-        this.emit('onBtnClickedComplete')
+        this.emit('btnClicked')
       }
     })
   }

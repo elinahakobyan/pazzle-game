@@ -2,9 +2,9 @@ import Sprite = Phaser.GameObjects.Sprite
 import * as Stats from 'stats.js'
 import { GameScreen } from '../screens/GameScreen'
 import { ForegroundScreen } from '../screens/ForegroundScreen'
-import { HeaderContainer } from '../../Components/HeaderContainer'
+import { HeaderContainer } from '../Components/HeaderContainer'
 import { MenuScreen } from '../screens/MenuScreen'
-import { menuConfig } from '../../configs/menuConfig'
+import { menuConfig } from '../configs/menuConfig'
 
 export default class MainScene extends Phaser.Scene {
   private gameScreen: GameScreen

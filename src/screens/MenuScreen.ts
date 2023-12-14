@@ -1,0 +1,244 @@
+import Container = Phaser.GameObjects.Container
+import { HeaderContainer } from '../Components/HeaderContainer'
+import { MenuConfig } from '../../typings/types'
+import { menuConfig } from '../configs/menuConfig'
+import { CategoryComponent } from '../Components/CategoryComponent'
+import { NextButton } from '../buttons/NextButton'
+import { GameStates } from '../enums/GameStates'
+import { SubcategoriesView } from '../views/SubcategoriesView'
+import { CategoriesView } from '../views/CategoriesView'
+
+export class MenuScreen extends Container {
+  private header: HeaderContainer
+  private categories: CategoryComponent[] = []
+  private categoriesView: CategoriesView
+  private activeItem: CategoryComponent | null
+  public nextBtn: NextButton
+  private whiteScreen: Phaser.GameObjects.Sprite
+  private subcategoriesView: SubcategoriesView
+  private currentState: GameStates
+
+  constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
+    super(scene)
+    // this.setSize(1920, 1080)
+    this.initialise()
+  }
+
+  private initialise(): void {
+    const gameConfig = {
+      themeName: 'car',
+      row: 2,
+      col: 2
+    }
+    this.initHeader()
+    this.initCategories()
+    this.initNextBtn()
+    this.crateWhiteScreen()
+    this.initSubcategoryView()
+    this.attachListeners()
+    // this.gameScreen = new GameScreen(this, gameConfig)
+    // this.add.existing(this.gameScreen)
+  }
+
+  private attachListeners(): void {
+    this.setSize(1920, 1080)
+    this.setInteractive(
+      new Phaser.Geom.Rectangle(this.width / 2, this.height / 2, this.width, this.height),
+      Phaser.Geom.Rectangle.Contains
+    )
+    this.on('pointerup', () => {
+      if (this.getActiveItem()) {
+        this.nextBtn.disable()
+        this.getActiveItem().deactivate()
+        // this.categoriesView.activeItem.deactivate()
+      }
+    })
+  }
+
+  private initSubcategoryView(): void {
+    this.subcategoriesView = new SubcategoriesView(this.scene)
+    this.subcategoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    this.subcategoriesView.setSize(1920, 920)
+    this.subcategoriesView.setVisible(false)
+    this.add(this.subcategoriesView)
+    this.subcategoriesView.on('itemActivated', () => {
+      this.nextBtn.enable()
+    })
+    this.subcategoriesView.on('itemDeactivated', () => {
+      this.nextBtn.disable()
+    })
+
+    // const gr = this.scene.add.graphics()
+    // gr.fillStyle(0x000fff, 0.1)
+    // gr.fillRect(0, 0, this.subcategoriesView.width, this.subcategoriesView.height)
+    // this.subcategoriesView.add(gr)
+  }
+
+  private initCategories(): void {
+    this.header.updateTitleVisibility(true, 'Categories')
+    this.header.hideButtons()
+    this.currentState = GameStates.CategoriesState
+    const { categories } = menuConfig
+    this.categoriesView = new CategoriesView(this.scene, categories)
+    const w = 1920
+    const h = 1080 - this.header.height + 20
+    this.categoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    this.categoriesView.setSize(w, h)
+    this.add(this.categoriesView)
+    this.categoriesView.on('itemActivated', () => {
+      this.nextBtn.enable()
+    })
+    this.categoriesView.on('itemDeactivated', () => {
+      this.nextBtn.disable()
+    })
+  }
+
+  private initNextBtn(): void {
+    const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
+    btn.setPosition(1920 / 2, 1080 / 2 + 320)
+    btn.disable()
+    btn.on('pointerdown', () => {
+      btn.scaleDownTween()
+    })
+    btn.on('pointerup', () => {
+      btn.scaleUpTween()
+    })
+    btn.on('btnClicked', () => {
+      this.onNextBtnClick(this.getActiveItem())
+    })
+    this.add((this.nextBtn = btn))
+  }
+
+  private getActiveItem(): CategoryComponent {
+    let activeItem
+    switch (this.currentState) {
+      case GameStates.CategoriesState: {
+        console.log(GameStates.CategoriesState)
+        activeItem = this.categoriesView.activeItem
+        break
+      }
+      case GameStates.SubcategoryState: {
+        console.log(GameStates.SubcategoryState)
+        activeItem = this.subcategoriesView.activeItem
+        break
+      }
+    }
+    return activeItem
+  }
+
+  private onNextBtnClick(activeItem: CategoryComponent | null): void {
+    console.log(activeItem)
+    const whiteScreen = this.showWhiteScreenTween()
+    whiteScreen.on('complete', () => {
+      this.showNextView(activeItem)
+    })
+  }
+
+  private showNextView(activeItem: CategoryComponent | null): void {
+    switch (this.currentState) {
+      case GameStates.CategoriesState: {
+        this.showSubcategoriesView(activeItem)
+        break
+      }
+      case GameStates.SubcategoryState: {
+        this.showLevelsView()
+        break
+      }
+    }
+  }
+
+  private showSubcategoriesView(activeItem): void {
+    this.categoriesView.setVisible(false)
+    this.currentState = GameStates.SubcategoryState
+    this.header.updateTitleVisibility(true, activeItem?.categoryConfig?.name)
+    this.header.showButtons()
+    this.nextBtn.disable()
+    this.hideWhiteScreen()
+    this.subcategoriesView.setVisible(true)
+    console.log(activeItem, '152')
+    this.subcategoriesView.setContentConfig(activeItem?.categoryConfig?.themes)
+    // tw.on('start',()=>{
+    //
+    // })
+  }
+
+  private showLevelsView(): void {
+    this.subcategoriesView.setVisible(false)
+    this.currentState = GameStates.LevelsState
+    this.hideWhiteScreen()
+    this.header.updateTitleVisibility(true, 'Levels')
+    this.nextBtn.disable()
+    this.nextBtn.setVisible(false)
+
+    // this.subcategoriesView.setVisible(true)
+  }
+
+  private crateWhiteScreen(): void {
+    const whiteGr = this.scene.make.graphics({ x: 0, y: 0 }, false)
+    whiteGr.fillStyle(0xffffff)
+    whiteGr.fillRect(0, 0, 1920, 1080)
+    whiteGr.generateTexture('whiteScreen', 1920, 1080)
+    whiteGr.destroy()
+
+    this.whiteScreen = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
+    this.whiteScreen.setAlpha(0)
+    this.whiteScreen.setVisible(false)
+    this.add(this.whiteScreen)
+  }
+
+  private showWhiteScreenTween(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 1,
+      duration: 500,
+      onStart: () => {
+        this.whiteScreen.setVisible(true)
+      }
+    })
+  }
+  private hideWhiteScreen(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 0,
+      duration: 500,
+      onComplete: () => {
+        this.whiteScreen.setVisible(false)
+      }
+    })
+  }
+
+  private handleBackBtnClicked(): void {
+    switch (this.currentState) {
+      case GameStates.CategoriesState: {
+        break
+      }
+      case GameStates.SubcategoryState: {
+        // this.showCategoriesView()
+        const tw = this.showWhiteScreenTween()
+        tw.on('complete', () => {
+          this.hideWhiteScreen()
+          this.subcategoriesView.setVisible(false)
+          this.categoriesView.setVisible(true)
+          // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
+        })
+        break
+      }
+      case GameStates.LevelsState: {
+        // this.levelsView.setVisible(false)
+        this.subcategoriesView.setVisible(true)
+        break
+      }
+      case GameStates.GameState: {
+        break
+      }
+    }
+    console.log('handleBackBtnClicked')
+  }
+
+  private initHeader(): void {
+    const header = new HeaderContainer(this.scene)
+    header.setPosition(header.width / 2, header.height / 2)
+    header.on('onBackBtnClick', this.handleBackBtnClicked, this)
+    this.add((this.header = header))
+  }
+}

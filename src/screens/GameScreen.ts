@@ -1,13 +1,13 @@
 import Phaser from 'phaser'
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
-import { BoardContainer } from '../../Components/BoardContainer'
-import { PieceContainer } from '../../Components/PieceContainer'
-import { EdgesConfig } from '../../configs/EdgesConfig'
+import { BoardContainer } from '../Components/BoardContainer'
+import { PieceContainer } from '../Components/PieceContainer'
+import { EdgesConfig } from '../configs/EdgesConfig'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
-import { getHeaderBgNinePatchConfig, makeNinePatch } from '../../configs/NinePatcheConfigs'
-import { HeaderContainer } from '../../Components/HeaderContainer'
+import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
+import { HeaderContainer } from '../Components/HeaderContainer'
 
 export class GameScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container

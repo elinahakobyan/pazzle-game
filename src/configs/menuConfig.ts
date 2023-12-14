@@ -31,23 +31,23 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'Car',
+          name: 'Anim1',
           frame: 'car.jpg'
         },
         {
-          name: 'Bicycle',
+          name: 'Anim2',
           frame: 'bicycle.jpg'
         },
         {
-          name: 'Train',
+          name: 'Anim3',
           frame: 'train.jpg'
         },
         {
-          name: 'Plane',
+          name: 'Anim4',
           frame: 'plane.jpg'
         },
         {
-          name: 'Tractor',
+          name: 'Anim5',
           frame: 'tractor.jpg'
         }
       ]
@@ -57,23 +57,23 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'Car',
+          name: 'birds1',
           frame: 'car.jpg'
         },
         {
-          name: 'Bicycle',
+          name: 'birds2',
           frame: 'bicycle.jpg'
         },
         {
-          name: 'Train',
+          name: 'birds3',
           frame: 'train.jpg'
         },
         {
-          name: 'Plane',
+          name: 'birds4',
           frame: 'plane.jpg'
         },
         {
-          name: 'Tractor',
+          name: 'birds5',
           frame: 'tractor.jpg'
         }
       ]
@@ -83,23 +83,23 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'Car',
+          name: 'ocean5',
           frame: 'car.jpg'
         },
         {
-          name: 'Bicycle',
+          name: 'ocean6',
           frame: 'bicycle.jpg'
         },
         {
-          name: 'Train',
+          name: 'ocean7',
           frame: 'train.jpg'
         },
         {
-          name: 'Plane',
+          name: 'ocean8',
           frame: 'plane.jpg'
         },
         {
-          name: 'Tractor',
+          name: 'ocean9',
           frame: 'tractor.jpg'
         }
       ]
@@ -109,23 +109,23 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'Car',
+          name: 'nature1',
           frame: 'car.jpg'
         },
         {
-          name: 'Bicycle',
+          name: 'nature2',
           frame: 'bicycle.jpg'
         },
         {
-          name: 'Train',
+          name: 'nature3',
           frame: 'train.jpg'
         },
         {
-          name: 'Plane',
+          name: 'nature3',
           frame: 'plane.jpg'
         },
         {
-          name: 'Tractor',
+          name: 'nature4',
           frame: 'tractor.jpg'
         }
       ]

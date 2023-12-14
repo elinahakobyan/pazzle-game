@@ -1,6 +1,6 @@
 export const enum GameStates {
   CategoriesState,
-  CategoryState,
+  SubcategoryState,
   LevelsState,
   GameState
 }
