@@ -207,23 +207,45 @@ export class MenuScreen extends Container {
     })
   }
 
+  private hideSubcategoriesView(): void {
+    const tw = this.showWhiteScreenTween()
+    tw.on('complete', () => {
+      this.showCategoriesView()
+    })
+  }
+  private showCategoriesView(): void {
+    this.hideWhiteScreen()
+    this.header.updateTitleVisibility(true, 'Categories')
+    this.header.hideButtons()
+    this.currentState = GameStates.CategoriesState
+    this.subcategoriesView.setVisible(false)
+    this.categoriesView.setVisible(true)
+    this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
+
+    // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
+  }
+
   private handleBackBtnClicked(): void {
     switch (this.currentState) {
       case GameStates.CategoriesState: {
+        console.log('CategoriesState')
         break
       }
       case GameStates.SubcategoryState: {
-        // this.showCategoriesView()
-        const tw = this.showWhiteScreenTween()
-        tw.on('complete', () => {
-          this.hideWhiteScreen()
-          this.subcategoriesView.setVisible(false)
-          this.categoriesView.setVisible(true)
-          // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
-        })
+        console.log('SubcategoryState')
+        this.hideSubcategoriesView()
+        // const tw = this.showWhiteScreenTween()
+        // tw.on('complete', () => {
+        //   this.hideWhiteScreen()
+        //   this.subcategoriesView.setVisible(false)
+        //   this.categoriesView.setVisible(true)
+        //   this.currentState = GameStates.CategoriesState
+        //   // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
+        // })
         break
       }
       case GameStates.LevelsState: {
+        console.log('LevelsState')
         // this.levelsView.setVisible(false)
         this.subcategoriesView.setVisible(true)
         break
