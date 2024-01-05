@@ -7,6 +7,8 @@ import { NextButton } from '../buttons/NextButton'
 import { GameStates } from '../enums/GameStates'
 import { SubcategoriesView } from '../views/SubcategoriesView'
 import { CategoriesView } from '../views/CategoriesView'
+import { LevelsView } from '../views/LevelsView'
+import { LevelComponent } from '../Components/LevelComponent'
 
 export class MenuScreen extends Container {
   private header: HeaderContainer
@@ -17,6 +19,8 @@ export class MenuScreen extends Container {
   private whiteScreen: Phaser.GameObjects.Sprite
   private subcategoriesView: SubcategoriesView
   private currentState: GameStates
+  private levelsView: LevelsView
+  private playBtn: NextButton
 
   constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
     super(scene)
@@ -33,8 +37,10 @@ export class MenuScreen extends Container {
     this.initHeader()
     this.initCategories()
     this.initNextBtn()
-    this.crateWhiteScreen()
     this.initSubcategoryView()
+    this.initLevelsView()
+    this.initPlayBtn()
+    this.crateWhiteScreen()
     this.attachListeners()
     // this.gameScreen = new GameScreen(this, gameConfig)
     // this.add.existing(this.gameScreen)
@@ -47,14 +53,33 @@ export class MenuScreen extends Container {
       Phaser.Geom.Rectangle.Contains
     )
     this.on('pointerup', () => {
+      console.log('hass')
+      console.log(this.getActiveItem())
       if (this.getActiveItem()) {
         this.nextBtn.disable()
+        this.playBtn.visible && this.playBtn.disable()
         this.getActiveItem().deactivate()
         // this.categoriesView.activeItem.deactivate()
       }
     })
   }
 
+  private initLevelsView(): void {
+    this.levelsView = new LevelsView(this.scene, menuConfig.levels)
+    // this.currentState = GameStates.LevelsState
+    const w = 1920
+    const h = 1080 - this.header.height + 20
+    this.levelsView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    this.levelsView.setSize(w, h)
+    this.levelsView.setVisible(false)
+    this.add(this.levelsView)
+    this.levelsView.on('itemActivated', () => {
+      this.playBtn.enable()
+    })
+    this.levelsView.on('itemDeactivated', () => {
+      this.playBtn.disable()
+    })
+  }
   private initSubcategoryView(): void {
     this.subcategoriesView = new SubcategoriesView(this.scene)
     this.subcategoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
@@ -67,17 +92,13 @@ export class MenuScreen extends Container {
     this.subcategoriesView.on('itemDeactivated', () => {
       this.nextBtn.disable()
     })
-
-    // const gr = this.scene.add.graphics()
-    // gr.fillStyle(0x000fff, 0.1)
-    // gr.fillRect(0, 0, this.subcategoriesView.width, this.subcategoriesView.height)
-    // this.subcategoriesView.add(gr)
   }
 
   private initCategories(): void {
     this.header.updateTitleVisibility(true, 'Categories')
     this.header.hideButtons()
     this.currentState = GameStates.CategoriesState
+    console.log('GameStates.CategoriesState')
     const { categories } = menuConfig
     this.categoriesView = new CategoriesView(this.scene, categories)
     const w = 1920
@@ -108,39 +129,66 @@ export class MenuScreen extends Container {
     })
     this.add((this.nextBtn = btn))
   }
+  private initPlayBtn(): void {
+    const btn = new NextButton(this.scene, { text: 'PLAY', frame: 'play' })
+    btn.setPosition(1920 / 2, 1080 / 2 + 320)
+    btn.disable()
+    btn.on('pointerdown', () => {
+      btn.scaleDownTween()
+    })
+    btn.on('pointerup', () => {
+      btn.scaleUpTween()
+    })
+    btn.on('btnClicked', () => {
+      this.onPlayBtnClicked()
+    })
+    this.add((this.playBtn = btn))
+    this.playBtn.setVisible(false)
+  }
 
-  private getActiveItem(): CategoryComponent {
+  private getActiveItem(): CategoryComponent | LevelComponent {
     let activeItem
     switch (this.currentState) {
       case GameStates.CategoriesState: {
-        console.log(GameStates.CategoriesState)
         activeItem = this.categoriesView.activeItem
+        console.log(activeItem)
         break
       }
       case GameStates.SubcategoryState: {
-        console.log(GameStates.SubcategoryState)
         activeItem = this.subcategoriesView.activeItem
+        break
+      }
+      case GameStates.LevelsState: {
+        activeItem = this.levelsView.activeItem
         break
       }
     }
     return activeItem
   }
 
-  private onNextBtnClick(activeItem: CategoryComponent | null): void {
+  private onNextBtnClick(activeItem: CategoryComponent | LevelComponent | null): void {
     console.log(activeItem)
     const whiteScreen = this.showWhiteScreenTween()
     whiteScreen.on('complete', () => {
       this.showNextView(activeItem)
     })
   }
+  private onPlayBtnClicked(): void {
+    const whiteScreen = this.showWhiteScreenTween()
+    whiteScreen.on('complete', () => {
+      // this.initGameScreen()
+    })
+  }
 
-  private showNextView(activeItem: CategoryComponent | null): void {
+  private showNextView(activeItem: CategoryComponent | LevelComponent | null): void {
     switch (this.currentState) {
       case GameStates.CategoriesState: {
+        console.log('GameStates.SubcategoryState')
         this.showSubcategoriesView(activeItem)
         break
       }
       case GameStates.SubcategoryState: {
+        console.log('GameStates.LevelState')
         this.showLevelsView()
         break
       }
@@ -155,11 +203,7 @@ export class MenuScreen extends Container {
     this.nextBtn.disable()
     this.hideWhiteScreen()
     this.subcategoriesView.setVisible(true)
-    console.log(activeItem, '152')
     this.subcategoriesView.setContentConfig(activeItem?.categoryConfig?.themes)
-    // tw.on('start',()=>{
-    //
-    // })
   }
 
   private showLevelsView(): void {
@@ -169,8 +213,8 @@ export class MenuScreen extends Container {
     this.header.updateTitleVisibility(true, 'Levels')
     this.nextBtn.disable()
     this.nextBtn.setVisible(false)
-
-    // this.subcategoriesView.setVisible(true)
+    this.playBtn.setVisible(true)
+    this.levelsView.setVisible(true)
   }
 
   private crateWhiteScreen(): void {
@@ -210,6 +254,7 @@ export class MenuScreen extends Container {
   private hideSubcategoriesView(): void {
     const tw = this.showWhiteScreenTween()
     tw.on('complete', () => {
+      this.subcategoriesView.setVisible(false)
       this.showCategoriesView()
     })
   }
@@ -218,7 +263,6 @@ export class MenuScreen extends Container {
     this.header.updateTitleVisibility(true, 'Categories')
     this.header.hideButtons()
     this.currentState = GameStates.CategoriesState
-    this.subcategoriesView.setVisible(false)
     this.categoriesView.setVisible(true)
     this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
 
@@ -234,20 +278,11 @@ export class MenuScreen extends Container {
       case GameStates.SubcategoryState: {
         console.log('SubcategoryState')
         this.hideSubcategoriesView()
-        // const tw = this.showWhiteScreenTween()
-        // tw.on('complete', () => {
-        //   this.hideWhiteScreen()
-        //   this.subcategoriesView.setVisible(false)
-        //   this.categoriesView.setVisible(true)
-        //   this.currentState = GameStates.CategoriesState
-        //   // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
-        // })
         break
       }
       case GameStates.LevelsState: {
         console.log('LevelsState')
-        // this.levelsView.setVisible(false)
-        this.subcategoriesView.setVisible(true)
+        this.hideLevelsView()
         break
       }
       case GameStates.GameState: {
@@ -255,6 +290,17 @@ export class MenuScreen extends Container {
       }
     }
     console.log('handleBackBtnClicked')
+  }
+
+  private hideLevelsView(): void {
+    const tw = this.showWhiteScreenTween()
+    tw.on('complete', () => {
+      this.levelsView.setVisible(false)
+      this.playBtn.setVisible(false)
+      this.showSubcategoriesView(this.categoriesView.activeItem)
+      this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
+      this.nextBtn.setVisible(true)
+    })
   }
 
   private initHeader(): void {

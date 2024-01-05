@@ -134,15 +134,18 @@ export const menuConfig = {
   levels: [
     {
       name: 'Easy',
-      level: '2:2'
+      level: '2:2',
+      color: 'green'
     },
     {
       name: 'Medium',
-      level: '3:3'
+      level: '3:3',
+      color: 'yellow'
     },
     {
       name: 'Hard',
-      level: '4:4'
+      level: '4:4',
+      color: 'orange'
     }
   ]
 }

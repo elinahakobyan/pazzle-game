@@ -11,7 +11,6 @@ export class SubcategoriesView extends Container {
   }
 
   public setContentConfig(themes): void {
-    console.log(themes, this.categories)
     themes.forEach((t, i) => {
       this.categories[i].setContent(t)
     })
@@ -24,7 +23,6 @@ export class SubcategoriesView extends Container {
   private initSubcategories(): void {
     const gap = 50
     for (let i = 0; i < 5; i++) {
-      console.log('has')
       const category = new CategoryComponent(this.scene)
       category.setPosition(i * (category.width + gap) + 350, 920 / 2 - 100)
       category.on('pointerup', () => {
@@ -36,7 +34,6 @@ export class SubcategoriesView extends Container {
   }
 
   private handleCategoryPointerUp(category: CategoryComponent): void {
-    console.log(category, 'aa')
     if (this.activeItem) {
       if (this.activeItem.categoryConfig?.name === category.categoryConfig?.name) {
         this.activeItem.deactivate()
