@@ -9,6 +9,7 @@ import { SubcategoriesView } from '../views/SubcategoriesView'
 import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
 import { LevelComponent } from '../Components/LevelComponent'
+import { GameScreen } from './GameScreen'
 
 export class MenuScreen extends Container {
   private header: HeaderContainer
@@ -21,6 +22,7 @@ export class MenuScreen extends Container {
   private currentState: GameStates
   private levelsView: LevelsView
   private playBtn: NextButton
+  private gameScreen: GameScreen
 
   constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
     super(scene)
@@ -174,9 +176,18 @@ export class MenuScreen extends Container {
     })
   }
   private onPlayBtnClicked(): void {
+    const gameConfig = {
+      themeName: 'car',
+      row: 2,
+      col: 2
+    }
     const whiteScreen = this.showWhiteScreenTween()
     whiteScreen.on('complete', () => {
-      // this.initGameScreen()
+      this.levelsView.setVisible(false)
+      this.playBtn.setVisible(false)
+      this.header.updateTitleVisibility(false, '')
+      this.hideWhiteScreen()
+      this.emit('playBtnClicked', gameConfig)
     })
   }
 
@@ -196,11 +207,13 @@ export class MenuScreen extends Container {
   }
 
   private showSubcategoriesView(activeItem): void {
-    this.categoriesView.setVisible(false)
     this.currentState = GameStates.SubcategoryState
     this.header.updateTitleVisibility(true, activeItem?.categoryConfig?.name)
     this.header.showButtons()
-    this.nextBtn.disable()
+    // this.nextBtn.disable()
+    this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
+    this.nextBtn.setVisible(true)
+    this.categoriesView.setVisible(false)
     this.hideWhiteScreen()
     this.subcategoriesView.setVisible(true)
     this.subcategoriesView.setContentConfig(activeItem?.categoryConfig?.themes)
@@ -282,24 +295,25 @@ export class MenuScreen extends Container {
       }
       case GameStates.LevelsState: {
         console.log('LevelsState')
-        this.hideLevelsView()
+        this.hideLevelsView(true)
         break
       }
       case GameStates.GameState: {
+        this.emit('handleBackBtnClicked')
         break
       }
     }
     console.log('handleBackBtnClicked')
   }
 
-  private hideLevelsView(): void {
+  private hideLevelsView(isBackBtnClicked: boolean): void {
     const tw = this.showWhiteScreenTween()
     tw.on('complete', () => {
       this.levelsView.setVisible(false)
       this.playBtn.setVisible(false)
-      this.showSubcategoriesView(this.categoriesView.activeItem)
-      this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
-      this.nextBtn.setVisible(true)
+      isBackBtnClicked && this.showSubcategoriesView(this.categoriesView.activeItem)
+      // this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
+      // this.nextBtn.setVisible(true)
     })
   }
 

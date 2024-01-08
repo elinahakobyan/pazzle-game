@@ -32,7 +32,18 @@ export default class MainScene extends Phaser.Scene {
   }
   private initMenuScreen(): void {
     const menuScreen = new MenuScreen(this, menuConfig)
+    menuScreen.on('playBtnClicked', this.initGameScreen, this)
     this.add.existing((this.menuScreen = menuScreen))
+  }
+
+  private initGameScreen(gameConfig): void {
+    this.gameScreen = new GameScreen(this, gameConfig)
+    this.gameScreen.on('handleBackBtnClicked', this.onBackBtnClicked, this)
+    this.add.existing(this.gameScreen)
+  }
+
+  private onBackBtnClicked(): void {
+    //
   }
 
   private initStatJS() {
