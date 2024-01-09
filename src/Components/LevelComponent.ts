@@ -36,7 +36,7 @@ export class LevelComponent extends Container {
     gr.fillRoundedRect(0, 0, 150, 130, 20)
     gr.generateTexture(`levelFrame${this.config.color}`, 150, 150)
     gr.destroy()
-    const bkg = this.scene.add.sprite(0, 0, `levelFrame${this.config.color}`)
+    const bkg = this.scene.add.sprite(0, 10, `levelFrame${this.config.color}`)
     this.add(bkg)
   }
 

@@ -4,30 +4,35 @@ import { MenuConfig } from '../../typings/types'
 import { menuConfig } from '../configs/menuConfig'
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { NextButton } from '../buttons/NextButton'
-import { GameStates } from '../enums/GameStates'
+import { MenuStates } from '../enums/MenuStates'
 import { SubcategoriesView } from '../views/SubcategoriesView'
 import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
 import { LevelComponent } from '../Components/LevelComponent'
+import { PuzzleScreen } from './PuzzleScreen'
 import { GameScreen } from './GameScreen'
+import Sprite = Phaser.GameObjects.Sprite
 
 export class MenuScreen extends Container {
-  private header: HeaderContainer
   private categories: CategoryComponent[] = []
   private categoriesView: CategoriesView
   private activeItem: CategoryComponent | null
   public nextBtn: NextButton
   private whiteScreen: Phaser.GameObjects.Sprite
   private subcategoriesView: SubcategoriesView
-  private currentState: GameStates
   private levelsView: LevelsView
   private playBtn: NextButton
-  private gameScreen: GameScreen
+  private gameScreen: PuzzleScreen
+  private currentState: MenuStates
 
-  constructor(scene: Phaser.Scene, menuConfig: MenuConfig) {
+  constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
     super(scene)
-    // this.setSize(1920, 1080)
+
     this.initialise()
+  }
+
+  public getCurrentState(): number {
+    return this.currentState
   }
 
   private initialise(): void {
@@ -36,7 +41,8 @@ export class MenuScreen extends Container {
       row: 2,
       col: 2
     }
-    this.initHeader()
+
+    // this.initHeader()
     this.initCategories()
     this.initNextBtn()
     this.initSubcategoryView()
@@ -49,7 +55,7 @@ export class MenuScreen extends Container {
   }
 
   private attachListeners(): void {
-    this.setSize(1920, 1080)
+    this.setSize(1920, 1080 - this.header.height + 20)
     this.setInteractive(
       new Phaser.Geom.Rectangle(this.width / 2, this.height / 2, this.width, this.height),
       Phaser.Geom.Rectangle.Contains
@@ -71,7 +77,7 @@ export class MenuScreen extends Container {
     // this.currentState = GameStates.LevelsState
     const w = 1920
     const h = 1080 - this.header.height + 20
-    this.levelsView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    // this.levelsView.setPosition(0, this.header.y + this.header.height / 2 - 20)
     this.levelsView.setSize(w, h)
     this.levelsView.setVisible(false)
     this.add(this.levelsView)
@@ -84,7 +90,7 @@ export class MenuScreen extends Container {
   }
   private initSubcategoryView(): void {
     this.subcategoriesView = new SubcategoriesView(this.scene)
-    this.subcategoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    // this.subcategoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
     this.subcategoriesView.setSize(1920, 920)
     this.subcategoriesView.setVisible(false)
     this.add(this.subcategoriesView)
@@ -98,14 +104,15 @@ export class MenuScreen extends Container {
 
   private initCategories(): void {
     this.header.updateTitleVisibility(true, 'Categories')
-    this.header.hideButtons()
-    this.currentState = GameStates.CategoriesState
+    this.header.hideBackButton()
+    console.log(this.header)
+    this.currentState = MenuStates.CategoriesState
     console.log('GameStates.CategoriesState')
     const { categories } = menuConfig
     this.categoriesView = new CategoriesView(this.scene, categories)
     const w = 1920
     const h = 1080 - this.header.height + 20
-    this.categoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
+    // this.categoriesView.setPosition(0, this.header.y + this.header.height / 2 - 20)
     this.categoriesView.setSize(w, h)
     this.add(this.categoriesView)
     this.categoriesView.on('itemActivated', () => {
@@ -118,7 +125,7 @@ export class MenuScreen extends Container {
 
   private initNextBtn(): void {
     const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
-    btn.setPosition(1920 / 2, 1080 / 2 + 320)
+    btn.setPosition(1920 / 2, 1080 / 2 + 120)
     btn.disable()
     btn.on('pointerdown', () => {
       btn.scaleDownTween()
@@ -133,7 +140,7 @@ export class MenuScreen extends Container {
   }
   private initPlayBtn(): void {
     const btn = new NextButton(this.scene, { text: 'PLAY', frame: 'play' })
-    btn.setPosition(1920 / 2, 1080 / 2 + 320)
+    btn.setPosition(1920 / 2, 1080 / 2 + 120)
     btn.disable()
     btn.on('pointerdown', () => {
       btn.scaleDownTween()
@@ -151,16 +158,16 @@ export class MenuScreen extends Container {
   private getActiveItem(): CategoryComponent | LevelComponent {
     let activeItem
     switch (this.currentState) {
-      case GameStates.CategoriesState: {
+      case MenuStates.CategoriesState: {
         activeItem = this.categoriesView.activeItem
         console.log(activeItem)
         break
       }
-      case GameStates.SubcategoryState: {
+      case MenuStates.SubcategoryState: {
         activeItem = this.subcategoriesView.activeItem
         break
       }
-      case GameStates.LevelsState: {
+      case MenuStates.LevelsState: {
         activeItem = this.levelsView.activeItem
         break
       }
@@ -193,12 +200,12 @@ export class MenuScreen extends Container {
 
   private showNextView(activeItem: CategoryComponent | LevelComponent | null): void {
     switch (this.currentState) {
-      case GameStates.CategoriesState: {
+      case MenuStates.CategoriesState: {
         console.log('GameStates.SubcategoryState')
         this.showSubcategoriesView(activeItem)
         break
       }
-      case GameStates.SubcategoryState: {
+      case MenuStates.SubcategoryState: {
         console.log('GameStates.LevelState')
         this.showLevelsView()
         break
@@ -207,9 +214,9 @@ export class MenuScreen extends Container {
   }
 
   private showSubcategoriesView(activeItem): void {
-    this.currentState = GameStates.SubcategoryState
+    this.currentState = MenuStates.SubcategoryState
     this.header.updateTitleVisibility(true, activeItem?.categoryConfig?.name)
-    this.header.showButtons()
+    this.header.showBackButton()
     // this.nextBtn.disable()
     this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
     this.nextBtn.setVisible(true)
@@ -219,10 +226,10 @@ export class MenuScreen extends Container {
     this.subcategoriesView.setContentConfig(activeItem?.categoryConfig?.themes)
   }
 
-  private showLevelsView(): void {
+  public showLevelsView(target?: Sprite): void {
     this.subcategoriesView.setVisible(false)
-    this.currentState = GameStates.LevelsState
-    this.hideWhiteScreen()
+    this.currentState = MenuStates.LevelsState
+    this.hideWhiteScreen(target)
     this.header.updateTitleVisibility(true, 'Levels')
     this.nextBtn.disable()
     this.nextBtn.setVisible(false)
@@ -253,9 +260,9 @@ export class MenuScreen extends Container {
       }
     })
   }
-  private hideWhiteScreen(): Phaser.Tweens.Tween {
+  private hideWhiteScreen(target?: Sprite): Phaser.Tweens.Tween {
     return this.scene.add.tween({
-      targets: this.whiteScreen,
+      targets: target ? target : this.whiteScreen,
       alpha: 0,
       duration: 500,
       onComplete: () => {
@@ -264,7 +271,8 @@ export class MenuScreen extends Container {
     })
   }
 
-  private hideSubcategoriesView(): void {
+  public hideSubcategoriesView(): void {
+    console.log('asdchlsdhlk')
     const tw = this.showWhiteScreenTween()
     tw.on('complete', () => {
       this.subcategoriesView.setVisible(false)
@@ -274,39 +282,15 @@ export class MenuScreen extends Container {
   private showCategoriesView(): void {
     this.hideWhiteScreen()
     this.header.updateTitleVisibility(true, 'Categories')
-    this.header.hideButtons()
-    this.currentState = GameStates.CategoriesState
+    this.header.hideBackButton()
+    this.currentState = MenuStates.CategoriesState
     this.categoriesView.setVisible(true)
     this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
 
     // this.header.updateTitleVisibility(true, this.categoriesView.activeItem)
   }
 
-  private handleBackBtnClicked(): void {
-    switch (this.currentState) {
-      case GameStates.CategoriesState: {
-        console.log('CategoriesState')
-        break
-      }
-      case GameStates.SubcategoryState: {
-        console.log('SubcategoryState')
-        this.hideSubcategoriesView()
-        break
-      }
-      case GameStates.LevelsState: {
-        console.log('LevelsState')
-        this.hideLevelsView(true)
-        break
-      }
-      case GameStates.GameState: {
-        this.emit('handleBackBtnClicked')
-        break
-      }
-    }
-    console.log('handleBackBtnClicked')
-  }
-
-  private hideLevelsView(isBackBtnClicked: boolean): void {
+  public hideLevelsView(isBackBtnClicked: boolean): void {
     const tw = this.showWhiteScreenTween()
     tw.on('complete', () => {
       this.levelsView.setVisible(false)
@@ -315,12 +299,5 @@ export class MenuScreen extends Container {
       // this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
       // this.nextBtn.setVisible(true)
     })
-  }
-
-  private initHeader(): void {
-    const header = new HeaderContainer(this.scene)
-    header.setPosition(header.width / 2, header.height / 2)
-    header.on('onBackBtnClick', this.handleBackBtnClicked, this)
-    this.add((this.header = header))
   }
 }

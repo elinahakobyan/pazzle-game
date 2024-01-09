@@ -1,23 +1,26 @@
 import Sprite = Phaser.GameObjects.Sprite
 import * as Stats from 'stats.js'
-import { GameScreen } from '../screens/GameScreen'
+import { PuzzleScreen } from '../screens/PuzzleScreen'
 import { ForegroundScreen } from '../screens/ForegroundScreen'
 import { HeaderContainer } from '../Components/HeaderContainer'
 import { MenuScreen } from '../screens/MenuScreen'
 import { menuConfig } from '../configs/menuConfig'
+import { GameScreen } from '../screens/GameScreen'
 
 export default class MainScene extends Phaser.Scene {
-  private gameScreen: GameScreen
+  private puzzleScreen: PuzzleScreen
   private foregroundScreen: ForegroundScreen
   private header: HeaderContainer
   private menuScreen: MenuScreen
+  private gameScreen: GameScreen
 
   constructor() {
     super({ key: 'MainScene' })
   }
 
   create() {
-    this.initMenuScreen()
+    // this.initMenuScreen()
+    this.initGameScreen()
     // const foregroundScreen = new ForegroundScreen(this)
     // foregroundScreen.on('onForegroundViewComplete', () => {
     //   this.destroyForegroundView()
@@ -31,14 +34,13 @@ export default class MainScene extends Phaser.Scene {
     this.foregroundScreen.visible = false
   }
   private initMenuScreen(): void {
-    const menuScreen = new MenuScreen(this, menuConfig)
-    menuScreen.on('playBtnClicked', this.initGameScreen, this)
-    this.add.existing((this.menuScreen = menuScreen))
+    // const menuScreen = new MenuScreen(this, menuConfig)
+    // menuScreen.on('playBtnClicked', this.initGameScreen, this)
+    // this.add.existing((this.menuScreen = menuScreen))
   }
 
-  private initGameScreen(gameConfig): void {
-    this.gameScreen = new GameScreen(this, gameConfig)
-    this.gameScreen.on('handleBackBtnClicked', this.onBackBtnClicked, this)
+  private initGameScreen(): void {
+    this.gameScreen = new GameScreen(this)
     this.add.existing(this.gameScreen)
   }
 

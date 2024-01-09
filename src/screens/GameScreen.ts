@@ -1,136 +1,130 @@
-import Phaser from 'phaser'
-import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
-import { BoardContainer } from '../Components/BoardContainer'
-import { PieceContainer } from '../Components/PieceContainer'
-import { EdgesConfig } from '../configs/EdgesConfig'
-import Sprite = Phaser.GameObjects.Sprite
-import Pointer = Phaser.Input.Pointer
-import BasePlugin = Phaser.Plugins.BasePlugin
-import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
+import Container = Phaser.GameObjects.Container
 import { HeaderContainer } from '../Components/HeaderContainer'
+import { MenuScreen } from './MenuScreen'
+import { menuConfig } from '../configs/menuConfig'
+import { GameStates, MenuStates } from '../enums/MenuStates'
+import { PuzzleScreen } from './PuzzleScreen'
+import Phaser from 'phaser'
 
-export class GameScreen extends Phaser.GameObjects.Container {
-  public gameLayer: Phaser.GameObjects.Container
-  private boardContainer: BoardContainer
-  private allowToPLace: boolean = false
-  private placedPiecesCount: number = 0
-  private isGameOver: boolean = false
-  private pieceContainers: PieceContainer[] = []
+export class GameScreen extends Container {
   private header: HeaderContainer
-  constructor(scene: Phaser.Scene, private config: { themeName: string; row: number; col: number }) {
+  private menuScreen: MenuScreen
+  public currentState: GameStates
+  private puzzleScreen: PuzzleScreen
+  private whiteScreen: Phaser.GameObjects.Sprite
+  constructor(scene) {
     super(scene)
     this.initialize()
   }
 
   private initialize(): void {
-    // this.initLayers()
-    this.initBoardContainer()
-    this.initPieces()
-    // this.setSize(1920, 1080)
+    this.initHeader()
+    this.initMenuScreen()
+    this.crateWhiteScreen()
   }
 
-  private initPieces(): void {
-    const { row, col } = this.config
-    const images = CutJigsawImage(this.boardContainer.hintBkg, {
-      columns: col,
-      rows: row,
-      edgeWidth: 30,
-      edgeHeight: 30,
-      edges: EdgesConfig[row]
-    })
-    console.log()
-
-    const pieceW = this.boardContainer.bkg.displayWidth / row
-    const pieceH = this.boardContainer.bkg.displayHeight / col
-    // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
-    images.forEach((img, i) => {
-      img.setPosition(0, 0)
-      const { tx: cellX, ty: cellY } = this.boardContainer.cells[i].getWorldTransformMatrix()
-      //test
-      const gr = this.scene.add.graphics()
-      gr.fillStyle(0xfff000)
-      gr.fillCircle(cellX, cellY, 5)
-      this.add(gr)
-      //
-      const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
-      // const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
-      piece.setContext(img)
-      piece.setSize(pieceW, pieceH)
-      piece.initialPos = { x: cellX + i * 10 + 700, y: cellY }
-      piece.absolutePosition = { x: cellX, y: cellY }
-      // piece.context.preFX?.setPadding(1)
-      piece.context.preFX?.addGlow(0xffffff, 1)
-      piece.setPosition(piece.initialPos.x, piece.initialPos.y)
-      piece.setInteractive({ cursor: 'pointer', draggable: true })
-
-      const gra = this.scene.add.graphics()
-      gra.fillStyle(0x000fff)
-      gra.fillCircle(0, 0, 5)
-      piece.add(gra)
-
-      piece.on('drag', pointer => {
-        this.dragPieceContainer(pointer, piece)
-        this.checkForPlace(piece)
-      })
-      piece.on('dragend', pointer => {
-        console.log(this.allowToPLace, 'dragend')
-        this.onDragend(piece)
-      })
-      this.add(piece)
-      this.pieceContainers.push(piece)
-    })
+  private initHeader(): void {
+    const header = new HeaderContainer(this.scene)
+    header.setPosition(header.width / 2, header.height / 2)
+    header.on('onBackBtnClick', this.handleBackBtnClick, this)
+    this.add((this.header = header))
   }
 
-  private onDragend(piece: PieceContainer): void {
-    if (this.allowToPLace) {
-      piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
-      this.placedPiecesCount += 1
-      this.allowToPLace = false
-      this.checkForGameOver()
+  private initMenuScreen(): void {
+    this.menuScreen = new MenuScreen(this.scene, this.header, menuConfig)
+    this.currentState = GameStates.MenuState
+    this.menuScreen.setPosition(0, this.header.height - 20)
+    this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
+    this.add(this.menuScreen)
+    // const gr = this.scene.add.graphics()
+    // gr.fillStyle(0x000fff, 0.1)
+    // gr.fillRect(0, 0, this.menuScreen.width, this.menuScreen.height)
+    // this.menuScreen.add(gr)
+    // this.menuScreen.header = this.header
+  }
+
+  private initPuzzleScreen(gameConfig): void {
+    console.log('hasa', !this.puzzleScreen)
+    if (!this.puzzleScreen) {
+      console.log('init')
+      this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)
+      this.currentState = GameStates.GameState
+      this.add(this.puzzleScreen)
     } else {
-      piece.setPosition(piece.initialPos.x, piece.initialPos.y)
+      console.log('show')
+      this.puzzleScreen.setToInitialState()
+      this.currentState = GameStates.GameState
+      this.puzzleScreen.setVisible(true)
     }
+    this.bringToTop(this.whiteScreen)
+    // this.puzzleScreen.on('onPuzzleScreenHideComplete', () => {
+    //   this.menuScreen.showLevelsView()
+    //   // this.puzzleScreen.hideWhiteScreen()
+    // })
   }
 
-  private checkForGameOver(): void {
-    if (this.placedPiecesCount === this.pieceContainers.length) {
-      this.isGameOver = true
-      console.warn('GAMEOVER')
-    }
-  }
-
-  private checkForPlace(piece: PieceContainer): void {
-    this.boardContainer.cells.find(cell => {
-      const { tx, ty } = cell.getWorldTransformMatrix()
-      if (
-        this.isIntoCell(piece.x, tx - cell.width / 2, tx + cell.width / 2) &&
-        this.isIntoCell(piece.y, ty - cell.height / 2, ty + cell.height / 2) &&
-        cell.id === piece.id
-      ) {
-        this.allowToPLace = true
-      } else {
-        this.allowToPLace = false
+  private handleBackBtnClick(): void {
+    console.log(this.currentState)
+    if (this.currentState === GameStates.MenuState) {
+      switch (this.menuScreen.getCurrentState()) {
+        case MenuStates.CategoriesState: {
+          console.log('CategoriesState')
+          break
+        }
+        case MenuStates.SubcategoryState: {
+          console.log('SubcategoryState')
+          this.menuScreen.hideSubcategoriesView()
+          break
+        }
+        case MenuStates.LevelsState: {
+          console.log('LevelsState')
+          this.menuScreen.hideLevelsView(true)
+          break
+        }
       }
-      return this.allowToPLace
+    } else {
+      this.currentState = GameStates.MenuState
+      this.hidePuzzleView()
+      // this.hideWhiteScreen()
+      // this.puzzleScreen.hideGame()
+    }
+    console.log('handleBackBtnClicked')
+  }
+
+  public hidePuzzleView(): void {
+    const tw = this.showWhiteScreenTween()
+    tw.on('complete', () => {
+      this.puzzleScreen.setVisible(false)
+      this.menuScreen.showLevelsView(this.whiteScreen)
     })
   }
 
-  private isIntoCell(p: number, min: number, max: number): boolean {
-    return p < Math.max(min, max) && p > Math.min(min, max)
+  public hideWhiteScreen(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 0,
+      duration: 500,
+      onComplete: () => {
+        this.whiteScreen.setVisible(false)
+      }
+    })
   }
 
-  private dragPieceContainer(pointer: Pointer, piece: PieceContainer): void {
-    piece.setPosition(pointer.x, pointer.y)
+  private showWhiteScreenTween(): Phaser.Tweens.Tween {
+    return this.scene.add.tween({
+      targets: this.whiteScreen,
+      alpha: 1,
+      duration: 500,
+      onStart: () => {
+        this.whiteScreen.setVisible(true)
+      }
+    })
   }
 
-  private initBoardContainer(): void {
-    const board = new BoardContainer(this.scene, this.config)
-    board.setPosition(1920 * 0.5 - 300, 1080 * 0.5)
-    this.add((this.boardContainer = board))
-  }
-
-  private initLayers(): void {
-    this.gameLayer = this.scene.add.container()
-    this.add(this.gameLayer)
+  private crateWhiteScreen(): void {
+    this.whiteScreen = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
+    this.whiteScreen.setAlpha(0)
+    this.whiteScreen.setVisible(false)
+    this.add(this.whiteScreen)
   }
 }

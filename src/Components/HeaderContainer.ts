@@ -10,10 +10,10 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     this.initialise()
   }
 
-  public hideButtons(): void {
+  public hideBackButton(): void {
     this.backBtn.setVisible(false)
   }
-  public showButtons(): void {
+  public showBackButton(): void {
     this.backBtn.setVisible(true)
   }
 
