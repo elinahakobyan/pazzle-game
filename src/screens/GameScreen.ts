@@ -36,31 +36,19 @@ export class GameScreen extends Container {
     this.menuScreen.setPosition(0, this.header.height - 20)
     this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
     this.add(this.menuScreen)
-    // const gr = this.scene.add.graphics()
-    // gr.fillStyle(0x000fff, 0.1)
-    // gr.fillRect(0, 0, this.menuScreen.width, this.menuScreen.height)
-    // this.menuScreen.add(gr)
-    // this.menuScreen.header = this.header
   }
 
   private initPuzzleScreen(gameConfig): void {
-    console.log('hasa', !this.puzzleScreen)
     if (!this.puzzleScreen) {
-      console.log('init')
       this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)
       this.currentState = GameStates.GameState
       this.add(this.puzzleScreen)
     } else {
-      console.log('show')
       this.puzzleScreen.setToInitialState()
       this.currentState = GameStates.GameState
       this.puzzleScreen.setVisible(true)
     }
     this.bringToTop(this.whiteScreen)
-    // this.puzzleScreen.on('onPuzzleScreenHideComplete', () => {
-    //   this.menuScreen.showLevelsView()
-    //   // this.puzzleScreen.hideWhiteScreen()
-    // })
   }
 
   private handleBackBtnClick(): void {
@@ -85,8 +73,6 @@ export class GameScreen extends Container {
     } else {
       this.currentState = GameStates.MenuState
       this.hidePuzzleView()
-      // this.hideWhiteScreen()
-      // this.puzzleScreen.hideGame()
     }
     console.log('handleBackBtnClicked')
   }

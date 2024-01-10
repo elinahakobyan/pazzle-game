@@ -4,6 +4,7 @@ import { CategoryComponent } from '../Components/CategoryComponent'
 export class SubcategoriesView extends Container {
   private categories: CategoryComponent[] = []
   public activeItem: CategoryComponent | null
+  public title: string
   constructor(scene: Phaser.Scene) {
     super(scene)
     this.initialize()
@@ -14,6 +15,18 @@ export class SubcategoriesView extends Container {
     themes.forEach((t, i) => {
       this.categories[i].setContent(t)
     })
+  }
+
+  public deactivateSubcategory(): void {
+    if (!this.activeItem) return
+    this.activeItem.deactivate()
+    this.activeItem = null
+    this.emit('itemDeactivated')
+  }
+  public activateSubcategory(category: CategoryComponent): void {
+    this.activeItem = category
+    this.activeItem.activate()
+    this.emit('itemActivated')
   }
 
   private initialize(): void {
@@ -36,21 +49,13 @@ export class SubcategoriesView extends Container {
   private handleCategoryPointerUp(category: CategoryComponent): void {
     if (this.activeItem) {
       if (this.activeItem.categoryConfig?.name === category.categoryConfig?.name) {
-        this.activeItem.deactivate()
-        this.activeItem = null
-        this.emit('itemDeactivated')
-        // this.nextBtn.disable()
+        this.deactivateSubcategory()
       } else {
         this.activeItem.deactivate()
-        this.activeItem = category
-        this.activeItem.activate()
-        this.emit('itemActivated')
-        // this.nextBtn.enable()
+        this.activateSubcategory(category)
       }
     } else {
-      this.activeItem = category
-      this.activeItem.activate()
-      this.emit('itemActivated')
+      this.activateSubcategory(category)
       // this.nextBtn.enable()
     }
   }
