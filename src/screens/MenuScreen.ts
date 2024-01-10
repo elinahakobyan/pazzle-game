@@ -1,6 +1,6 @@
 import Container = Phaser.GameObjects.Container
 import { HeaderContainer } from '../Components/HeaderContainer'
-import { MenuConfig } from '../../typings/types'
+import { Category, GameConfig, Level, MenuConfig } from '../../typings/types'
 import { menuConfig } from '../configs/menuConfig'
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { NextButton } from '../buttons/NextButton'
@@ -21,9 +21,28 @@ export class MenuScreen extends Container {
   private levelsView: LevelsView
   private playBtn: NextButton
   private currentState: MenuStates
-
+  // private gameConfig: GameConfig = {}
+  // private gameConfig: {}
+  private gameConfig: {
+    level: { level: string; name: string }
+    category: { name?: string }
+    subcategory: { name?: string; frame?: string }
+  }
   constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
     super(scene)
+    this.gameConfig = {
+      category: {
+        name: ''
+      },
+      subcategory: {
+        name: '',
+        frame: ''
+      },
+      level: {
+        name: '',
+        level: ''
+      }
+    }
 
     this.initialise()
   }
@@ -157,8 +176,7 @@ export class MenuScreen extends Container {
     return activeItem
   }
 
-  private onNextBtnClick(activeItem: CategoryComponent | LevelComponent | null): void {
-    console.log(activeItem)
+  private onNextBtnClick(activeItem: CategoryComponent | LevelComponent): void {
     const whiteScreen = this.showWhiteScreenTween()
     whiteScreen.on('complete', () => {
       this.showNextView(activeItem)
@@ -170,26 +188,42 @@ export class MenuScreen extends Container {
       row: 2,
       col: 2
     }
+    const activeItem = this.getActiveItem()
+    if (activeItem) {
+      this.gameConfig.level.name = (activeItem as LevelComponent).config.name
+      this.gameConfig.level.level = (activeItem as LevelComponent).config.level
+    }
     const whiteScreen = this.showWhiteScreenTween()
     whiteScreen.on('complete', () => {
       this.levelsView.setVisible(false)
       this.playBtn.setVisible(false)
       this.header.updateTitleVisibility(false, '')
       this.hideWhiteScreen()
+      console.log(this.gameConfig)
       this.emit('playBtnClicked', gameConfig)
+      // this.emit('playBtnClicked', this.gameConfig)
     })
   }
 
-  private showNextView(activeItem: CategoryComponent | LevelComponent | null): void {
+  private showNextView(activeItem: CategoryComponent | LevelComponent): void {
     switch (this.currentState) {
       case MenuStates.CategoriesState: {
         console.log('GameStates.SubcategoryState')
         this.showSubcategoriesView(activeItem, true)
+        console.log((activeItem as CategoryComponent).categoryConfig)
+        if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
+          this.gameConfig.category.name = (activeItem as CategoryComponent).categoryConfig?.name
+        }
         break
       }
       case MenuStates.SubcategoryState: {
         console.log('GameStates.LevelState')
         this.showLevelsView()
+        console.log((activeItem as CategoryComponent).categoryConfig)
+        if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
+          this.gameConfig.subcategory.name = (activeItem as CategoryComponent).categoryConfig?.name
+          this.gameConfig.subcategory.frame = (activeItem as CategoryComponent).categoryConfig?.frame
+        }
         break
       }
     }

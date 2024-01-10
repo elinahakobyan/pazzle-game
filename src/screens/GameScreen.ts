@@ -5,6 +5,7 @@ import { menuConfig } from '../configs/menuConfig'
 import { GameStates, MenuStates } from '../enums/MenuStates'
 import { PuzzleScreen } from './PuzzleScreen'
 import Phaser from 'phaser'
+import { GameConfig } from '../../typings/types'
 
 export class GameScreen extends Container {
   private header: HeaderContainer

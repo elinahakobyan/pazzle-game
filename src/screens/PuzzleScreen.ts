@@ -8,6 +8,7 @@ import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
 import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 import { HeaderContainer } from '../Components/HeaderContainer'
+import { GameConfig } from '../../typings/types'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
