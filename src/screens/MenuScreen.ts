@@ -200,8 +200,8 @@ export class MenuScreen extends Container {
       this.header.updateTitleVisibility(false, '')
       this.hideWhiteScreen()
       console.log(this.gameConfig)
-      this.emit('playBtnClicked', gameConfig)
-      // this.emit('playBtnClicked', this.gameConfig)
+      // this.emit('playBtnClicked', gameConfig)
+      this.emit('playBtnClicked', this.gameConfig)
     })
   }
 

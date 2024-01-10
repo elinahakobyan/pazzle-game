@@ -45,9 +45,11 @@ export class GameScreen extends Container {
       this.currentState = GameStates.GameState
       this.add(this.puzzleScreen)
     } else {
-      this.puzzleScreen.setToInitialState()
+      this.puzzleScreen.destroy()
+      this.puzzleScreen.setVisible(false)
+      this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)
       this.currentState = GameStates.GameState
-      this.puzzleScreen.setVisible(true)
+      this.add(this.puzzleScreen)
     }
     this.bringToTop(this.whiteScreen)
   }

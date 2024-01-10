@@ -21,7 +21,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   constructor(
     scene: Phaser.Scene,
     private header: HeaderContainer,
-    private config: { themeName: string; row: number; col: number }
+    private config: GameConfig // private config: { themeName: string; row: number; col: number }
   ) {
     super(scene)
     this.initialize()
@@ -33,41 +33,11 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     })
   }
 
-  public hideWhiteScreen(): Phaser.Tweens.Tween {
-    return this.scene.add.tween({
-      targets: this.whiteScreen,
-      alpha: 0,
-      duration: 500,
-      onComplete: () => {
-        this.whiteScreen.setVisible(false)
-      }
-    })
-  }
-
-  private showWhiteScreenTween(): Phaser.Tweens.Tween {
-    return this.scene.add.tween({
-      targets: this.whiteScreen,
-      alpha: 1,
-      duration: 500,
-      onStart: () => {
-        this.whiteScreen.setVisible(true)
-      }
-    })
-  }
-
-  private crateWhiteScreen(): void {
-    this.whiteScreen = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
-    this.whiteScreen.setAlpha(0)
-    this.whiteScreen.setVisible(false)
-    this.add(this.whiteScreen)
-  }
-
   private initialize(): void {
     // this.initLayers()
     this.updateHeader()
     this.initBoardContainer()
     this.initPieces()
-    this.crateWhiteScreen()
     // this.setSize(1920, 1080)
   }
 
@@ -76,7 +46,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   }
 
   private initPieces(): void {
-    const { row, col } = this.config
+    const { level } = this.config
+    const row = parseInt(level.level)
+    const col = parseInt(level.level)
     const images = CutJigsawImage(this.boardContainer.hintBkg, {
       columns: col,
       rows: row,
