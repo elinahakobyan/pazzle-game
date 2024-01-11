@@ -137,6 +137,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   }
 
   private dragPieceContainer(pointer: Pointer, piece: PieceContainer): void {
+    this.bringToTop(piece)
     piece.setPosition(pointer.x, pointer.y)
   }
 
