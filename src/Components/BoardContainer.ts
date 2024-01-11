@@ -1,10 +1,6 @@
-import Sprite = Phaser.GameObjects.Sprite
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
 import { EdgesConfig } from '../configs/EdgesConfig'
 import { CellContainer } from './CellContainer'
-import Pointer = Phaser.Input.Pointer
-
-import Image = Phaser.GameObjects.Image
 import { GameConfig } from '../../typings/types'
 
 export class BoardContainer extends Phaser.GameObjects.Container {
@@ -17,34 +13,12 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, private config: GameConfig) {
     super(scene)
     this.initialize()
-    // this.setSize(700, 500)
   }
 
   private initialize(): void {
     this.initBkg()
     this.initCells()
     this.initHintBkg()
-    // this.drawBorders()
-    // this.drawRowCols()
-  }
-
-  private initLayers(): void {
-    this.boardLayer = this.scene.add.container()
-    this.add(this.boardLayer)
-  }
-
-  private drawBorders(): void {
-    const { x, y, displayWidth, displayHeight } = this.bkg
-    const gr = this.scene.add.graphics()
-    gr.lineStyle(2, 0x000000)
-    gr.beginPath()
-    gr.moveTo(x - displayWidth / 2, y - displayHeight / 2)
-    gr.lineTo(x - displayWidth / 2 + displayWidth, y - displayHeight / 2)
-    gr.lineTo(x - displayWidth / 2 + displayWidth, y - displayHeight / 2 + displayHeight)
-    gr.lineTo(x - displayWidth / 2, y - displayHeight / 2 + displayHeight)
-    gr.lineTo(x - displayWidth / 2, y - displayHeight / 2)
-    gr.strokePath()
-    this.add(gr)
   }
 
   private initCells(): void {
@@ -59,7 +33,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
       edgeHeight: 30,
       edges: EdgesConfig[row]
     })
-    console.log(images)
     images.forEach((img, i) => {
       const cell = new CellContainer(this.scene, i)
       cell.setSize(img.displayWidth, img.displayHeight)
@@ -84,32 +57,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.cellsBkg.setAlpha(0)
     this.add(this.cellsBkg)
   }
-
-  // private drawRowCols(): void {
-  //   const { row, col } = this.config
-  //
-  //   const { x, y, displayWidth, displayHeight } = this.hintBkg
-  //   const cellW = displayWidth / col
-  //   const cellH = displayHeight / row
-  //   for (let i = 0; i <= row; i++) {
-  //     const gr = this.scene.add.graphics()
-  //     gr.lineStyle(2, 0x000000)
-  //     gr.beginPath()
-  //     gr.moveTo(x - displayWidth / 2, y - displayHeight / 2 + i * cellH)
-  //     gr.lineTo(x - displayWidth / 2 + col * cellW, y - displayHeight / 2 + i * cellH)
-  //     gr.strokePath()
-  //     this.add(gr)
-  //   }
-  //   for (let i = 0; i <= col; i++) {
-  //     const gr = this.scene.add.graphics()
-  //     gr.lineStyle(2, 0x000000)
-  //     gr.beginPath()
-  //     gr.moveTo(x - displayWidth / 2 + i * cellW, y - displayHeight / 2)
-  //     gr.lineTo(x - displayWidth / 2 + i * cellW, y - displayHeight / 2 + row * cellH)
-  //     gr.strokePath()
-  //     this.add(gr)
-  //   }
-  // }
 
   private initBkg(): void {
     const boardW = 680

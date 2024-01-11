@@ -34,11 +34,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   }
 
   private initialize(): void {
-    // this.initLayers()
     this.updateHeader()
     this.initBoardContainer()
     this.initPieces()
-    // this.setSize(1920, 1080)
   }
 
   private updateHeader(): void {
@@ -56,35 +54,19 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       edgeHeight: 30,
       edges: EdgesConfig[row]
     })
-
     const pieceW = this.boardContainer.bkg.displayWidth / row
     const pieceH = this.boardContainer.bkg.displayHeight / col
-    // const images = GridCutImage(this.boardContainer.bkg, 2, 2)
     images.forEach((img, i) => {
       img.setPosition(0, 0)
       const { tx: cellX, ty: cellY } = this.boardContainer.cells[i].getWorldTransformMatrix()
-      //test
-      const gr = this.scene.add.graphics()
-      gr.fillStyle(0xfff000)
-      gr.fillCircle(cellX, cellY, 5)
-      this.add(gr)
-      //
       const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
-      // const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
       piece.setContext(img)
       piece.setSize(pieceW, pieceH)
       piece.initialPos = { x: cellX + i * 10 + 700, y: cellY }
       piece.absolutePosition = { x: cellX, y: cellY }
-      // piece.context.preFX?.setPadding(1)
       piece.context.preFX?.addGlow(0xffffff, 1)
       piece.setPosition(piece.initialPos.x, piece.initialPos.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
-
-      const gra = this.scene.add.graphics()
-      gra.fillStyle(0x000fff)
-      gra.fillCircle(0, 0, 5)
-      piece.add(gra)
-
       piece.on('drag', pointer => {
         this.dragPieceContainer(pointer, piece)
         this.checkForPlace(piece)
