@@ -33,6 +33,10 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     })
   }
 
+  public showOrHideHint(): void {
+    this.boardContainer.updateHintVisibility()
+  }
+
   private initialize(): void {
     this.updateHeader()
     this.initBoardContainer()
@@ -65,7 +69,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       piece.initialPos = { x: cellX + i * 10 + 700, y: cellY }
       piece.absolutePosition = { x: cellX, y: cellY }
       piece.context.preFX?.addGlow(0xffffff, 1)
-      piece.setPosition(piece.initialPos.x, piece.initialPos.y)
+      piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
       piece.on('drag', pointer => {
         this.dragPieceContainer(pointer, piece)
@@ -78,6 +82,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       this.add(piece)
       this.pieceContainers.push(piece)
     })
+    this.shufflePieces()
   }
 
   private onDragend(piece: PieceContainer): void {
@@ -89,6 +94,38 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     } else {
       piece.setPosition(piece.initialPos.x, piece.initialPos.y)
     }
+  }
+
+  private shufflePieces(): void {
+    const gap = 50
+    console.log(this.pieceContainers[0].height, this.pieceContainers[0].width)
+    const width = this.height - this.pieceContainers[0].x + this.boardContainer.width
+    this.pieceContainers.forEach((piece, i) => {
+      // const gr = this.scene.add.graphics()
+      // gr.fillStyle(0x000fff)
+      // gr.fillCircle(this.pieceContainers[i].absolutePosition.x, this.pieceContainers[i].absolutePosition.y, 10)
+      // this.add(gr)
+      const prevPiece = this.pieceContainers[i - 1]
+      // piece.setPosition(prevPiece?prevPiece.x+prevPiece.height/2)
+      // piece.setPosition(
+      //   piece.absolutePosition.x < this.boardContainer.x
+      //     ? this.boardContainer.width + piece.x + 2 * gap
+      //     : piece.absolutePosition.x == this.boardContainer.x
+      //     ? this.boardContainer.width + piece.x + 3 * gap
+      //     : this.boardContainer.width + piece.x + 4 * gap,
+      //   piece.absolutePosition.y < this.boardContainer.y
+      //     ? piece.y - gap
+      //     : piece.absolutePosition.y == this.boardContainer.y
+      //     ? piece.y
+      //     : piece.y + gap
+      // )
+      // piece.absolutePosition.x < this.boardContainer.x
+      //     ? console.log('poqr')
+      //     : (piece.absolutePosition.x == this.boardContainer.x
+      //         ? console.log('havasr')
+      //         : console.log('mec'))
+      console.log(piece.x, piece.y)
+    })
   }
 
   private checkForGameOver(): void {
@@ -125,7 +162,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
 
   private initBoardContainer(): void {
     const board = new BoardContainer(this.scene, this.config)
-    board.setPosition(1920 * 0.5 - 300, 1080 * 0.5)
+    board.setPosition(1920 * 0.5 - 450, (1080 + this.header.height - 20) * 0.5)
     this.add((this.boardContainer = board))
   }
 

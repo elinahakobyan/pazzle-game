@@ -40,6 +40,7 @@
   "license": "MIT",
   "dependencies": {
     "10": "^0.0.1",
+
     "@koreez/phaser3-ninepatch": "^2.0.2",
     "lodash": "^4.17.21",
     "phaser": "^3.70.0",

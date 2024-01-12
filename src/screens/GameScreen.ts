@@ -19,15 +19,30 @@ export class GameScreen extends Container {
   }
 
   private initialize(): void {
+    const gameConfig = {
+      category: {
+        name: 'Animals'
+      },
+      subcategory: {
+        name: 'Anim3',
+        frame: 'train.jpg'
+      },
+      level: {
+        name: 'Easy',
+        level: '4:4'
+      }
+    }
     this.initHeader()
-    this.initMenuScreen()
-    this.crateWhiteScreen()
+    this.initPuzzleScreen(gameConfig)
+    // this.initMenuScreen()
+    // this.crateWhiteScreen()
   }
 
   private initHeader(): void {
     const header = new HeaderContainer(this.scene)
     header.setPosition(header.width / 2, header.height / 2)
     header.on('onBackBtnClick', this.handleBackBtnClick, this)
+    header.on('onHintBtnClick', this.handleHintBtnClick, this)
     this.add((this.header = header))
   }
 
@@ -41,6 +56,7 @@ export class GameScreen extends Container {
 
   private initPuzzleScreen(gameConfig): void {
     if (!this.puzzleScreen) {
+      console.log(gameConfig)
       this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)
       this.currentState = GameStates.GameState
       this.add(this.puzzleScreen)
@@ -78,6 +94,10 @@ export class GameScreen extends Container {
       this.hidePuzzleView()
     }
     console.log('handleBackBtnClicked')
+  }
+
+  private handleHintBtnClick(): void {
+    this.puzzleScreen.showOrHideHint()
   }
 
   public hidePuzzleView(): void {

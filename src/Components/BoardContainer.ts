@@ -15,6 +15,10 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.initialize()
   }
 
+  public updateHintVisibility(): void {
+    this.hintBkg.visible = !this.hintBkg.visible
+  }
+
   private initialize(): void {
     this.initBkg()
     this.initCells()
@@ -68,17 +72,14 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     gr.destroy()
 
     this.bkg = this.scene.add.sprite(0, 0, 'boardBkg')
+    this.setSize(this.bkg.width, this.bkg.height)
     this.add(this.bkg)
   }
 
   private initHintBkg(): void {
     this.hintBkg = this.scene.add.sprite(0, 0, 'car')
-    console.log(this.hintBkg.width, this.hintBkg.height)
-    this.updateHintState(true)
+    this.hintBkg.setAlpha(0.3)
+    this.hintBkg.setVisible(false)
     this.add(this.hintBkg)
-  }
-
-  private updateHintState(state: boolean): void {
-    state ? this.hintBkg.setAlpha(0.3) : this.hintBkg.setAlpha(0)
   }
 }

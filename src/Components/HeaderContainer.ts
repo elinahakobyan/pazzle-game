@@ -1,9 +1,11 @@
 import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 import { BackButton } from '../buttons/BackButton'
+import { HintContainer } from './HintContainer'
 
 export class HeaderContainer extends Phaser.GameObjects.Container {
   private title: Phaser.GameObjects.Text
   private backBtn: BackButton
+  private hint: HintContainer
   constructor(scene: Phaser.Scene) {
     super(scene)
 
@@ -66,6 +68,18 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     })
     this.add(this.backBtn)
   }
-  private initHint1(): void {}
+  private initHint1(): void {
+    this.hint = new HintContainer(this.scene)
+    this.hint.setPosition(this.width / 2 - 90, 20)
+    this.hint.on('pointerdown', () => {
+      this.hint.setScale(0.95)
+    })
+    this.hint.on('pointerup', () => {
+      this.hint.setScale(1)
+      this.emit('onHintBtnClick')
+    })
+
+    this.add(this.hint)
+  }
   private initHint2(): void {}
 }
