@@ -29,13 +29,13 @@ export class GameScreen extends Container {
       },
       level: {
         name: 'Easy',
-        level: '4:4'
+        level: '3:3'
       }
     }
     this.initHeader()
-    this.initPuzzleScreen(gameConfig)
-    // this.initMenuScreen()
-    // this.crateWhiteScreen()
+    // this.initPuzzleScreen(gameConfig)
+    this.initMenuScreen()
+    this.crateWhiteScreen()
   }
 
   private initHeader(): void {
@@ -103,6 +103,7 @@ export class GameScreen extends Container {
   public hidePuzzleView(): void {
     const tw = this.showWhiteScreenTween()
     tw.on('complete', () => {
+      this.header.hideHint()
       this.puzzleScreen.setVisible(false)
       this.menuScreen.showLevelsView(this.whiteScreen)
     })

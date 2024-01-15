@@ -47,8 +47,8 @@ export const EdgesConfig = {
     ],
     [
       { left: 2, right: 0, top: 0, bottom: 1 },
-      { left: 1, right: 0, top: 2, bottom: 1 },
-      { left: 2, right: 0, top: 2, bottom: 1 },
+      { left: 1, right: 0, top: 2, bottom: 2 },
+      { left: 2, right: 0, top: 1, bottom: 1 },
       { left: 1, right: 0, top: 2, bottom: 0 }
     ]
   ]

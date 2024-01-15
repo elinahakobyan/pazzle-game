@@ -15,6 +15,17 @@ export class PieceContainer extends Container {
     this.attachListeners()
   }
 
+  public showMovementAnim(pos: { x: number; y: number }, delay: number): void {
+    this.scene.add.tween({
+      targets: this,
+      x: pos.x,
+      y: pos.y,
+      duration: 200,
+      ease: Phaser.Math.Easing.Sine.Out,
+      delay
+    })
+  }
+
   public setContext(context: Image): void {
     this.context = context
     this.add(this.context)

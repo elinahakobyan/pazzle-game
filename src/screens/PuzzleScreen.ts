@@ -9,15 +9,21 @@ import BasePlugin = Phaser.Plugins.BasePlugin
 import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 import { HeaderContainer } from '../Components/HeaderContainer'
 import { GameConfig } from '../../typings/types'
+import _ from 'lodash'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
   private boardContainer: BoardContainer
   private allowToPLace: boolean = false
   private placedPiecesCount: number = 0
+  private gapY: number = 0
   private isGameOver: boolean = false
   private pieceContainers: PieceContainer[] = []
   private whiteScreen: Phaser.GameObjects.Sprite
+  private shuffledPiecesPositions: {
+    x: number
+    y: number
+  }[] = []
   constructor(
     scene: Phaser.Scene,
     private header: HeaderContainer,
@@ -45,6 +51,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
 
   private updateHeader(): void {
     this.header.updateTitleVisibility(false)
+    this.header.showHint()
   }
 
   private initPieces(): void {
@@ -66,7 +73,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
       piece.setContext(img)
       piece.setSize(pieceW, pieceH)
-      piece.initialPos = { x: cellX + i * 10 + 700, y: cellY }
       piece.absolutePosition = { x: cellX, y: cellY }
       piece.context.preFX?.addGlow(0xffffff, 1)
       piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
@@ -83,6 +89,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       this.pieceContainers.push(piece)
     })
     this.shufflePieces()
+    // setTimeout(() => {
+    this.showPiecePlacementAnim()
+    // }, 1500)
   }
 
   private onDragend(piece: PieceContainer): void {
@@ -96,36 +105,43 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
   }
 
-  private shufflePieces(): void {
-    const gap = 50
-    console.log(this.pieceContainers[0].height, this.pieceContainers[0].width)
-    const width = this.height - this.pieceContainers[0].x + this.boardContainer.width
+  private showPiecePlacementAnim(): void {
     this.pieceContainers.forEach((piece, i) => {
-      // const gr = this.scene.add.graphics()
-      // gr.fillStyle(0x000fff)
-      // gr.fillCircle(this.pieceContainers[i].absolutePosition.x, this.pieceContainers[i].absolutePosition.y, 10)
-      // this.add(gr)
-      const prevPiece = this.pieceContainers[i - 1]
-      // piece.setPosition(prevPiece?prevPiece.x+prevPiece.height/2)
-      // piece.setPosition(
-      //   piece.absolutePosition.x < this.boardContainer.x
-      //     ? this.boardContainer.width + piece.x + 2 * gap
-      //     : piece.absolutePosition.x == this.boardContainer.x
-      //     ? this.boardContainer.width + piece.x + 3 * gap
-      //     : this.boardContainer.width + piece.x + 4 * gap,
-      //   piece.absolutePosition.y < this.boardContainer.y
-      //     ? piece.y - gap
-      //     : piece.absolutePosition.y == this.boardContainer.y
-      //     ? piece.y
-      //     : piece.y + gap
-      // )
-      // piece.absolutePosition.x < this.boardContainer.x
-      //     ? console.log('poqr')
-      //     : (piece.absolutePosition.x == this.boardContainer.x
-      //         ? console.log('havasr')
-      //         : console.log('mec'))
-      console.log(piece.x, piece.y)
+      piece.showMovementAnim(piece.initialPos, i * 50)
     })
+  }
+
+  private shufflePieces(): void {
+    const { level } = this.config
+    const gap = 75
+    const col = parseInt(level.level)
+    const width = 1920 - (this.boardContainer.x + this.boardContainer.width / 2)
+    const piecesWidth = this.pieceContainers[0].width * col + (col - 1) * gap
+    const piecesHeight = this.pieceContainers[0].height * col + (col - 1) * gap
+
+    const positions: {
+      x: number
+      y: number
+    }[] = []
+    this.pieceContainers.forEach((piece, i) => {
+      if (i % col == 0) {
+        this.gapY = i / col
+      }
+      const x = this.boardContainer.width + piece.absolutePosition.x + (i % col) * gap + (width - piecesWidth) / 2
+      const y = piece.absolutePosition.y + this.gapY * gap - (piecesHeight - this.boardContainer.height) / 2
+      positions.push({ x: x, y: y })
+      // piece.setPosition(x, y)
+    })
+
+    this.shuffledPiecesPositions = _.shuffle(positions)
+    console.log(positions, this.shuffledPiecesPositions)
+    this.pieceContainers.forEach((piece, i) => {
+      const pos = this.shuffledPiecesPositions[i]
+      piece.initialPos = { x: pos.x, y: pos.y }
+      // piece.setPosition(pos.x, pos.y)
+    })
+
+    // _.shuffle(this.piecesPositions)
   }
 
   private checkForGameOver(): void {

@@ -18,6 +18,12 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
   public showBackButton(): void {
     this.backBtn.setVisible(true)
   }
+  public showHint(): void {
+    this.hint.setVisible(true)
+  }
+  public hideHint(): void {
+    this.hint.setVisible(false)
+  }
 
   public updateTitleVisibility(visibility: boolean, text?: string): void {
     this.title.text = text ? text : ''
@@ -74,6 +80,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     this.hint.on('pointerdown', () => {
       this.hint.setScale(0.95)
     })
+    this.hint.setVisible(false)
     this.hint.on('pointerup', () => {
       this.hint.setScale(1)
       this.emit('onHintBtnClick')
