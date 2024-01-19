@@ -13,16 +13,49 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
   }
 
   public hideBackButton(): void {
-    this.backBtn.setVisible(false)
+    this.scene.add.tween({
+      targets:this.backBtn,
+      x:-this.width / 2-150,
+      ease: Phaser.Math.Easing.Elastic.Out,
+      duration:250,
+      complete:()=>{
+        this.backBtn.setVisible(false)
+      }
+    })
   }
   public showBackButton(): void {
-    this.backBtn.setVisible(true)
+    this.scene.add.tween({
+      targets:this.backBtn,
+      x:-this.width / 2 + 90,
+      ease: Phaser.Math.Easing.Elastic.Out,
+      duration:150,
+      start:()=>{
+        this.backBtn.setVisible(true)
+      }
+    })
   }
   public showHint(): void {
-    this.hint.setVisible(true)
+    this.scene.add.tween({
+      targets:this.hint,
+      x:this.width / 2 - 150,
+      ease: Phaser.Math.Easing.Elastic.Out,
+      duration:150,
+      start:()=>{
+        this.hint.setVisible(true)
+      }
+    })
+
   }
   public hideHint(): void {
-    this.hint.setVisible(false)
+    this.scene.add.tween({
+      targets:this.hint,
+      x:this.width +150,
+      ease: Phaser.Math.Easing.Elastic.Out,
+      duration:150,
+      complete:()=>{
+        this.hint.setVisible(false)
+      }
+    })
   }
 
   public updateTitleVisibility(visibility: boolean, text?: string): void {
@@ -58,7 +91,6 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     const headerBg = makeNinePatch(this.scene, getHeaderBgNinePatchConfig(1920, 180))
     headerBg.setPosition(0, -20)
     this.add(headerBg)
-
     this.setSize(headerBg.width, headerBg.height)
   }
 
@@ -76,7 +108,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
   }
   private initHint1(): void {
     this.hint = new HintContainer(this.scene)
-    this.hint.setPosition(this.width / 2 - 90, 20)
+    this.hint.setPosition(this.width  +100, 20)
     this.hint.on('pointerdown', () => {
       this.hint.setScale(0.95)
     })

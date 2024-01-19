@@ -24,6 +24,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     x: number
     y: number
   }[] = []
+  glow: Phaser.FX.Glow | undefined
   constructor(
     scene: Phaser.Scene,
     private header: HeaderContainer,
@@ -74,7 +75,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       piece.setContext(img)
       piece.setSize(pieceW, pieceH)
       piece.absolutePosition = { x: cellX, y: cellY }
-      piece.context.preFX?.addGlow(0xffffff, 1)
+      this.glow= piece.context.preFX?.addGlow(0xffffff, 1)
       piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
       piece.setInteractive({ cursor: 'pointer', draggable: true })
       piece.on('drag', pointer => {
@@ -102,6 +103,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
       this.checkForGameOver()
     } else {
       piece.setPosition(piece.initialPos.x, piece.initialPos.y)
+      // this.placedPiecesCount -= 1
+
     }
   }
 
@@ -147,8 +150,98 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   private checkForGameOver(): void {
     if (this.placedPiecesCount === this.pieceContainers.length) {
       this.isGameOver = true
+      this.hideHintIcon()
+      this.showPiecesAnimation()
+      this.showGameOverText()
       console.warn('GAMEOVER')
     }
+  }
+
+  private showPiecesAnimation():void{
+    this.pieceContainers.forEach((piece,i)=>{
+   // this.glow && piece.context.preFX?.remove(this.glow)≥
+      this.scene.add.tween({
+        targets:piece,
+        scale:1.1,
+        duration:300,
+        yoyo:true,
+        ease: Phaser.Math.Easing.Sine.In,
+        delay:i*130,
+        start:()=>{
+          // this.bringToTop(piece)
+        }
+      })
+      this.scene.add.tween({
+        targets:piece,
+        alpha:0,
+        duration:350,
+        delay:this.pieceContainers.length*150,
+        ease: Phaser.Math.Easing.Cubic.In,
+      })
+    })
+    this.scene.add.tween({
+      targets:this.boardContainer.hintBkg,
+      alpha:1,
+      duration:350,
+      // delay:this.pieceContainers.length*160+250,
+      complete:()=>{
+        this.boardContainer.hintBkg.alpha=1
+      },
+      start:()=>{
+        this.boardContainer.hintBkg.setVisible(true)
+        this.boardContainer.hintBkg.alpha=0
+      },
+      ease: Phaser.Math.Easing.Cubic.Out,
+    })
+  }
+
+  private hideHintIcon():void{
+  this.header.hideHint()
+  }
+
+
+  private showGameOverText():void{
+    const x=this.boardContainer.x+this.boardContainer.width+150
+    const y=this.boardContainer.y-this.boardContainer.height/2+70
+    const header=this.scene.add.text(x,y,'AAAAAA',{
+      color:'#ffffff',
+      // color:'#c7a496',
+      fontSize: '72px'
+    })
+    header.setOrigin(0.5)
+    header.alpha=0
+    this.add(header)
+
+
+    const text=this.scene.add.text(x,y+250,'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',{
+      color:'#ffffff',
+      // color:'#c7a496',
+      fontSize: '24px',
+      align: "center",
+      wordWrap: { width: 600, useAdvancedWrap: true },
+    })
+    text.alpha=0
+    text.setOrigin(0.5)
+    this.add(text)
+
+
+    this.scene.add.tween({
+      targets:[header,text],
+      alpha:1,
+      duration:300,
+      delay:this.pieceContainers.length*210,
+      ease: Phaser.Math.Easing.Cubic.InOut,
+    })
+
+
+    // this.scene.add.tween({
+    //   targets:[header,text],
+    //   scale:1.1,
+    //   yoyo:true,
+    //   duration:300,
+    //   delay:this.pieceContainers.length*200,
+    //   ease: Phaser.Math.Easing.Cubic.Out,
+    // })
   }
 
   private checkForPlace(piece: PieceContainer): void {

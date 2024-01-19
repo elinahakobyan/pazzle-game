@@ -29,7 +29,7 @@ export class GameScreen extends Container {
       },
       level: {
         name: 'Easy',
-        level: '3:3'
+        level: '2:2'
       }
     }
     this.initHeader()
@@ -49,7 +49,7 @@ export class GameScreen extends Container {
   private initMenuScreen(): void {
     this.menuScreen = new MenuScreen(this.scene, this.header, menuConfig)
     this.currentState = GameStates.MenuState
-    this.menuScreen.setPosition(0, this.header.height - 20)
+    // this.menuScreen.setPosition(0, this.header.height - 20)
     this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
     this.add(this.menuScreen)
   }

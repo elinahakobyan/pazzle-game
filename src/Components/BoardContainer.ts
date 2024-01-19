@@ -80,6 +80,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.hintBkg = this.scene.add.sprite(0, 0, 'car')
     this.hintBkg.setAlpha(0.3)
     this.hintBkg.setVisible(false)
+    console.log(this.hintBkg.width,this.hintBkg.height)
     this.add(this.hintBkg)
   }
 }
