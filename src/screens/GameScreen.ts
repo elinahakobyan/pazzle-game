@@ -55,6 +55,7 @@ export class GameScreen extends Container {
   }
 
   private initPuzzleScreen(gameConfig): void {
+    console.log(gameConfig)
     if (!this.puzzleScreen) {
       console.log(gameConfig)
       this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)

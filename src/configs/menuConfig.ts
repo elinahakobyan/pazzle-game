@@ -6,23 +6,23 @@ export const menuConfig = {
       themes: [
         {
           name: 'Car',
-          frame: 'car.jpg'
+          frame: 'car'
         },
         {
           name: 'Bicycle',
-          frame: 'bicycle.jpg'
+          frame: 'bicycle'
         },
         {
           name: 'Train',
-          frame: 'train.jpg'
+          frame: 'train'
         },
         {
           name: 'Plane',
-          frame: 'plane.jpg'
+          frame: 'plane'
         },
         {
           name: 'Tractor',
-          frame: 'tractor.jpg'
+          frame: 'traktor'
         }
       ]
     },
@@ -31,24 +31,24 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'Anim1',
-          frame: 'car.jpg'
+          name: 'Lion',
+          frame: 'lion'
         },
         {
-          name: 'Anim2',
-          frame: 'bicycle.jpg'
+          name: 'Giraffe',
+          frame: 'giraffe'
         },
         {
-          name: 'Anim3',
-          frame: 'train.jpg'
+          name: 'Monkey',
+          frame: 'monkey'
         },
         {
-          name: 'Anim4',
-          frame: 'plane.jpg'
+          name: 'Elephant',
+          frame: 'elephant'
         },
         {
-          name: 'Anim5',
-          frame: 'tractor.jpg'
+          name: 'Zebra',
+          frame: 'zebra'
         }
       ]
     },
@@ -57,76 +57,76 @@ export const menuConfig = {
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'birds1',
-          frame: 'car.jpg'
+          name: 'Flamingo',
+          frame: 'flamingo'
         },
         {
-          name: 'birds2',
-          frame: 'bicycle.jpg'
+          name: 'Hen',
+          frame: 'hen'
         },
         {
-          name: 'birds3',
-          frame: 'train.jpg'
+          name: 'Owl',
+          frame: 'owl'
         },
         {
-          name: 'birds4',
-          frame: 'plane.jpg'
+          name: 'Parrot',
+          frame: 'parrot'
         },
         {
-          name: 'birds5',
-          frame: 'tractor.jpg'
+          name: 'Swan',
+          frame: 'swan'
         }
       ]
     },
     {
-      name: 'Ocean',
+      name: 'Professions',
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'ocean5',
-          frame: 'car.jpg'
+          name: 'Builder',
+          frame: 'builder'
         },
         {
-          name: 'ocean6',
-          frame: 'bicycle.jpg'
+          name: 'Doctor',
+          frame: 'doctor'
         },
         {
-          name: 'ocean7',
-          frame: 'train.jpg'
+          name: 'Judge',
+          frame: 'judge'
         },
         {
-          name: 'ocean8',
-          frame: 'plane.jpg'
+          name: 'Programmer',
+          frame: 'programmer'
         },
         {
-          name: 'ocean9',
-          frame: 'tractor.jpg'
+          name: 'Teacher',
+          frame: 'teacher'
         }
       ]
     },
     {
-      name: 'Nature',
+      name: 'Sport',
       frame: 'phaser-logo',
       themes: [
         {
-          name: 'nature1',
-          frame: 'car.jpg'
+          name: 'Basketball',
+          frame: 'basketball'
         },
         {
-          name: 'nature2',
-          frame: 'bicycle.jpg'
+          name: 'Volleyball',
+          frame: 'volleyball'
         },
         {
-          name: 'nature3',
-          frame: 'train.jpg'
+          name: 'Football',
+          frame: 'football'
         },
         {
-          name: 'nature3',
-          frame: 'plane.jpg'
+          name: 'Swimming',
+          frame: 'swiming'
         },
         {
-          name: 'nature4',
-          frame: 'tractor.jpg'
+          name: 'Chess',
+          frame: 'chess'
         }
       ]
     }

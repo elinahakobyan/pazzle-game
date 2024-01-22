@@ -13,6 +13,22 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('next-icon', 'assets/icons/next-icon.png')
     this.load.image('hint-icon', 'assets/icons/hint-icon.png')
     this.load.image('play-icon', 'assets/icons/play-icon.png')
+
+    let animals = ['elephant', 'giraffe', 'lion', 'monkey', 'zebra'].forEach(key => {
+      this.load.image(key, `assets/subcategories/animals/${key}.png`)
+    })
+    let birds = ['flamingo', 'hen', 'owl', 'parrot', 'swan'].forEach(key => {
+      this.load.image(key, `assets/subcategories/birds/${key}.png`)
+    })
+    let professions = ['builder', 'doctor', 'judge', 'programmer', 'teacher'].forEach(key => {
+      this.load.image(key, `assets/subcategories/professions/${key}.png`)
+    })
+    let sport = ['basketball', 'chess', 'football', 'swiming', 'volleyball'].forEach(key => {
+      this.load.image(key, `assets/subcategories/sport/${key}.png`)
+    })
+    let vehicles = ['bicycle', 'car', 'plane', 'train', 'traktor'].forEach(key => {
+      this.load.image(key, `assets/subcategories/vehicles/${key}.png`)
+    })
   }
 
   create() {

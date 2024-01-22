@@ -50,8 +50,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private generateCellsBkg(): void {
-    const w = 660
-    const h = 500
+    const w = 700
+    const h = 533
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
     gr.fillStyle(0xffe8cd)
     gr.fillRect(0, 0, w, h)
@@ -63,8 +63,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private initBkg(): void {
-    const boardW = 680
-    const boardH = 518
+    const boardW = 720
+    const boardH = 551
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
     gr.fillStyle(0xffffff)
     gr.fillRoundedRect(0, 0, boardW, boardH, 20)
@@ -77,10 +77,10 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private initHintBkg(): void {
-    this.hintBkg = this.scene.add.sprite(0, 0, 'car')
+    this.hintBkg = this.scene.add.sprite(0, 0, (this.config?.subcategory && this.config.subcategory.frame) || '')
     this.hintBkg.setAlpha(0.3)
     this.hintBkg.setVisible(false)
-    console.log(this.hintBkg.width,this.hintBkg.height)
+    console.log(this.hintBkg.width, this.hintBkg.height)
     this.add(this.hintBkg)
   }
 }

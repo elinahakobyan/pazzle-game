@@ -12,6 +12,7 @@ export class SubcategoriesView extends Container {
   }
 
   public setContentConfig(themes): void {
+    console.log(themes)
     themes.forEach((t, i) => {
       this.categories[i].setContent(t)
     })

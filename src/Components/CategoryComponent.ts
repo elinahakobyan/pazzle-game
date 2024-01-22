@@ -11,7 +11,7 @@ export class CategoryComponent extends Container {
 
   public setContent(content): void {
     this.categoryConfig = content
-    this.frame.texture = content.frame
+    this.frame.setTexture(content.frame)
     this.label.text = content.name
   }
 
@@ -45,7 +45,9 @@ export class CategoryComponent extends Container {
     this.add(gra)
   }
   private initFrame(): void {
+    console.log(this.categoryConfig && this.categoryConfig.frame)
     const frame = this.scene.add.sprite(0, -50, this.categoryConfig ? this.categoryConfig.frame : 'phaser-logo')
+    frame.setScale(0.3)
     this.add((this.frame = frame))
   }
   private initName(): void {
