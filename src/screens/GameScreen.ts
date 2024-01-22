@@ -32,8 +32,8 @@ export class GameScreen extends Container {
         level: '2:2'
       }
     }
-    this.initHeader()
     // this.initPuzzleScreen(gameConfig)
+    this.initHeader()
     this.initMenuScreen()
     this.crateWhiteScreen()
   }
@@ -52,6 +52,12 @@ export class GameScreen extends Container {
     // this.menuScreen.setPosition(0, this.header.height - 20)
     this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
     this.add(this.menuScreen)
+    this.bringToTop(this.header)
+
+    // const gr = this.scene.add.graphics()
+    // gr.fillStyle(0xfff000, 0.2)
+    // gr.fillRect(this.menuScreen.x, this.menuScreen.y, this.menuScreen.width, this.menuScreen.height)
+    // this.add(gr)
   }
 
   private initPuzzleScreen(gameConfig): void {

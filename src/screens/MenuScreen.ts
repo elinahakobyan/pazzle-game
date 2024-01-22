@@ -60,6 +60,7 @@ export class MenuScreen extends Container {
     this.initPlayBtn()
     this.crateWhiteScreen()
     this.attachListeners()
+    this.bringToTop(this.header)
   }
 
   private attachListeners(): void {
@@ -82,7 +83,7 @@ export class MenuScreen extends Container {
     const w = 1920
     const h = 1080 - this.header.height + 20
     this.levelsView.setSize(w, h)
-    this.levelsView.setPosition(0,this.header.height - 20)
+    this.levelsView.setPosition(0, this.header.height - 20)
     this.levelsView.setVisible(false)
     this.add(this.levelsView)
     this.levelsView.on('itemActivated', () => {
@@ -95,7 +96,7 @@ export class MenuScreen extends Container {
   private initSubcategoryView(): void {
     this.subcategoriesView = new SubcategoriesView(this.scene)
     this.subcategoriesView.setSize(1920, 920)
-    this.subcategoriesView.setPosition(0,this.header.height - 20)
+    this.subcategoriesView.setPosition(0, this.header.height - 20)
     this.subcategoriesView.setVisible(false)
     this.add(this.subcategoriesView)
     this.subcategoriesView.on('itemActivated', () => {
@@ -117,7 +118,7 @@ export class MenuScreen extends Container {
     const w = 1920
     const h = 1080 - this.header.height + 20
     this.categoriesView.setSize(w, h)
-    this.categoriesView.setPosition(0,this.header.height - 20)
+    this.categoriesView.setPosition(0, this.header.height - 20)
     this.add(this.categoriesView)
     this.categoriesView.on('itemActivated', () => {
       this.nextBtn.enable()
@@ -129,7 +130,7 @@ export class MenuScreen extends Container {
 
   private initNextBtn(): void {
     const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
-    btn.setPosition(1920 / 2-10, 1080 / 2 + 320)
+    btn.setPosition(1920 / 2 - 10, 1080 / 2 + 320)
     btn.disable()
     btn.on('pointerdown', () => {
       btn.scaleDownTween()
@@ -144,7 +145,7 @@ export class MenuScreen extends Container {
   }
   private initPlayBtn(): void {
     const btn = new NextButton(this.scene, { text: 'PLAY', frame: 'play' })
-    btn.setPosition(1920 / 2-10, 1080 / 2 + 320)
+    btn.setPosition(1920 / 2 - 10, 1080 / 2 + 320)
     btn.disable()
     btn.on('pointerdown', () => {
       btn.scaleDownTween()
@@ -274,6 +275,7 @@ export class MenuScreen extends Container {
   }
 
   private showWhiteScreenTween(): Phaser.Tweens.Tween {
+    ;(this.parentContainer as GameScreen).bringToTop(this)
     return this.scene.add.tween({
       targets: this.whiteScreen,
       alpha: 1,
@@ -285,6 +287,7 @@ export class MenuScreen extends Container {
     })
   }
   private hideWhiteScreen(target?: Sprite): Phaser.Tweens.Tween {
+    ;(this.parentContainer as GameScreen).bringToTop(this.header)
     return this.scene.add.tween({
       targets: target ? target : this.whiteScreen,
       alpha: 0,

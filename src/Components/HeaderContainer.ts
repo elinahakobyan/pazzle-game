@@ -14,45 +14,44 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
 
   public hideBackButton(): void {
     this.scene.add.tween({
-      targets:this.backBtn,
-      x:-this.width / 2-150,
+      targets: this.backBtn,
+      x: -this.width / 2 - 150,
       ease: Phaser.Math.Easing.Elastic.Out,
-      duration:250,
-      complete:()=>{
+      duration: 250,
+      complete: () => {
         this.backBtn.setVisible(false)
       }
     })
   }
   public showBackButton(): void {
     this.scene.add.tween({
-      targets:this.backBtn,
-      x:-this.width / 2 + 90,
+      targets: this.backBtn,
+      x: -this.width / 2 + 90,
       ease: Phaser.Math.Easing.Elastic.Out,
-      duration:150,
-      start:()=>{
+      duration: 150,
+      start: () => {
         this.backBtn.setVisible(true)
       }
     })
   }
   public showHint(): void {
     this.scene.add.tween({
-      targets:this.hint,
-      x:this.width / 2 - 150,
+      targets: this.hint,
+      x: this.width / 2 - 150,
       ease: Phaser.Math.Easing.Elastic.Out,
-      duration:150,
-      start:()=>{
+      duration: 150,
+      start: () => {
         this.hint.setVisible(true)
       }
     })
-
   }
   public hideHint(): void {
     this.scene.add.tween({
-      targets:this.hint,
-      x:this.width +150,
+      targets: this.hint,
+      x: this.width + 150,
       ease: Phaser.Math.Easing.Elastic.Out,
-      duration:150,
-      complete:()=>{
+      duration: 150,
+      complete: () => {
         this.hint.setVisible(false)
       }
     })
@@ -69,6 +68,10 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     this.initBackButton()
     this.initHint1()
     this.initHint2()
+    // const gr = this.scene.add.graphics()
+    // gr.fillStyle(0x000fff, 0.1)
+    // gr.fillRect(-this.width / 2, -this.height / 2, this.width, this.height)
+    // this.add(gr)
   }
 
   private initTitle(): void {
@@ -108,7 +111,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
   }
   private initHint1(): void {
     this.hint = new HintContainer(this.scene)
-    this.hint.setPosition(this.width  +100, 20)
+    this.hint.setPosition(this.width + 100, 20)
     this.hint.on('pointerdown', () => {
       this.hint.setScale(0.95)
     })

@@ -150,11 +150,19 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
   private checkForGameOver(): void {
     if (this.placedPiecesCount === this.pieceContainers.length) {
       this.isGameOver = true
+      this.removeListeners()
       this.hideHintIcon()
       this.showPiecesAnimation()
       this.showGameOverText()
       console.warn('GAMEOVER')
     }
+  }
+
+  private removeListeners(): void {
+    this.removeAllListeners()
+    this.pieceContainers.forEach(piece => {
+      piece.disableInteractive()
+    })
   }
 
   private showPiecesAnimation(): void {
