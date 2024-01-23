@@ -2,7 +2,7 @@ export const menuConfig = {
   categories: [
     {
       name: 'Vehicles',
-      frame: 'phaser-logo',
+      frame: 'vehicles',
       themes: [
         {
           name: 'Car',
@@ -28,7 +28,7 @@ export const menuConfig = {
     },
     {
       name: 'Animals',
-      frame: 'phaser-logo',
+      frame: 'animals',
       themes: [
         {
           name: 'Lion',
@@ -54,7 +54,7 @@ export const menuConfig = {
     },
     {
       name: 'Birds',
-      frame: 'phaser-logo',
+      frame: 'birds',
       themes: [
         {
           name: 'Flamingo',
@@ -80,7 +80,7 @@ export const menuConfig = {
     },
     {
       name: 'Professions',
-      frame: 'phaser-logo',
+      frame: 'professions',
       themes: [
         {
           name: 'Builder',
@@ -106,7 +106,7 @@ export const menuConfig = {
     },
     {
       name: 'Sport',
-      frame: 'phaser-logo',
+      frame: 'sport',
       themes: [
         {
           name: 'Basketball',
