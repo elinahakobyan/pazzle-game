@@ -35,18 +35,20 @@ export class CategoryComponent extends Container {
 
   private initBkg(): void {
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-    gr.fillStyle(0xf5ebe3)
+    gr.fillStyle(0xffffff)
+    // gr.fillStyle(0xf5ebe3)
     gr.fillRoundedRect(0, 0, 250, 350, 20)
     gr.generateTexture('categoryBg', 250, 350)
     gr.destroy()
     const bkg = this.scene.add.sprite(0, 0, 'categoryBg')
+    bkg.alpha = 0.5
     this.add(bkg)
     this.setSize(bkg.width, bkg.height)
 
-    const gra = this.scene.make.graphics({ x: 0, y: 0 }, false)
-    gra.fillStyle(0xfff000)
-    gra.fillCircle(0, 0, 5)
-    this.add(gra)
+    // const gra = this.scene.make.graphics({ x: 0, y: 0 }, false)
+    // gra.fillStyle(0xfff000)
+    // gra.fillCircle(0, 0, 5)
+    // this.add(gra)
   }
   private initFrame(): void {
     console.log(this.categoryConfig && this.categoryConfig.frame)
@@ -59,13 +61,15 @@ export class CategoryComponent extends Container {
   private initBorder(): void {
     if (this.categoryConfig) {
       const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-      gr.lineStyle(20, 0xf5ebe3, 1)
+      gr.lineStyle(20, 0xffffff, 1)
+      // gr.lineStyle(20, 0xf5ebe3, 1)
       gr.strokeRoundedRect(0, 0, this.frame.displayWidth + 10, this.frame.displayHeight + 10, 20)
       gr.generateTexture('frameBorder', this.frame.displayWidth + 10, this.frame.displayHeight + 10)
       gr.destroy()
 
-      const frameBorder = this.scene.add.sprite(this.frame.x, this.frame.y, 'frameBorder')
-      this.add((this.frameBorder = frameBorder))
+      // const frameBorder = this.scene.add.sprite(this.frame.x, this.frame.y, 'frameBorder')
+      // frameBorder.alpha = 0.5
+      // this.add((this.frameBorder = frameBorder))
     }
   }
   private initName(): void {

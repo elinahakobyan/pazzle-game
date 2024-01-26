@@ -63,8 +63,8 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   }
 
   private initBkg(): void {
-    const boardW = 720
-    const boardH = 551
+    const boardW = 730
+    const boardH = 561
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
     gr.fillStyle(0xffffff)
     gr.fillRoundedRect(0, 0, boardW, boardH, 20)

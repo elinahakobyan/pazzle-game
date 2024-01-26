@@ -86,12 +86,14 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
 
   private initHeaderBg(): void {
     const headerBgGr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-    headerBgGr.fillStyle(0xf5ebe3)
+    headerBgGr.fillStyle(0xffffff)
+    // headerBgGr.fillStyle(0xf5ebe3)
     headerBgGr.fillRoundedRect(0, 0, 200, 100, 20)
     headerBgGr.generateTexture('headerBg', 200, 100)
     headerBgGr.destroy()
 
     const headerBg = makeNinePatch(this.scene, getHeaderBgNinePatchConfig(1920, 180))
+    headerBg.alpha = 0.6
     headerBg.setPosition(0, -20)
     this.add(headerBg)
     this.setSize(headerBg.width, headerBg.height)

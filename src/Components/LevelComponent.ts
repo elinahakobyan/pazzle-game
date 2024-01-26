@@ -21,7 +21,7 @@ export class LevelComponent extends Container {
   }
 
   private initLabel(): void {
-    const label = this.scene.add.text(0, -10, this.config.level, {
+    const label = this.scene.add.text(0, 0, this.config.level, {
       color: '#ffffff',
       fontSize: '58px'
     })

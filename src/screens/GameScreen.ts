@@ -25,15 +25,18 @@ export class GameScreen extends Container {
       },
       subcategory: {
         name: 'Anim3',
-        frame: 'train.jpg'
+        frame: 'train'
       },
       level: {
         name: 'Easy',
         level: '2:2'
       }
     }
-    // this.initPuzzleScreen(gameConfig)
+    const bkg = this.scene.add.sprite(0, 0, 'bkg')
+    bkg.setPosition(bkg.width / 2, bkg.height / 2)
+    this.add(bkg)
     this.initHeader()
+    // this.initPuzzleScreen(gameConfig)
     this.initMenuScreen()
     this.crateWhiteScreen()
   }
