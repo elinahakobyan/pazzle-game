@@ -4,7 +4,7 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('phaser-logo', 'assets/img/phaser-logo.png')
+    this.load.image('phaser-logo', '/Users/user/University/puzzle-game/dist/assets/img/phaser-logo.png')
     this.load.image('bkg', 'assets/img/bkg.jpg')
     this.load.image('car', 'assets/img/car.png')
     this.load.image('next-btn', 'assets/buttons/next-btn.png')
@@ -14,24 +14,32 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('hint-icon', 'assets/icons/hint-icon.png')
     this.load.image('play-icon', 'assets/icons/play-icon.png')
 
-    let categories = ['animals', 'birds', 'professions', 'sport', 'vehicles'].forEach(key => {
-      this.load.image(key, `assets/categories/${key}.png`)
+    // let categories = ['animals', 'birds', 'professions', 'sport', 'vehicles'].forEach(key => {
+    let categories = ['categories'].forEach(key => {
+      this.load.atlas(key, `../../assets/atlases/${key}.png`, `../../assets/atlases/${key}.json`)
+      // this.load.image(key, `assets/categories/${key}.png`)
     })
-    let animals = ['elephant', 'giraffe', 'lion', 'monkey', 'zebra'].forEach(key => {
-      this.load.image(key, `assets/subcategories/animals/${key}.png`)
+    let animals = ['animals', 'birds', 'professions', 'sport', 'vehicles'].forEach(key => {
+      this.load.atlas(
+        key,
+        `../../assets/atlases/subcategories/${key}.png`,
+        `../../assets/atlases/subcategories/${key}.json`
+      )
+
+      // this.load.image(key, `assets/subcategories/animals/${key}.png`)
     })
-    let birds = ['flamingo', 'hen', 'owl', 'parrot', 'swan'].forEach(key => {
-      this.load.image(key, `assets/subcategories/birds/${key}.png`)
-    })
-    let professions = ['builder', 'doctor', 'judge', 'programmer', 'teacher'].forEach(key => {
-      this.load.image(key, `assets/subcategories/professions/${key}.png`)
-    })
-    let sport = ['basketball', 'chess', 'football', 'swiming', 'volleyball'].forEach(key => {
-      this.load.image(key, `assets/subcategories/sport/${key}.png`)
-    })
-    let vehicles = ['bicycle', 'car', 'plane', 'train', 'traktor'].forEach(key => {
-      this.load.image(key, `assets/subcategories/vehicles/${key}.png`)
-    })
+    // let birds = ['flamingo', 'hen', 'owl', 'parrot', 'swan'].forEach(key => {
+    //   this.load.image(key, `assets/subcategories/birds/${key}.png`)
+    // })
+    // let professions = ['builder', 'doctor', 'judge', 'programmer', 'teacher'].forEach(key => {
+    //   this.load.image(key, `assets/subcategories/professions/${key}.png`)
+    // })
+    // let sport = ['basketball', 'chess', 'football', 'swiming', 'volleyball'].forEach(key => {
+    //   this.load.image(key, `assets/subcategories/sport/${key}.png`)
+    // })
+    // let vehicles = ['bicycle', 'car', 'plane', 'train', 'traktor'].forEach(key => {
+    //   this.load.image(key, `assets/subcategories/vehicles/${key}.png`)
+    // })
   }
 
   create() {

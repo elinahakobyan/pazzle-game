@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "animals.png",
+	"frame": {"x":1,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "birds.png",
+	"frame": {"x":703,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "professions.png",
+	"frame": {"x":1,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "sport.png",
+	"frame": {"x":1,"y":1071,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "vehicles.png",
+	"frame": {"x":703,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "categories.tiff",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d22b7238d4d6482ff98c0283056015b3:50a242e47d746f9f4e9be62fa6a60b58:87f2c60cbb9158648c1145c0a83f919f$"
+}
+}

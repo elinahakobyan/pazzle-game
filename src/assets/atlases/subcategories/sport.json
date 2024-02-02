@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "basketball.png",
+	"frame": {"x":1,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "chess.png",
+	"frame": {"x":703,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "football.png",
+	"frame": {"x":1,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "swiming.png",
+	"frame": {"x":1,"y":1071,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "volleyball.png",
+	"frame": {"x":703,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sport.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3df17dccc8456f29a7378e225a6db6a1:962028d0b7933bb37ada5e0fa9b0739f:7c4569750d450f7804cab01e6bccf0e8$"
+}
+}

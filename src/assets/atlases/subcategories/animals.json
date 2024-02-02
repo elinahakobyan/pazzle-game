@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "elephant.png",
+	"frame": {"x":1,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "giraffe.png",
+	"frame": {"x":703,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "lion.png",
+	"frame": {"x":1,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "monkey.png",
+	"frame": {"x":1,"y":1071,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "zebra.png",
+	"frame": {"x":703,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "animals.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:86e9468c4c3f866ba9b61264d2d66deb:01d264285e3796ab2116245f2612522b:b00d48b51f56eb7c81e25100fcce2828$"
+}
+}

@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "bicycle.png",
+	"frame": {"x":1,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "car.png",
+	"frame": {"x":703,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "plane.png",
+	"frame": {"x":1,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "train.png",
+	"frame": {"x":1,"y":1071,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "traktor.png",
+	"frame": {"x":703,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "vehicles.png",
+	"format": "RGBA8888",
+	"size": {"w":1404,"h":1605},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b9fff62a8e8fc48fd1ed354867d94d6a:d949d9aec0b921fd14ba67f657d5c222:82467e3b637fc9a91fbb58f83d449d45$"
+}
+}

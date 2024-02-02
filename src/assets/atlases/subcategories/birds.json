@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "flamingo.png",
+	"frame": {"x":1,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "hen.png",
+	"frame": {"x":703,"y":1,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "owl.png",
+	"frame": {"x":1,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "parrot.png",
+	"frame": {"x":1,"y":1071,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+},
+{
+	"filename": "swan.png",
+	"frame": {"x":703,"y":536,"w":700,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":700,"h":533},
+	"sourceSize": {"w":700,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "birds.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:acab7656900d907fb0c41a7fdfd8e8e1:b4155da5d554e19640a481fb2f9f12a5:05064d7bb83a0e2b52752dd6e3168bce$"
+}
+}
