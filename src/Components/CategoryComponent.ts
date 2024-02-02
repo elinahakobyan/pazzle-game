@@ -52,7 +52,12 @@ export class CategoryComponent extends Container {
   }
   private initFrame(): void {
     console.log(this.categoryConfig && this.categoryConfig.frame)
-    const frame = this.scene.add.sprite(0, -50, this.categoryConfig ? this.categoryConfig.frame : 'phaser-logo')
+    const frame = this.scene.add.sprite(
+      0,
+      -50,
+      'categories',
+      `${this.categoryConfig ? this.categoryConfig.frame + '.png' : 'phaser-logo'}`
+    )
     frame.setScale(0.3)
     console.log(frame.displayWidth, frame.displayHeight)
     this.add((this.frame = frame))
