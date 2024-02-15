@@ -5,14 +5,18 @@ export class CategoryComponent extends Container {
   private frame: Phaser.GameObjects.Sprite
   private label: Phaser.GameObjects.Text
   private frameBorder: Phaser.GameObjects.Sprite
-  constructor(scene: Phaser.Scene, public categoryConfig?: Category) {
+  public categoryConfig: Category
+
+  constructor(scene: Phaser.Scene) {
     super(scene)
     this.initialise()
   }
 
-  public setContent(content): void {
+  public setContent(content, category: string): void {
     this.categoryConfig = content
-    this.frame.setTexture(content.frame)
+    this.frame.setTexture(category.toLocaleLowerCase())
+    this.frame.setFrame(`${content.frame + '.png'}`)
+
     this.label.text = content.name
     this.initBorder()
   }
@@ -51,15 +55,8 @@ export class CategoryComponent extends Container {
     // this.add(gra)
   }
   private initFrame(): void {
-    console.log(this.categoryConfig && this.categoryConfig.frame)
-    const frame = this.scene.add.sprite(
-      0,
-      -50,
-      'categories',
-      `${this.categoryConfig ? this.categoryConfig.frame + '.png' : 'phaser-logo'}`
-    )
+    const frame = this.scene.add.sprite(0, -50, '', '')
     frame.setScale(0.3)
-    console.log(frame.displayWidth, frame.displayHeight)
     this.add((this.frame = frame))
   }
 

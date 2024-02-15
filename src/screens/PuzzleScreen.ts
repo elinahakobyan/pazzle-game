@@ -1,15 +1,14 @@
+import _ from 'lodash'
 import Phaser from 'phaser'
 import CutJigsawImage from 'phaser3-rex-plugins/plugins/cutjigsawimage'
+import { GameConfig } from '../../typings/types'
 import { BoardContainer } from '../Components/BoardContainer'
+import { HeaderContainer } from '../Components/HeaderContainer'
 import { PieceContainer } from '../Components/PieceContainer'
 import { EdgesConfig } from '../configs/EdgesConfig'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
-import { getHeaderBgNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
-import { HeaderContainer } from '../Components/HeaderContainer'
-import { GameConfig } from '../../typings/types'
-import _ from 'lodash'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
   public gameLayer: Phaser.GameObjects.Container
@@ -60,7 +59,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     const { level } = this.config
     const row = parseInt(level.level)
     const col = parseInt(level.level)
+
     const images = CutJigsawImage(this.boardContainer.hintBkg, {
+      piecesKey: `${this.boardContainer.hintBkg.texture.key}/${this.boardContainer.hintBkg.frame.name}`,
       columns: col,
       rows: row,
       edgeWidth: 30,
@@ -70,6 +71,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     const pieceW = this.boardContainer.bkg.displayWidth / row
     const pieceH = this.boardContainer.bkg.displayHeight / col
     images.forEach((img, i) => {
+      console.log(img)
+
       img.setPosition(0, 0)
       const { tx: cellX, ty: cellY } = this.boardContainer.cells[i].getWorldTransformMatrix()
       const piece = new PieceContainer(this.scene, this.boardContainer.cells[i].id)
@@ -84,7 +87,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         this.checkForPlace(piece)
       })
       piece.on('dragend', pointer => {
-        console.log(this.allowToPLace, 'dragend')
         this.onDragend(piece)
       })
       this.add(piece)
@@ -137,7 +139,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     })
 
     this.shuffledPiecesPositions = _.shuffle(positions)
-    console.log(positions, this.shuffledPiecesPositions)
     this.pieceContainers.forEach((piece, i) => {
       const pos = this.shuffledPiecesPositions[i]
       piece.initialPos = { x: pos.x, y: pos.y }

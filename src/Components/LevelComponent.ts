@@ -30,7 +30,6 @@ export class LevelComponent extends Container {
   }
 
   private initFrame(): void {
-    console.log(this.config.color)
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
     gr.fillStyle(this.config.color === 'green' ? 0xcdd542 : this.config.color === 'yellow' ? 0xffd62b : 0xff9e4d, 0.7)
     gr.fillRoundedRect(0, 0, 150, 130, 20)
@@ -41,7 +40,6 @@ export class LevelComponent extends Container {
   }
 
   private initBg(): void {
-    console.log('has')
     const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
     gr.fillStyle(0xf5ebe3)
     gr.fillRoundedRect(0, 0, 210, 190, 20)

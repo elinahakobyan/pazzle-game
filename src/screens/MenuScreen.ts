@@ -1,15 +1,14 @@
 import Container = Phaser.GameObjects.Container
-import { HeaderContainer } from '../Components/HeaderContainer'
-import { Category, GameConfig, Level, MenuConfig } from '../../typings/types'
-import { menuConfig } from '../configs/menuConfig'
+import { MenuConfig } from '../../typings/types'
 import { CategoryComponent } from '../Components/CategoryComponent'
+import { HeaderContainer } from '../Components/HeaderContainer'
+import { LevelComponent } from '../Components/LevelComponent'
 import { NextButton } from '../buttons/NextButton'
+import { menuConfig } from '../configs/menuConfig'
 import { MenuStates } from '../enums/MenuStates'
-import { SubcategoriesView } from '../views/SubcategoriesView'
 import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
-import { LevelComponent } from '../Components/LevelComponent'
-import { PuzzleScreen } from './PuzzleScreen'
+import { SubcategoriesView } from '../views/SubcategoriesView'
 import { GameScreen } from './GameScreen'
 import Sprite = Phaser.GameObjects.Sprite
 
@@ -25,8 +24,8 @@ export class MenuScreen extends Container {
   // private gameConfig: {}
   private gameConfig: {
     level: { level: string; name: string }
-    category: { name?: string }
-    subcategory: { name?: string; frame?: string }
+    category: { name: string }
+    subcategory: { name: string; frame: string }
   }
   constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
     super(scene)
@@ -52,7 +51,6 @@ export class MenuScreen extends Container {
   }
 
   private initialise(): void {
-    console.log(localStorage)
     this.initCategories()
     this.initNextBtn()
     this.initSubcategoryView()
@@ -110,7 +108,6 @@ export class MenuScreen extends Container {
   private initCategories(): void {
     this.header.updateTitleVisibility(true, 'Categories')
     this.header.hideBackButton()
-    console.log(this.header)
     this.currentState = MenuStates.CategoriesState
     console.log('GameStates.CategoriesState')
     const { categories } = menuConfig
@@ -165,7 +162,6 @@ export class MenuScreen extends Container {
     switch (this.currentState) {
       case MenuStates.CategoriesState: {
         activeItem = this.categoriesView.activeItem
-        console.log(activeItem)
         break
       }
       case MenuStates.SubcategoryState: {
@@ -203,7 +199,6 @@ export class MenuScreen extends Container {
       this.playBtn.setVisible(false)
       this.header.updateTitleVisibility(false, '')
       this.hideWhiteScreen()
-      console.log(this.gameConfig)
       // this.emit('playBtnClicked', gameConfig)
       this.emit('playBtnClicked', this.gameConfig)
     })
@@ -214,7 +209,6 @@ export class MenuScreen extends Container {
       case MenuStates.CategoriesState: {
         console.log('GameStates.SubcategoryState')
         this.showSubcategoriesView(activeItem, true)
-        console.log((activeItem as CategoryComponent).categoryConfig)
         if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
           this.gameConfig.category.name = (activeItem as CategoryComponent).categoryConfig?.name
         }
@@ -223,9 +217,8 @@ export class MenuScreen extends Container {
       case MenuStates.SubcategoryState: {
         console.log('GameStates.LevelState')
         this.showLevelsView()
-        console.log((activeItem as CategoryComponent).categoryConfig)
         if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
-          this.gameConfig.subcategory.name = (activeItem as CategoryComponent).categoryConfig?.name
+          this.gameConfig.subcategory.name = (activeItem as CategoryComponent).categoryConfig.name
           this.gameConfig.subcategory.frame = (activeItem as CategoryComponent).categoryConfig?.frame
         }
         break
@@ -243,11 +236,11 @@ export class MenuScreen extends Container {
     this.categoriesView.setVisible(false)
     this.hideWhiteScreen()
     this.subcategoriesView.setVisible(true)
-    if (nextBtnClicked && activeItem?.categoryConfig?.name !== this.subcategoriesView.title) {
+    if (nextBtnClicked && activeItem.categoryConfig.name !== this.subcategoriesView.title) {
       this.subcategoriesView.deactivateSubcategory()
     }
-    this.subcategoriesView.title = activeItem?.categoryConfig?.name
-    this.subcategoriesView.setContentConfig(activeItem?.categoryConfig?.themes)
+    this.subcategoriesView.title = activeItem.categoryConfig.name
+    this.subcategoriesView.setContentConfig(activeItem.categoryConfig.themes, activeItem.categoryConfig.name)
   }
 
   public showLevelsView(target?: Sprite): void {

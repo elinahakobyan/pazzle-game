@@ -33,7 +33,6 @@ export class PieceContainer extends Container {
   }
 
   private initZone(): void {
-    console.log(this.displayWidth, this.displayHeight)
     const zone = this.scene.add.zone(-this.width / 2, -this.height / 2, this.width, this.height)
     this.add(zone)
 

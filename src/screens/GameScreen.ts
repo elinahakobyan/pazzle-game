@@ -1,11 +1,10 @@
 import Container = Phaser.GameObjects.Container
+import Phaser from 'phaser'
 import { HeaderContainer } from '../Components/HeaderContainer'
-import { MenuScreen } from './MenuScreen'
 import { menuConfig } from '../configs/menuConfig'
 import { GameStates, MenuStates } from '../enums/MenuStates'
+import { MenuScreen } from './MenuScreen'
 import { PuzzleScreen } from './PuzzleScreen'
-import Phaser from 'phaser'
-import { GameConfig } from '../../typings/types'
 
 export class GameScreen extends Container {
   private header: HeaderContainer
@@ -64,9 +63,7 @@ export class GameScreen extends Container {
   }
 
   private initPuzzleScreen(gameConfig): void {
-    console.log(gameConfig)
     if (!this.puzzleScreen) {
-      console.log(gameConfig)
       this.puzzleScreen = new PuzzleScreen(this.scene, this.header, gameConfig)
       this.currentState = GameStates.GameState
       this.add(this.puzzleScreen)
@@ -81,7 +78,6 @@ export class GameScreen extends Container {
   }
 
   private handleBackBtnClick(): void {
-    console.log(this.currentState)
     if (this.currentState === GameStates.MenuState) {
       switch (this.menuScreen.getCurrentState()) {
         case MenuStates.CategoriesState: {

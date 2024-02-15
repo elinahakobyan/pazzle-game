@@ -1,13 +1,10 @@
-import { CategoryComponent } from '../src/Components/CategoryComponent'
-import { LevelComponent } from '../src/Components/LevelComponent'
-
 export interface MenuConfig {
   categories: Category[]
   levels: Level[]
 }
 export interface GameConfig {
-  category?: Category
-  subcategory?: {
+  category: Category
+  subcategory: {
     name: string
     frame: string
   }

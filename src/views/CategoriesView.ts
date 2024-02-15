@@ -1,5 +1,4 @@
 import Container = Phaser.GameObjects.Container
-import { Category } from '../../typings/types'
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { MenuScreen } from '../screens/MenuScreen'
 
@@ -22,7 +21,8 @@ export class CategoriesView extends Container {
   private initCategories(): void {
     const gap = 50
     this.categoriesConfig.forEach((c, i) => {
-      const category = new CategoryComponent(this.scene, c)
+      const category = new CategoryComponent(this.scene)
+      category.setContent(c, 'categories')
       category.setPosition(i * (category.width + gap) + 350, 920 / 2 - 100)
       category.on('pointerup', () => {
         this.handleCategoryPointerUp(category)
@@ -33,7 +33,7 @@ export class CategoriesView extends Container {
 
   private handleCategoryPointerUp(category: CategoryComponent): void {
     if (this.activeItem) {
-      if (this.activeItem.categoryConfig?.name === category.categoryConfig?.name) {
+      if (this.activeItem.categoryConfig.name === category.categoryConfig.name) {
         this.activeItem.deactivate()
         this.activeItem = null
         this.emit('itemDeactivated')

@@ -66,9 +66,7 @@ export class NextButton extends Phaser.GameObjects.Container {
   }
 
   private createGrayScaleAsset(): void {
-    console.log('has')
     const { width: w, height: h } = this
-    console.log(w, h)
     const renderTexture = this.scene.make.renderTexture({ x: 0, y: 0, width: 2 * w, height: 2 * h }, false)
     renderTexture.draw(this, w, h)
     renderTexture.saveTexture('aa')

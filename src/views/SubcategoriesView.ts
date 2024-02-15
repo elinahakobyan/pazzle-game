@@ -11,10 +11,10 @@ export class SubcategoriesView extends Container {
     this.activeItem = null
   }
 
-  public setContentConfig(themes): void {
+  public setContentConfig(themes, category: string): void {
     console.log(themes)
     themes.forEach((t, i) => {
-      this.categories[i].setContent(t)
+      this.categories[i].setContent(t, category)
     })
   }
 
@@ -49,7 +49,7 @@ export class SubcategoriesView extends Container {
 
   private handleCategoryPointerUp(category: CategoryComponent): void {
     if (this.activeItem) {
-      if (this.activeItem.categoryConfig?.name === category.categoryConfig?.name) {
+      if (this.activeItem.categoryConfig.name === category.categoryConfig.name) {
         this.deactivateSubcategory()
       } else {
         this.activeItem.deactivate()
