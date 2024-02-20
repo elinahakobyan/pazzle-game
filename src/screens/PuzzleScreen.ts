@@ -59,11 +59,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     const { level } = this.config
     const row = parseInt(level.level)
     const col = parseInt(level.level)
-    const s = this.scene.add.sprite(0, 0, 'car')
-    s.setVisible(false)
-    this.add(s)
 
-    const images = CutJigsawImage(s, {
+    const images = CutJigsawImage(this.boardContainer.hintBkg, {
       // piecesKey: `${this.boardContainer.hintBkg.texture.key}/${this.boardContainer.hintBkg.frame.name}`,
       columns: col,
       rows: row,

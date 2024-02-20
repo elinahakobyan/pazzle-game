@@ -79,12 +79,10 @@ export class BoardContainer extends Phaser.GameObjects.Container {
   private initHintBkg(): void {
     console.log(this.config)
     const { category, subcategory } = this.config
-    this.hintBkg = this.scene.add.sprite(0, 0, category.name.toLocaleLowerCase(), `${subcategory.frame + '.png'}`)
+    this.hintBkg = this.scene.add.sprite(0, 0, `${subcategory.frame}`, '')
+    // this.hintBkg = this.scene.add.sprite(0, 0, category.name.toLocaleLowerCase(), `${subcategory.frame + '.png'}`)
     this.hintBkg.setAlpha(0.3)
     // this.hintBkg.setVisible(false)
     this.add(this.hintBkg)
-    // this.scene.this.hintBkg.setTexture(`${category.name.toLocaleLowerCase()}+\`${subcategory.frame + '.png'}`)
-    // const sprite = this.scene.add.sprite(0, 0, this.hintBkg.frame.name)
-    // this.add(sprite)
   }
 }

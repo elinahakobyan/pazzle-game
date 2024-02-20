@@ -59,6 +59,14 @@ export class MenuScreen extends Container {
     this.crateWhiteScreen()
     this.attachListeners()
     this.bringToTop(this.header)
+    // const sprite = this.scene.add.sprite(500, 500, 'car', '')
+    // this.add(sprite)
+    // const gr = this.scene.make.graphics()
+    // gr.fillStyle(0x000fff, 1)
+    // gr.fillCircle(500, 500, 30)
+    // this.add(gr)
+    // const mask = gr.createGeometryMask()
+    // sprite.mask = mask
   }
 
   private attachListeners(): void {
