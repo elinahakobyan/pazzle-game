@@ -11,16 +11,17 @@ console.log(width, height)
 const config = {
   type: Phaser.AUTO,
   backgroundColor: '#e7d0be',
-  width: 1920,
-  height: 1080,
+  width: window.innerWidth,
+  height: window.innerHeight,
   scale: {
     parent: 'phaser-engine',
     // mode: Phaser.Scale.FIT,
-    // autoCenter: Phaser.Scale.CENTER_BOTH,
-    // width: window.innerWidth * ratio,
-    // height: window.innerHeight * ratio
-    mode: Phaser.Scale.ScaleModes.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    mode: Phaser.Scale.NONE
+    // width: window.innerWidth,
+    // height: window.innerHeight
+    // mode: Phaser.Scale.ScaleModes.FIT,
+    // autoCenter: Phaser.Scale.CENTER_BOTH
   },
   scene: [PreloadScene, MainScene],
 

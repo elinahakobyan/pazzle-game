@@ -18,7 +18,29 @@ export default class MainScene extends Phaser.Scene {
     super({ key: 'MainScene' })
   }
 
+  public resize(e) {
+    if (!this.gameScreen) return
+    const w = window.innerWidth
+    const h = window.innerHeight
+    const { width, height } = e
+    const scale = Math.max(w / width, h / height)
+    console.log(scale)
+    this.gameScreen.setScale(scale)
+    this.gameScreen.setPosition(w / 2, h / 2)
+  }
+
   create() {
+    window.addEventListener('resize', e => {
+      if (!this.gameScreen) return
+      const w = window.innerWidth
+      const h = window.innerHeight
+      // const { width, height } = e
+      const scale = Math.min(w / 1920, h / 1080)
+      console.log(scale)
+      this.gameScreen.setScale(scale)
+      // this.gameScreen.setPosition(w / 2, h / 2)
+    })
+    // this.scale.on('resize', this.resize, this)
     // this.initMenuScreen()
     this.initGameScreen()
     // const foregroundScreen = new ForegroundScreen(this)
@@ -26,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
     //   this.destroyForegroundView()
     // })
     // this.add.existing((this.foregroundScreen = foregroundScreen))
-    this.initStatJS()
+    // this.initStatJS()
   }
 
   private destroyForegroundView(): void {
@@ -40,8 +62,22 @@ export default class MainScene extends Phaser.Scene {
   }
 
   private initGameScreen(): void {
+    const w = window.innerWidth
+    const h = window.innerHeight
+    console.log(w, h)
+
     this.gameScreen = new GameScreen(this)
+    this.gameScreen.setPosition(w / 2, h / 2)
     this.add.existing(this.gameScreen)
+
+    const gr = this.add.graphics()
+    gr.fillStyle(0x000fff, 0.5)
+    gr.fillCircle(0, 0, 20)
+    this.gameScreen.add(gr)
+
+    console.log(this.gameScreen.width, this.gameScreen.height)
+    // this.gameScreen.setPosition(w / 2, h / 2)
+    // this.gameScreen.setPosition(w / 2 - this.gameScreen.width / 2, h / 2 - this.gameScreen.height / 2)
   }
 
   private onBackBtnClicked(): void {

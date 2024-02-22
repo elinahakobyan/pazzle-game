@@ -8,6 +8,8 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     this.load.image('cloud-bkg', 'assets/img/cloud-bkg.png')
+    this.loadAssets()
+
     // this.load.image('phaser-logo', '/Users/user/University/puzzle-game/dist/assets/img/phaser-logo.png')
     // this.load.image('car', 'assets/img/car.png')
     // this.load.image('next-btn', 'assets/buttons/next-btn.png')
@@ -46,14 +48,15 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.initPreloadScreen()
+    // this.initPreloadScreen()
     this.loadAssets()
     this.load.start()
-    this.preloadScreen.on('startGame', () => {
-      const h = window.innerHeight
-      const w = window.innerWidth
-      this.scene.start('MainScene')
-    })
+    this.scene.start('MainScene')
+    // this.preloadScreen.on('startGame', () => {
+    //   const h = window.innerHeight
+    //   const w = window.innerWidth
+    //   // this.scene.start('MainScene')
+    // })
 
     /**
      * This is how you would dynamically import the mainScene class (with code splitting),

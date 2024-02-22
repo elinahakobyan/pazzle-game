@@ -32,17 +32,21 @@ export class GameScreen extends Container {
       }
     }
     const bkg = this.scene.add.sprite(0, 0, 'bkg')
-    bkg.setPosition(bkg.width / 2, bkg.height / 2)
+    // bkg.setPosition(bkg.width / 2, bkg.height / 2)
     this.add(bkg)
+    this.setSize(1920, 1080)
+    // this.setPosition(1920 / 2, 1080 / 2)
+
     this.initHeader()
     // this.initPuzzleScreen(gameConfig)
     this.initMenuScreen()
-    this.crateWhiteScreen()
+    // this.crateWhiteScreen()
   }
 
   private initHeader(): void {
     const header = new HeaderContainer(this.scene)
-    header.setPosition(header.width / 2, header.height / 2)
+    // header.setPosition(header.width / 2, header.height / 2)
+    header.setPosition(0, -this.height / 2 + 100)
     header.on('onBackBtnClick', this.handleBackBtnClick, this)
     header.on('onHintBtnClick', this.handleHintBtnClick, this)
     this.add((this.header = header))
@@ -50,8 +54,9 @@ export class GameScreen extends Container {
 
   private initMenuScreen(): void {
     this.menuScreen = new MenuScreen(this.scene, this.header, menuConfig)
+
     this.currentState = GameStates.MenuState
-    // this.menuScreen.setPosition(0, this.header.height - 20)
+    this.menuScreen.setPosition(-1920 / 2, -1080 / 2)
     this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
     this.add(this.menuScreen)
     this.bringToTop(this.header)
