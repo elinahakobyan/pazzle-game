@@ -8,6 +8,9 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     this.load.image('cloud-bkg', 'assets/img/cloud-bkg.png')
+    let letters = ['t', 'h', 'i', 'n', 'k', 'g', 'e', 'r', 'o', 's'].forEach(key => {
+      this.load.image(key, `assets/letters/${key}.png`)
+    })
     // this.load.image('phaser-logo', '/Users/user/University/puzzle-game/dist/assets/img/phaser-logo.png')
     // this.load.image('car', 'assets/img/car.png')
     // this.load.image('next-btn', 'assets/buttons/next-btn.png')

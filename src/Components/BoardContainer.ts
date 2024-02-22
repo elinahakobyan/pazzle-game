@@ -82,7 +82,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     this.hintBkg = this.scene.add.sprite(0, 0, `${subcategory.frame}`, '')
     // this.hintBkg = this.scene.add.sprite(0, 0, category.name.toLocaleLowerCase(), `${subcategory.frame + '.png'}`)
     this.hintBkg.setAlpha(0.3)
-    // this.hintBkg.setVisible(false)
+    this.hintBkg.setVisible(false)
     this.add(this.hintBkg)
   }
 }

@@ -1,4 +1,5 @@
 import Container = Phaser.GameObjects.Container
+import Sprite = Phaser.GameObjects.Sprite
 
 export class PreloadScreen extends Container {
   constructor(scene) {
@@ -10,7 +11,7 @@ export class PreloadScreen extends Container {
     this.initBkg()
     this.initLetters()
     setTimeout(() => {
-      this.emit('startGame')
+      // this.emit('startGame')
     }, 2500)
   }
 
@@ -21,6 +22,21 @@ export class PreloadScreen extends Container {
   }
 
   private initLetters() {
-    //
+    const letters = ['t', 'h', 'i', 'n', 'k', 'i', 'n', 'g']
+    const lettersSprites: Sprite[] = []
+    // const letters = ['t', 'h', 'i', 'n', 'k', 'g', 'e', 'r', 'o', 's']
+
+    letters.forEach((letter, i) => {
+      const sprite = this.scene.add.sprite(0, 0, letter)
+      sprite.setScale(0.5)
+      console.log(sprite.displayWidth, sprite.displayHeight)
+      lettersSprites.push(sprite)
+      this.add(sprite)
+      sprite.setPosition(
+        (lettersSprites[i - 1] ? lettersSprites[i - 1].x + lettersSprites[i - 1].displayWidth / 2 : 100) +
+          (sprite.displayWidth + 20),
+        window.innerHeight / 2
+      )
+    })
   }
 }
