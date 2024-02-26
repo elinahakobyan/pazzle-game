@@ -20,6 +20,7 @@ export default class MainScene extends Phaser.Scene {
 
   public resize(e) {
     if (!this.gameScreen) return
+    console.log(e)
     const w = window.innerWidth
     const h = window.innerHeight
     const { width, height } = e
@@ -30,17 +31,18 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    window.addEventListener('resize', e => {
-      if (!this.gameScreen) return
-      const w = window.innerWidth
-      const h = window.innerHeight
-      // const { width, height } = e
-      const scale = Math.min(w / 1920, h / 1080)
-      console.log(scale)
-      this.gameScreen.setScale(scale)
-      // this.gameScreen.setPosition(w / 2, h / 2)
-    })
-    // this.scale.on('resize', this.resize, this)
+    // window.addEventListener('resize', e => {
+    //   if (!this.gameScreen) return
+    //   const w = window.innerWidth
+    //   const h = window.innerHeight
+    //   // const { width, height } = e
+    //   const scale = Math.min(w / 1920, h / 1080)
+    //   console.log(scale)
+    //   this.gameScreen.setScale(scale)
+    //   // this.gameScreen.setPosition(w / 2, h / 2)
+    // })
+    this.scale.on('resize', this.resize, this)
+    this.scale.on('orientationchange', this.checkOrientation, this)
     // this.initMenuScreen()
     this.initGameScreen()
     // const foregroundScreen = new ForegroundScreen(this)
@@ -49,6 +51,17 @@ export default class MainScene extends Phaser.Scene {
     // })
     // this.add.existing((this.foregroundScreen = foregroundScreen))
     // this.initStatJS()
+  }
+
+  private checkOrientation(orientation) {
+    if (orientation === Phaser.Scale.PORTRAIT) {
+      console.log('Please set your\nphone to landscape')
+      // this.ship.alpha = 0.2
+      // this.text.setVisible(true)
+    } else if (orientation === Phaser.Scale.LANDSCAPE) {
+      // this.ship.alpha = 1
+      // this.text.setVisible(false)
+    }
   }
 
   private destroyForegroundView(): void {
