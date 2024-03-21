@@ -29,7 +29,6 @@ export class PreloadScreen extends Container {
         letters.forEach((letter, i) => {
             const sprite = this.scene.add.sprite(0, 0, letter)
             sprite.setScale(0.5)
-            console.log(sprite.displayWidth, sprite.displayHeight)
             lettersSprites.push(sprite)
             this.add(sprite)
             sprite.setPosition(

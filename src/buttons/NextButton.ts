@@ -54,7 +54,6 @@ export class NextButton extends Phaser.GameObjects.Container {
     }
 
     private initIcon(): void {
-        console.log(this.config.frame)
         const icon = this.scene.add.sprite(this.text.x + this.text.width / 2 + 20, 0, `${this.config.frame}-icon`)
         this.add(icon)
     }

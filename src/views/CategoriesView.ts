@@ -22,7 +22,6 @@ export class CategoriesView extends Container {
         const gap = 50
         this.categoriesConfig.forEach((c, i) => {
             const category = new CategoryComponent(this.scene)
-            console.log(i * (category.width + gap) + 350, 920 / 2 - 100)
             category.setPosition(i * (category.width + gap) + 350, 920 / 2 - 100)
             category.setContent(c, 'categories')
             category.on('pointerup', () => {
