@@ -1,151 +1,151 @@
 export const menuConfig = {
-  categories: [
-    {
-      name: 'Vehicles',
-      frame: 'vehicles',
-      themes: [
+    categories: [
         {
-          name: 'Car',
-          frame: 'car'
+            name: 'Տրանսպորտ',
+            frame: 'vehicles',
+            themes: [
+                {
+                    name: 'Մեքենա',
+                    frame: 'car'
+                },
+                {
+                    name: 'Հեծանիվ',
+                    frame: 'bicycle'
+                },
+                {
+                    name: 'Գնացք',
+                    frame: 'train'
+                },
+                {
+                    name: 'Ինքնաթիռ',
+                    frame: 'plane'
+                },
+                {
+                    name: 'Տրակտոր',
+                    frame: 'traktor'
+                }
+            ]
         },
         {
-          name: 'Bicycle',
-          frame: 'bicycle'
+            name: 'Կենդանիներ',
+            frame: 'animals',
+            themes: [
+                {
+                    name: 'Առյուծ',
+                    frame: 'lion'
+                },
+                {
+                    name: 'Ընձուղտ',
+                    frame: 'giraffe'
+                },
+                {
+                    name: 'Կապիկ',
+                    frame: 'monkey'
+                },
+                {
+                    name: 'Փիղ',
+                    frame: 'elephant'
+                },
+                {
+                    name: 'Զեբր',
+                    frame: 'zebra'
+                }
+            ]
         },
         {
-          name: 'Train',
-          frame: 'train'
+            name: 'Թռչուններ',
+            frame: 'birds',
+            themes: [
+                {
+                    name: 'Ֆլամինգո',
+                    frame: 'flamingo'
+                },
+                {
+                    name: 'Հավ',
+                    frame: 'hen'
+                },
+                {
+                    name: 'Բու',
+                    frame: 'owl'
+                },
+                {
+                    name: 'Թութակ',
+                    frame: 'parrot'
+                },
+                {
+                    name: 'Կարապ',
+                    frame: 'swan'
+                }
+            ]
         },
         {
-          name: 'Plane',
-          frame: 'plane'
+            name: 'Մասնագիտություն',
+            frame: 'professions',
+            themes: [
+                {
+                    name: 'Շինարար',
+                    frame: 'builder'
+                },
+                {
+                    name: 'Բժիշկ',
+                    frame: 'doctor'
+                },
+                {
+                    name: 'Դատավոր',
+                    frame: 'judge'
+                },
+                {
+                    name: 'Ծրագրավորող',
+                    frame: 'programmer'
+                },
+                {
+                    name: 'Ուսուցիչ',
+                    frame: 'teacher'
+                }
+            ]
         },
         {
-          name: 'Tractor',
-          frame: 'traktor'
+            name: 'Սպորտաձևեր',
+            frame: 'sport',
+            themes: [
+                {
+                    name: 'Բասկետբոլ',
+                    frame: 'basketball'
+                },
+                {
+                    name: 'Լող',
+                    frame: 'swiming'
+                },
+                {
+                    name: 'Ֆուտբոլ',
+                    frame: 'football'
+                },
+                {
+                    name: 'Շախմատ',
+                    frame: 'chess'
+                },
+                {
+                    name: 'Վոլեյբոլ',
+                    frame: 'volleyball'
+                }
+            ]
         }
-      ]
-    },
-    {
-      name: 'Animals',
-      frame: 'animals',
-      themes: [
+    ],
+    levels: [
         {
-          name: 'Lion',
-          frame: 'lion'
+            name: 'Easy',
+            level: '2:2',
+            color: 'green'
         },
         {
-          name: 'Giraffe',
-          frame: 'giraffe'
+            name: 'Medium',
+            level: '3:3',
+            color: 'yellow'
         },
         {
-          name: 'Monkey',
-          frame: 'monkey'
-        },
-        {
-          name: 'Elephant',
-          frame: 'elephant'
-        },
-        {
-          name: 'Zebra',
-          frame: 'zebra'
+            name: 'Hard',
+            level: '4:4',
+            color: 'orange'
         }
-      ]
-    },
-    {
-      name: 'Birds',
-      frame: 'birds',
-      themes: [
-        {
-          name: 'Flamingo',
-          frame: 'flamingo'
-        },
-        {
-          name: 'Hen',
-          frame: 'hen'
-        },
-        {
-          name: 'Owl',
-          frame: 'owl'
-        },
-        {
-          name: 'Parrot',
-          frame: 'parrot'
-        },
-        {
-          name: 'Swan',
-          frame: 'swan'
-        }
-      ]
-    },
-    {
-      name: 'Professions',
-      frame: 'professions',
-      themes: [
-        {
-          name: 'Builder',
-          frame: 'builder'
-        },
-        {
-          name: 'Doctor',
-          frame: 'doctor'
-        },
-        {
-          name: 'Judge',
-          frame: 'judge'
-        },
-        {
-          name: 'Programmer',
-          frame: 'programmer'
-        },
-        {
-          name: 'Teacher',
-          frame: 'teacher'
-        }
-      ]
-    },
-    {
-      name: 'Sport',
-      frame: 'sport',
-      themes: [
-        {
-          name: 'Basketball',
-          frame: 'basketball'
-        },
-        {
-          name: 'Volleyball',
-          frame: 'volleyball'
-        },
-        {
-          name: 'Football',
-          frame: 'football'
-        },
-        {
-          name: 'Swimming',
-          frame: 'swiming'
-        },
-        {
-          name: 'Chess',
-          frame: 'chess'
-        }
-      ]
-    }
-  ],
-  levels: [
-    {
-      name: 'Easy',
-      level: '2:2',
-      color: 'green'
-    },
-    {
-      name: 'Medium',
-      level: '3:3',
-      color: 'yellow'
-    },
-    {
-      name: 'Hard',
-      level: '4:4',
-      color: 'orange'
-    }
-  ]
+    ]
 }
