@@ -52,7 +52,7 @@ export class MenuScreen extends Container {
     }
 
     private initialise(): void {
-        this.initCategories()
+        this.initCategoriesView()
         this.initNextBtn()
         this.initSubcategoryView()
         this.initLevelsView()
@@ -78,7 +78,7 @@ export class MenuScreen extends Container {
     }
 
     private initLevelsView(): void {
-        this.levelsView = new LevelsView(this.scene, menuConfig.levels)
+        this.levelsView = new LevelsView(this.scene, this.menuConfig.levels)
         const w = 1920
         const h = 1080 - this.header.height + 20
         this.levelsView.setSize(w, h)
@@ -106,12 +106,12 @@ export class MenuScreen extends Container {
         })
     }
 
-    private initCategories(): void {
+    private initCategoriesView(): void {
         this.header.updateTitleVisibility(true, 'Categories')
         this.header.hideBackButton()
         this.currentState = MenuStates.CategoriesState
         console.log('GameStates.CategoriesState')
-        const { categories } = menuConfig
+        const { categories } = this.menuConfig
         this.categoriesView = new CategoriesView(this.scene, categories)
         const w = 1920
         const h = 1080 - this.header.height + 20
