@@ -24,7 +24,6 @@ export class InitialScreen extends Container {
             Phaser.Geom.Rectangle.Contains
         )
         this.on('pointerdown', () => {
-            console.log('has')
             if (this.difficultyLevels.activeItem) {
                 this.difficultyLevels.activeItem.deactivate()
                 this.nextBtn.disable()
@@ -55,7 +54,7 @@ export class InitialScreen extends Container {
             btn.scaleUpTween()
         })
         btn.on('btnClicked', () => {
-            this.emit('nextBtnClicked', this.difficultyLevels.activeItem)
+            this.emit('onNextBtnClicked', this.difficultyLevels.activeItem)
         })
         this.add((this.nextBtn = btn))
     }

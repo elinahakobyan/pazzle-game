@@ -1,9 +1,10 @@
 export const enum MenuStates {
-  CategoriesState,
-  SubcategoryState,
-  LevelsState
+    CategoriesState,
+    SubcategoryState,
+    LevelsState
 }
 export const enum GameStates {
-  MenuState,
-  GameState
+    InitialState,
+    MenuState,
+    GameState
 }

@@ -4,7 +4,7 @@ import { CategoryComponent } from '../Components/CategoryComponent'
 import { HeaderContainer } from '../Components/HeaderContainer'
 import { LevelComponent } from '../Components/LevelComponent'
 import { NextButton } from '../buttons/NextButton'
-import { menuConfig } from '../configs/menuConfig'
+import { menuConfig1 } from '../configs/menuConfigs'
 import { MenuStates } from '../enums/MenuStates'
 import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
@@ -108,7 +108,7 @@ export class MenuScreen extends Container {
 
     private initCategoriesView(): void {
         this.header.updateTitleVisibility(true, 'Categories')
-        this.header.hideBackButton()
+        this.header.showBackButton()
         this.currentState = MenuStates.CategoriesState
         console.log('GameStates.CategoriesState')
         const { categories } = this.menuConfig
@@ -256,12 +256,6 @@ export class MenuScreen extends Container {
     }
 
     private crateWhiteScreen(): void {
-        const whiteGr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-        whiteGr.fillStyle(0xffffff)
-        whiteGr.fillRect(0, 0, 1920, 1080)
-        whiteGr.generateTexture('whiteScreen', 1920, 1080)
-        whiteGr.destroy()
-
         this.whiteScreen = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
         this.whiteScreen.setAlpha(0)
         this.whiteScreen.setVisible(false)
@@ -302,7 +296,7 @@ export class MenuScreen extends Container {
     private showCategoriesView(): void {
         this.hideWhiteScreen()
         this.header.updateTitleVisibility(true, 'Categories')
-        this.header.hideBackButton()
+        this.header.showBackButton()
         this.currentState = MenuStates.CategoriesState
         this.categoriesView.setVisible(true)
         this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
