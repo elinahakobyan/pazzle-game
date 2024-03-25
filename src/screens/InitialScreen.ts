@@ -54,7 +54,7 @@ export class InitialScreen extends Container {
             btn.scaleUpTween()
         })
         btn.on('btnClicked', () => {
-            this.emit('onNextBtnClicked', this.difficultyLevels.activeItem)
+            this.emit('onNextBtnClicked', this.difficultyLevels.activeItem?.content)
         })
         this.add((this.nextBtn = btn))
     }

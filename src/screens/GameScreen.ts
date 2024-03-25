@@ -34,7 +34,7 @@ export class GameScreen extends Container {
         const initialScreen = new InitialScreen(this.scene)
         this.currentState = GameStates.InitialState
         initialScreen.on('onNextBtnClicked', config => {
-            this.hideInitialScreen(menuConfig1)
+            this.hideInitialScreen(config)
             // this.showMenuScreen(config)
         })
         this.add((this.initialScreen = initialScreen))

@@ -1,6 +1,7 @@
 import Container = Phaser.GameObjects.Container
 import { DifficultyLevel } from './DifficultyLevel'
 import { LevelComponent } from './LevelComponent'
+import { menuConfig1, menuConfig2 } from '../configs/menuConfigs'
 
 export class DifficultyLevels extends Container {
     public activeItem: DifficultyLevel | null
@@ -28,8 +29,12 @@ export class DifficultyLevels extends Container {
     }
 
     private initLevels(): void {
-        ;['1 մակարդակ', '2 մակարդակ'].forEach((l, i) => {
-            const diffLevel = new DifficultyLevel(this.scene, l)
+        const config = [
+            { label: '1 մակարդակ', content: menuConfig1 },
+            { label: '2 մակարդակ', content: menuConfig2 }
+        ]
+        config.forEach((c, i) => {
+            const diffLevel = new DifficultyLevel(this.scene, c.label, c.content)
             diffLevel.setPosition(0, -100 + i * 150)
             this.add(diffLevel)
             diffLevel.on('pointerup', () => {

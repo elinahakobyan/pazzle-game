@@ -1,7 +1,8 @@
 import Container = Phaser.GameObjects.Container
+import { MenuConfig } from '../../typings/types'
 
 export class DifficultyLevel extends Container {
-    constructor(scene, public label: string) {
+    constructor(scene, public label: string, public content) {
         super(scene)
         this.initialize()
     }

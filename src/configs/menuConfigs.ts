@@ -153,7 +153,7 @@ export const menuConfig1 = {
 export const menuConfig2 = {
     categories: [
         {
-            name: 'Տրանսպորտ',
+            name: 'Գրողներ',
             frame: 'vehicles',
             themes: [
                 {
@@ -179,7 +179,7 @@ export const menuConfig2 = {
             ]
         },
         {
-            name: 'Կենդանիներ',
+            name: 'Կոմպոզիտորներ',
             frame: 'animals',
             themes: [
                 {
@@ -205,7 +205,7 @@ export const menuConfig2 = {
             ]
         },
         {
-            name: 'Թռչուններ',
+            name: 'Նկարիչներ',
             frame: 'birds',
             themes: [
                 {
@@ -231,7 +231,7 @@ export const menuConfig2 = {
             ]
         },
         {
-            name: 'Մասնագիտություն',
+            name: 'Սպորտսմեններ',
             frame: 'professions',
             themes: [
                 {
@@ -257,7 +257,7 @@ export const menuConfig2 = {
             ]
         },
         {
-            name: 'Սպորտաձևեր',
+            name: 'Գիտնականներ',
             frame: 'sport',
             themes: [
                 {
