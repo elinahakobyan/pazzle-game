@@ -91,7 +91,18 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('hint-icon', 'assets/icons/hint-icon.png')
         this.load.image('play-icon', 'assets/icons/play-icon.png')
 
-        let categories = ['animals', 'birds', 'professions', 'sport', 'vehicles'].forEach(key => {
+        let categories = [
+            'animals',
+            'birds',
+            'professions',
+            'sport',
+            'vehicles',
+            'compositors',
+            'painters',
+            'writers',
+            'sportmens',
+            'scientist'
+        ].forEach(key => {
             // let categories = ['categories'].forEach(key => {
             //   this.load.atlas(key, `../../assets/atlases/${key}.png`, `../../assets/atlases/${key}.json`)
             this.load.image(key, `assets/categories/${key}.png`)
@@ -117,6 +128,21 @@ export default class PreloadScene extends Phaser.Scene {
         })
         let vehicles = ['bicycle', 'car', 'plane', 'train', 'traktor'].forEach(key => {
             this.load.image(key, `assets/subcategories/vehicles/${key}.png`)
+        })
+        let writers = ['w1', 'w2', 'w3', 'w4', 'w5'].forEach(key => {
+            this.load.image(key, `assets/subcategories/writers/${key}.png`)
+        })
+        let compositor = ['c1', 'c2', 'c3', 'c4', 'c5'].forEach(key => {
+            this.load.image(key, `assets/subcategories/ compositor/${key}.png`)
+        })
+        let painters = ['p1', 'p2', 'p3', 'p4', 'p5'].forEach(key => {
+            this.load.image(key, `assets/subcategories/painters/${key}.png`)
+        })
+        let sportmens = ['a1', 'a2', 'a3', 'a4', 'a5'].forEach(key => {
+            this.load.image(key, `assets/subcategories/sportmens/${key}.png`)
+        })
+        let scientist = ['s1', 's2', 's3', 's4', 's5'].forEach(key => {
+            this.load.image(key, `assets/subcategories/scientist/${key}.png`)
         })
     }
 }

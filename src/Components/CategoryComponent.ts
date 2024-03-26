@@ -13,6 +13,7 @@ export class CategoryComponent extends Container {
     }
 
     public setContent(content, category: string): void {
+        console.log(content, category)
         this.categoryConfig = content
         this.frame.setTexture(`${content.frame}`)
         this.frame.setFrame('')
@@ -55,8 +56,9 @@ export class CategoryComponent extends Container {
         // this.add(gra)
     }
     private initFrame(): void {
-        const frame = this.scene.add.sprite(0, -50, '', '')
+        const frame = this.scene.add.sprite(0, -30, '', '')
         frame.setScale(0.3)
+        // frame.rotation = -Math.PI * 0.5
         this.add((this.frame = frame))
     }
 

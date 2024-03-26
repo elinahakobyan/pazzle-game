@@ -154,131 +154,131 @@ export const menuConfig2 = {
     categories: [
         {
             name: 'Գրողներ',
-            frame: 'vehicles',
+            frame: 'writers',
             themes: [
                 {
-                    name: 'Մեքենա',
-                    frame: 'car'
+                    name: 'Հովհաննես Թումանյան',
+                    frame: 'w1'
                 },
                 {
-                    name: 'Հեծանիվ',
-                    frame: 'bicycle'
+                    name: 'Եղիշե Չարենց',
+                    frame: 'w2'
                 },
                 {
-                    name: 'Գնացք',
-                    frame: 'train'
+                    name: 'Նար-Դոս',
+                    frame: 'w3'
                 },
                 {
-                    name: 'Ինքնաթիռ',
-                    frame: 'plane'
+                    name: 'Դերենիկ Դեմիրճյան',
+                    frame: 'w4'
                 },
                 {
-                    name: 'Տրակտոր',
-                    frame: 'traktor'
+                    name: 'Րաֆֆի',
+                    frame: 'w5'
                 }
             ]
         },
         {
             name: 'Կոմպոզիտորներ',
-            frame: 'animals',
+            frame: 'compositors',
             themes: [
                 {
-                    name: 'Առյուծ',
-                    frame: 'lion'
+                    name: 'Կոմիտաս',
+                    frame: 'c1'
                 },
                 {
-                    name: 'Ընձուղտ',
-                    frame: 'giraffe'
+                    name: 'Ալեքսանդր Սպենդարյան',
+                    frame: 'c2'
                 },
                 {
-                    name: 'Կապիկ',
-                    frame: 'monkey'
+                    name: 'Արամ Խաչատրյան',
+                    frame: 'c3'
                 },
                 {
-                    name: 'Փիղ',
-                    frame: 'elephant'
+                    name: 'Շառլ Ազնավուր',
+                    frame: 'c4'
                 },
                 {
-                    name: 'Զեբր',
-                    frame: 'zebra'
+                    name: 'Ջիվան Գասպարյան',
+                    frame: 'c5'
                 }
             ]
         },
         {
             name: 'Նկարիչներ',
-            frame: 'birds',
+            frame: 'painters',
             themes: [
                 {
-                    name: 'Ֆլամինգո',
-                    frame: 'flamingo'
+                    name: 'Մինաս Ավետիսյան',
+                    frame: 'p1'
                 },
                 {
-                    name: 'Հավ',
-                    frame: 'hen'
+                    name: 'Մարտիրոս Սարյան',
+                    frame: 'p2'
                 },
                 {
-                    name: 'Բու',
-                    frame: 'owl'
+                    name: 'Արշիլ Գորկի',
+                    frame: 'p3'
                 },
                 {
-                    name: 'Թութակ',
-                    frame: 'parrot'
+                    name: 'Հովհաննես Այվազովսկի',
+                    frame: 'p4'
                 },
                 {
-                    name: 'Կարապ',
-                    frame: 'swan'
+                    name: 'Լեոնարդո Դա Վինչի',
+                    frame: 'p5'
                 }
             ]
         },
         {
             name: 'Սպորտսմեններ',
-            frame: 'professions',
+            frame: 'sportmens',
             themes: [
                 {
-                    name: 'Շինարար',
-                    frame: 'builder'
+                    name: 'Հենրիկ Մխիթարյան',
+                    frame: 'a1'
                 },
                 {
-                    name: 'Բժիշկ',
-                    frame: 'doctor'
+                    name: 'Արթուր Ալեքսանյան',
+                    frame: 'a2'
                 },
                 {
-                    name: 'Դատավոր',
-                    frame: 'judge'
+                    name: 'Արթուր Աբրահամ',
+                    frame: 'a3'
                 },
                 {
-                    name: 'Ծրագրավորող',
-                    frame: 'programmer'
+                    name: 'Նազիկ Ավդալյան',
+                    frame: 'a4'
                 },
                 {
-                    name: 'Ուսուցիչ',
-                    frame: 'teacher'
+                    name: 'Լևոն Արոնյան',
+                    frame: 'a5'
                 }
             ]
         },
         {
             name: 'Գիտնականներ',
-            frame: 'sport',
+            frame: 'scientist',
             themes: [
                 {
-                    name: 'Բասկետբոլ',
-                    frame: 'basketball'
+                    name: 'Արտեմ Ալիխանյան',
+                    frame: 's1'
                 },
                 {
-                    name: 'Լող',
-                    frame: 'swiming'
+                    name: 'Ալբերտ Այնշտայն',
+                    frame: 's2'
                 },
                 {
-                    name: 'Ֆուտբոլ',
-                    frame: 'football'
+                    name: 'Դմիտրի Մենդելեև',
+                    frame: 's3'
                 },
                 {
-                    name: 'Շախմատ',
-                    frame: 'chess'
+                    name: 'Իսահակ Նյուտոն',
+                    frame: 's4'
                 },
                 {
-                    name: 'Վոլեյբոլ',
-                    frame: 'volleyball'
+                    name: 'Վիկտոր Համբարձումյան',
+                    frame: 's5'
                 }
             ]
         }
