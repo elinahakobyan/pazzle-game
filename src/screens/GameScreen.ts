@@ -6,6 +6,7 @@ import { GameStates, MenuStates } from '../enums/MenuStates'
 import { MenuScreen } from './MenuScreen'
 import { PuzzleScreen } from './PuzzleScreen'
 import { InitialScreen } from './InitialScreen'
+import { Category, Level } from '../../typings/types'
 
 export class GameScreen extends Container {
     private header: HeaderContainer
@@ -26,7 +27,6 @@ export class GameScreen extends Container {
         this.crateWhiteScreen()
         this.initHeader()
         this.initInitialScreen()
-        // this.initPuzzleScreen(gameConfig)
         // this.initMenuScreen()
     }
 

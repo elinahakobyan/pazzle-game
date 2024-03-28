@@ -161,11 +161,11 @@ export const menuConfig2 = {
                     frame: 'w1'
                 },
                 {
-                    name: 'Եղիշե Չարենց',
+                    name: 'համո Սահյան',
                     frame: 'w2'
                 },
                 {
-                    name: 'Նար-Դոս',
+                    name: 'Պարույր Սևակ',
                     frame: 'w3'
                 },
                 {
@@ -173,7 +173,7 @@ export const menuConfig2 = {
                     frame: 'w4'
                 },
                 {
-                    name: 'Րաֆֆի',
+                    name: 'Սիլվա Կապուտիկյան',
                     frame: 'w5'
                 }
             ]
