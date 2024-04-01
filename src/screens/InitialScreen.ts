@@ -33,7 +33,7 @@ export class InitialScreen extends Container {
 
     private intiDifficultyLevels(): void {
         const difficultyLevels = new DifficultyLevels(this.scene)
-        difficultyLevels.setPosition(1920 / 2, 1080 / 2)
+        difficultyLevels.setPosition(1920 / 2, 1080 / 2 + 100)
         difficultyLevels.on('itemActivated', () => {
             this.nextBtn.enable()
         })
@@ -45,7 +45,7 @@ export class InitialScreen extends Container {
 
     private initNextBtn(): void {
         const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
-        btn.setPosition(1920 / 2, 1080 / 2 + 250)
+        btn.setPosition(1920 / 2, 1080 / 2 + 280)
         btn.disable()
         btn.on('pointerdown', () => {
             btn.scaleDownTween()

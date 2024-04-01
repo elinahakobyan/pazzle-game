@@ -211,7 +211,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         const y = this.boardContainer.y - this.boardContainer.height / 2 + 70
         const header = this.scene.add.text(x, y, 'AAAAAA', {
             color: '#ffffff',
-            fontFamily: 'Kurland',
+            fontFamily: 'Arti Regular',
             // color:'#c7a496',
             fontSize: '72px'
         })
@@ -228,7 +228,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 // color:'#c7a496',
                 fontSize: '24px',
                 align: 'center',
-                fontFamily: 'Kurland',
+                fontFamily: 'Arti Regular',
                 wordWrap: { width: 600, useAdvancedWrap: true }
             }
         )

@@ -24,7 +24,7 @@ export class LevelComponent extends Container {
         const label = this.scene.add.text(0, 0, this.config.level, {
             color: '#ffffff',
             fontSize: '58px',
-            fontFamily: 'Kurland'
+            fontFamily: 'Arti Regular'
         })
         label.setOrigin(0.5)
         this.add(label)

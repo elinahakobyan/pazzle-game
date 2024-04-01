@@ -19,8 +19,8 @@ export class DifficultyLevels extends Container {
         const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
         gr.fillStyle(0xffffff)
         // gr.fillStyle(0xf5ebe3)
-        gr.fillRoundedRect(0, 0, 450, 750, 20)
-        gr.generateTexture('Bg', 450, 750)
+        gr.fillRoundedRect(0, 0, 450, 600, 20)
+        gr.generateTexture('Bg', 450, 600)
         gr.destroy()
         const bkg = this.scene.add.sprite(0, 0, 'Bg')
         bkg.alpha = 0.5
@@ -35,7 +35,7 @@ export class DifficultyLevels extends Container {
         ]
         config.forEach((c, i) => {
             const diffLevel = new DifficultyLevel(this.scene, c.label, c.content)
-            diffLevel.setPosition(0, -100 + i * 150)
+            diffLevel.setPosition(0, -150 + i * 150)
             this.add(diffLevel)
             diffLevel.on('pointerup', () => {
                 this.handleCategoryPointerUp(diffLevel)

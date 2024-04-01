@@ -105,9 +105,9 @@ export class CategoryComponent extends Container {
         const label = this.scene.add.text(0, 100, this.categoryConfig ? this.categoryConfig.name : 'AA', {
             color: '0x000000',
             fontSize: '24px',
-            fontFamily: 'Kurland',
+            fontFamily: 'Arti Regular',
             align: 'center',
-            wordWrap: { width: 210, useAdvancedWrap: true }
+            wordWrap: { width: 230, useAdvancedWrap: true }
         })
         label.setOrigin(0.5)
         this.add((this.label = label))
