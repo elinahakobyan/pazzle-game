@@ -273,7 +273,7 @@ export const menuConfig2 = {
                     frame: 's3'
                 },
                 {
-                    name: 'Իսահակ Նյուտոն',
+                    name: 'Գալիլեո Գալիլեյ ',
                     frame: 's4'
                 },
                 {

@@ -133,7 +133,7 @@ export default class PreloadScene extends Phaser.Scene {
             this.load.image(key, `assets/subcategories/writers/${key}.png`)
         })
         let compositor = ['c1', 'c2', 'c3', 'c4', 'c5'].forEach(key => {
-            this.load.image(key, `assets/subcategories/ compositor/${key}.png`)
+            this.load.image(key, `assets/subcategories/compositor/${key}.png`)
         })
         let painters = ['p1', 'p2', 'p3', 'p4', 'p5'].forEach(key => {
             this.load.image(key, `assets/subcategories/painters/${key}.png`)
