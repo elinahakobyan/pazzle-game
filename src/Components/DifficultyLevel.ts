@@ -23,7 +23,8 @@ export class DifficultyLevel extends Container {
     private initLabel(): void {
         const label = this.scene.add.text(0, 0, this.label, {
             color: '#ffffff',
-            fontSize: '32px'
+            fontSize: '32px',
+            fontFamily: 'Kurland'
         })
         label.setOrigin(0.5)
         this.add(label)

@@ -98,13 +98,16 @@ export class CategoryComponent extends Container {
         //     20
         // )
 
-        const mask = gr.createGeometryMask()
-        this.frame.setMask(mask)
+        // const mask = gr.createGeometryMask()
+        // this.frame.setMask(mask)
     }
     private initName(): void {
         const label = this.scene.add.text(0, 100, this.categoryConfig ? this.categoryConfig.name : 'AA', {
             color: '0x000000',
-            fontSize: '24px'
+            fontSize: '24px',
+            fontFamily: 'Kurland',
+            align: 'center',
+            wordWrap: { width: 210, useAdvancedWrap: true }
         })
         label.setOrigin(0.5)
         this.add((this.label = label))

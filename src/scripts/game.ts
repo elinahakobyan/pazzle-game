@@ -1,4 +1,5 @@
 import 'phaser'
+import '../css/main.css'
 import CutJigsawImagePlugin from 'phaser3-rex-plugins/plugins/cutjigsawimage-plugin'
 import MainScene from '../scenes/mainScene'
 import PreloadScene from '../scenes/preloadScene'

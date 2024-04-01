@@ -80,7 +80,8 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     private initTitle(): void {
         const title = this.scene.add.text(0, 20, '', {
             color: '0x000000',
-            fontSize: '32px'
+            fontSize: '32px',
+            fontFamily: 'Kurland'
         })
         title.setOrigin(0.5)
         title.setVisible(false)

@@ -62,7 +62,8 @@ export class NextButton extends Phaser.GameObjects.Container {
 
         const text = this.scene.add.text(-10, 0, label, {
             color: '#ffffff',
-            fontSize: '32px'
+            fontSize: '32px',
+            fontFamily: 'Kurland'
         })
         text.setOrigin(0.5)
         this.add((this.text = text))
