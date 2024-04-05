@@ -26,7 +26,7 @@ export class MenuScreen extends Container {
     private gameConfig: {
         level: { level: string; name: string }
         category: { name: string }
-        subcategory: { name: string; frame: string }
+        subcategory: { name: string; frame: string; description?: string }
     }
     constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
         super(scene)
@@ -36,7 +36,8 @@ export class MenuScreen extends Container {
             },
             subcategory: {
                 name: '',
-                frame: ''
+                frame: '',
+                description: ''
             },
             level: {
                 name: '',
@@ -211,6 +212,7 @@ export class MenuScreen extends Container {
                 console.log('GameStates.SubcategoryState')
                 this.showSubcategoriesView(activeItem, true)
                 if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
+                    console.warn((activeItem as CategoryComponent).categoryConfig)
                     this.gameConfig.category.name = (activeItem as CategoryComponent).categoryConfig?.name
                 }
                 break
@@ -221,6 +223,9 @@ export class MenuScreen extends Container {
                 if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
                     this.gameConfig.subcategory.name = (activeItem as CategoryComponent).categoryConfig.name
                     this.gameConfig.subcategory.frame = (activeItem as CategoryComponent).categoryConfig?.frame
+                    this.gameConfig.subcategory.description = (
+                        activeItem as CategoryComponent
+                    ).categoryConfig?.description
                 }
                 break
             }

@@ -1,25 +1,27 @@
 export interface MenuConfig {
-  categories: Category[]
-  levels: Level[]
+    categories: Category[]
+    levels: Level[]
 }
 export interface GameConfig {
-  category: Category
-  subcategory: {
-    name: string
-    frame: string
-  }
-  level: Level
+    category: Category
+    subcategory: {
+        name: string
+        frame: string
+        description: string
+    }
+    level: Level
 }
 
 export interface Category {
-  name: string
-  frame: string
-  themes: {
     name: string
     frame: string
-  }[]
+    description?: string
+    themes: {
+        name: string
+        frame: string
+    }[]
 }
 export interface Level {
-  name: string
-  level: string
+    name: string
+    level: string
 }

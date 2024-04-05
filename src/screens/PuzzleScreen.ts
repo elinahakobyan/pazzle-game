@@ -207,9 +207,10 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
 
     private showGameOverText(): void {
+        console.log(this.config)
         const x = this.boardContainer.x + this.boardContainer.width + 150
         const y = this.boardContainer.y - this.boardContainer.height / 2 + 70
-        const header = this.scene.add.text(x, y, 'AAAAAA', {
+        const header = this.scene.add.text(x, y, this.config.subcategory.name, {
             color: '#ffffff',
             fontFamily: 'Arti Regular',
             // color:'#c7a496',
@@ -222,7 +223,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         const text = this.scene.add.text(
             x,
             y + 250,
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+            this.config.subcategory?.description
+                ? this.config.subcategory.description
+                : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
             {
                 color: '#ffffff',
                 // color:'#c7a496',
