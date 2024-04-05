@@ -56,11 +56,12 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         const w = 700
         const h = 535
         const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-        gr.fillStyle(0xffe8cd)
+        gr.fillStyle(0xb4b4b4)
         gr.fillRect(0, 0, w, h)
         gr.generateTexture('cellsBkg', w, h)
         gr.destroy()
         this.cellsBkg = this.scene.add.sprite(0, 0, 'cellsBkg')
+        // this.cellsBkg.alpha = 0.3
         this.add(this.cellsBkg)
         console.log(this.cellsBkg.width, this.cellsBkg.height)
     }

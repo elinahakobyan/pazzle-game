@@ -1,5 +1,6 @@
 import { getNextBtnNinePatchConfig, makeNinePatch } from '../configs/NinePatcheConfigs'
 import WebGLRenderer = Phaser.Renderer.WebGL.WebGLRenderer
+import Tween = Phaser.Tweens.Tween
 
 export class NextButton extends Phaser.GameObjects.Container {
     private grayScaleAsset: Phaser.GameObjects.Sprite
@@ -26,8 +27,8 @@ export class NextButton extends Phaser.GameObjects.Container {
             }
         })
     }
-    public scaleDownTween(): void {
-        this.scene.add.tween({
+    public scaleDownTween(): Tween {
+        return this.scene.add.tween({
             targets: this,
             duration: 150,
             scale: 0.95
@@ -43,24 +44,32 @@ export class NextButton extends Phaser.GameObjects.Container {
         this.setInteractive({ cursor: 'pointer', draggable: true })
     }
     private initBkg(): void {
-        const btn = makeNinePatch(this.scene, getNextBtnNinePatchConfig(220, 50))
-        const gr = this.scene.add.graphics()
-        gr.fillStyle(0xffffff)
-        gr.fillRoundedRect(-(btn.width + 4) / 2, -(btn.height + 6) / 2, btn.width + 4, btn.height + 6, 12)
-        this.add(gr)
+        const btn = this.scene.add.sprite(0, 0, 'next-btn')
         this.add(btn)
         this.setSize(btn.width + 4, btn.height + 6)
+        this.setInteractive({ cursor: 'pointer', draggable: true })
+
+        // const btn = makeNinePatch(this.scene, getNextBtnNinePatchConfig(220, 50))
+        // const gr = this.scene.add.graphics()
+        // gr.fillStyle(0xffffff)
+        // gr.fillRoundedRect(-(btn.width + 4) / 2, -(btn.height + 6) / 2, btn.width + 4, btn.height + 6, 12)
+        // this.add(gr)
+        // this.add(btn)
         // this.setInteractive({ cursor: 'pointer', draggable: true })
     }
 
     private initIcon(): void {
-        const icon = this.scene.add.sprite(this.text.x + this.text.width / 2 + 20, 0, `${this.config.frame}-icon`)
+        const icon = this.scene.add.sprite(
+            this.text.x + this.text.width / 2 + 20,
+            this.text.y + 2,
+            `${this.config.frame}-icon`
+        )
         this.add(icon)
     }
     private initText(): void {
         const label = this.config.text == 'NEXT' ? 'Հաջորդը' : 'Խաղալ'
 
-        const text = this.scene.add.text(-10, 0, label, {
+        const text = this.scene.add.text(-10, -8, label, {
             color: '#ffffff',
             fontSize: '32px',
             fontFamily: 'Arti Regular'

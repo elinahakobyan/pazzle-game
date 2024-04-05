@@ -78,10 +78,11 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     }
 
     private initTitle(): void {
-        const title = this.scene.add.text(0, 20, '', {
-            color: '0x000000',
-            fontSize: '32px',
-            fontFamily: 'Arti Regular'
+        const title = this.scene.add.text(0, 0, '', {
+            color: '#360A58',
+            fontSize: '52px',
+            fontFamily: 'Arti Regular',
+            fontStyle: 'bold'
         })
         title.setOrigin(0.5)
         title.setVisible(false)
@@ -96,9 +97,9 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         headerBgGr.generateTexture('headerBg', 200, 100)
         headerBgGr.destroy()
 
-        const headerBg = makeNinePatch(this.scene, getHeaderBgNinePatchConfig(1920, 180))
+        const headerBg = makeNinePatch(this.scene, getHeaderBgNinePatchConfig(1920, 184))
         headerBg.alpha = 0.6
-        headerBg.setPosition(0, -20)
+        headerBg.setPosition(0, 0)
         this.add(headerBg)
         this.setSize(headerBg.width, headerBg.height)
     }
@@ -124,6 +125,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         this.hint.setVisible(false)
         this.hint.on('pointerup', () => {
             this.hint.setScale(1)
+            this.hint.showIcons()
             this.emit('onHintBtnClick')
         })
 

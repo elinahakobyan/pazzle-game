@@ -81,7 +81,11 @@ export default class PreloadScene extends Phaser.Scene {
     }
     private loadAssets(): void {
         this.load.image('phaser-logo', '/Users/user/University/puzzle-game/dist/assets/img/phaser-logo.png')
-        this.load.image('bkg', 'assets/img/bkg.jpg')
+        this.load.image('bkg', 'assets/img/bkg.png')
+        this.load.image('puzzle-piece', 'assets/img/puzzle-piece.png')
+        this.load.image('logo', 'assets/img/logo.png')
+        this.load.image('diffBg', 'assets/img/diffBg.png')
+        this.load.image('categoryBg', 'assets/img/categoryBg.png')
         this.load.image('bkg1', 'assets/img/bkg1.png')
         this.load.image('car', 'assets/img/car.png')
         this.load.image('next-btn', 'assets/buttons/next-btn.png')
@@ -90,6 +94,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('next-icon', 'assets/icons/next-icon.png')
         this.load.image('hint-icon', 'assets/icons/hint-icon.png')
         this.load.image('play-icon', 'assets/icons/play-icon.png')
+        this.load.image('hide-icon', 'assets/icons/hide.png')
+        this.load.image('mute-icon', 'assets/icons/mute.png')
+        this.load.image('show-icon', 'assets/icons/show.png')
+        this.load.image('unmute-icon', 'assets/icons/unmute.png')
 
         let categories = [
             'animals',

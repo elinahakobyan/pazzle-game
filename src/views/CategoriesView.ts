@@ -19,10 +19,12 @@ export class CategoriesView extends Container {
     }
 
     private initCategories(): void {
-        const gap = 50
+        const gap = 25
+        const x = (1920 - (5 * 326 + 4 * gap)) / 2
         this.categoriesConfig.forEach((c, i) => {
             const category = new CategoryComponent(this.scene)
-            category.setPosition(i * (category.width + gap) + 350, 920 / 2 - 100)
+            category.setPosition(i * (category.width + gap) + x + category.width / 2 + 5, 920 / 2 - 100)
+            // category.setPosition(i * (category.width + gap) + x, 920 / 2 - 100)
             category.setContent(c, 'categories')
             category.on('pointerup', () => {
                 this.handleCategoryPointerUp(category)

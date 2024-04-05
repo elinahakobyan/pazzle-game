@@ -1,18 +1,52 @@
 import Container = Phaser.GameObjects.Container
 import { MenuConfig } from '../../typings/types'
+import Tween = Phaser.Tweens.Tween
 
 export class DifficultyLevel extends Container {
-    constructor(scene, public label: string, public content) {
+    constructor(
+        scene,
+        public labelConfig: { text: string; position: { x: number; y: number } },
+        public content,
+        private bgRotation: number
+    ) {
         super(scene)
         this.initialize()
     }
 
     public deactivate(): void {
-        this.setScale(1)
+        this.scene.add.tween({
+            targets: this,
+            duration: 150,
+            scale: 1,
+            complete: () => {
+                this.emit('btnClicked')
+            }
+        })
     }
-    public activate(): void {
-        this.setScale(0.95)
+    public activate(): Tween {
+        return this.scene.add.tween({
+            targets: this,
+            duration: 150,
+            scale: 0.95
+        })
     }
+    // public scaleUpTween(): void {
+    //     this.scene.add.tween({
+    //         targets: this,
+    //         duration: 150,
+    //         scale: 1,
+    //         complete: () => {
+    //             this.emit('btnClicked')
+    //         }
+    //     })
+    // }
+    // public scaleDownTween(): Tween {
+    //     return this.scene.add.tween({
+    //         targets: this,
+    //         duration: 150,
+    //         scale: 0.95
+    //     })
+    // }
 
     private initialize(): void {
         this.initBg()
@@ -21,24 +55,23 @@ export class DifficultyLevel extends Container {
     }
 
     private initLabel(): void {
-        const label = this.scene.add.text(0, 0, this.label, {
-            color: '#ffffff',
-            fontSize: '32px',
-            fontFamily: 'Arti Regular'
-        })
+        const label = this.scene.add.text(
+            this.labelConfig.position.x,
+            this.labelConfig.position.y,
+            this.labelConfig.text,
+            {
+                color: '#6740B0',
+                fontSize: '64px',
+                fontFamily: 'Arti Regular'
+            }
+        )
         label.setOrigin(0.5)
         this.add(label)
     }
 
     private initBg(): void {
-        const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-        gr.fillStyle(0xc6e2ff)
-        // gr.fillStyle(0xf5ebe3, )
-        gr.fillRoundedRect(0, 0, 350, 90, 20)
-        gr.generateTexture('diffBg', 350, 90)
-        gr.destroy()
         const bkg = this.scene.add.sprite(0, 0, 'diffBg')
-        bkg.alpha = 0.7
+        bkg.rotation = this.bgRotation
         this.add(bkg)
         this.setSize(bkg.width, bkg.height)
     }
