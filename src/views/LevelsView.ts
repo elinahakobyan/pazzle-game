@@ -1,6 +1,5 @@
 import Container = Phaser.GameObjects.Container
 import { LevelComponent } from '../Components/LevelComponent'
-import { CategoryComponent } from '../Components/CategoryComponent'
 
 export class LevelsView extends Container {
   public activeItem: LevelComponent | null
@@ -14,12 +13,12 @@ export class LevelsView extends Container {
   }
 
   private initLevels(): void {
-    const gap = 150
-    const w = 210 * 3 + 2 * gap
+    const gap = 170
+    const w = 270 * 3 + 2 * gap
     this.levelsConfigs.forEach((lvl, i) => {
       const level = new LevelComponent(this.scene, lvl)
       // level.setPosition(100, 100)
-      level.setPosition(i * (level.width + gap) + 590, 920 / 2 - 100)
+      level.setPosition(i * (level.width + gap) + 560, 920 / 2 - 100)
       level.on('pointerup', () => {
         this.handleCategoryPointerUp(level)
       })
