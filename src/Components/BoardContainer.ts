@@ -53,13 +53,13 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     }
 
     private generateCellsBkg(): void {
-        const w = 700
-        const h = 535
-        const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
-        gr.fillStyle(0xb4b4b4)
-        gr.fillRect(0, 0, w, h)
-        gr.generateTexture('cellsBkg', w, h)
-        gr.destroy()
+        // const w = 700
+        // const h = 535
+        // const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
+        // gr.fillStyle(0xb4b4b4)
+        // gr.fillRect(0, 0, w, h)
+        // gr.generateTexture('cellsBkg', w, h)
+        // gr.destroy()
         this.cellsBkg = this.scene.add.sprite(0, 0, 'cellsBkg')
         // this.cellsBkg.alpha = 0.3
         this.add(this.cellsBkg)
@@ -71,7 +71,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         const boardH = 561
         const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
         gr.fillStyle(0xffffff)
-        gr.fillRoundedRect(0, 0, boardW, boardH, 20)
+        gr.fillRoundedRect(0, 0, boardW, boardH, 8)
         gr.generateTexture('boardBkg', boardW, boardH)
         gr.destroy()
 
