@@ -129,7 +129,7 @@ export class MenuScreen extends Container {
 
     private initNextBtn(): void {
         const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
-        btn.setPosition(1920 / 2 - 10, 1080 / 2 + 320)
+        btn.setPosition(1920 / 2 + 7, 1080 / 2 + 320)
         btn.disable()
         btn.on('pointerdown', () => {
             btn.scaleDownTween()
@@ -144,8 +144,9 @@ export class MenuScreen extends Container {
     }
     private initPlayBtn(): void {
         const btn = new NextButton(this.scene, { text: 'PLAY', frame: 'play' })
-        btn.setPosition(1920 / 2 - 10, 1080 / 2 + 320)
+        btn.setPosition(1920 / 2 + 8, 1080 / 2 + 320)
         btn.disable()
+
         btn.on('pointerdown', () => {
             btn.scaleDownTween()
         })
