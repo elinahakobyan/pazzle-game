@@ -13,6 +13,7 @@ export class GameScreen extends Container {
     private puzzleScreen: PuzzleScreen
     private whiteScreen: Phaser.GameObjects.Sprite
     private initialScreen: InitialScreen
+    private blocker: Phaser.GameObjects.Sprite
     constructor(scene) {
         super(scene)
         this.initialize()
@@ -25,7 +26,15 @@ export class GameScreen extends Container {
         this.crateWhiteScreen()
         this.initHeader()
         this.initInitialScreen()
+        this.initBlocker()
         // this.initMenuScreen()
+    }
+
+    private initBlocker(): void {
+        this.blocker = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
+        this.blocker.alpha = 0
+        this.blocker.setInteractive()
+        this.add(this.blocker)
     }
 
     private initInitialScreen(): void {

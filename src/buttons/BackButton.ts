@@ -20,7 +20,7 @@ export class BackButton extends Container {
     }
     private initIcon(): void {
         const icon = this.scene.add.sprite(-2, 0, 'next-icon')
-        icon.setAlpha(0.8)
+        // icon.setAlpha(0.8)
         // icon.setTint(0xf03e9682)
         icon.setScale(-1.5, 1.5)
         this.add(icon)
