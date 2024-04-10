@@ -247,7 +247,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             duration: 300,
             delay: this.pieceContainers.length * 210,
             ease: Phaser.Math.Easing.Cubic.InOut,
-            onStart: () => this.header.updateTitleVisibility(true, this.config.subcategory.name)
+            onStart: () => this.header.updateTitleVisibility(true, this.config.subcategory.name),
+            onComplete: () => this.header.showRestartIcon()
         })
 
         // this.scene.add.tween({

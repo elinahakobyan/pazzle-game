@@ -14,6 +14,10 @@ export class CategoriesView extends Container {
         this.initialize()
     }
 
+    public updateVisibility(visible: boolean): void {
+        this.setVisible(visible)
+    }
+
     private initialize(): void {
         this.initCategories()
     }

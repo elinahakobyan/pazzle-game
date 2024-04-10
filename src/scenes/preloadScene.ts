@@ -93,6 +93,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('back-btn', 'assets/buttons/back-btn.png')
         this.load.image('next-icon', 'assets/icons/next-icon.png')
         this.load.image('play-icon', 'assets/icons/play-icon.png')
+        this.load.image('restart-icon', 'assets/icons/restart-icon.png')
         this.load.image('hide-icon', 'assets/icons/hide.png')
         this.load.image('mute-icon', 'assets/icons/mute.png')
         this.load.image('show-icon', 'assets/icons/show.png')

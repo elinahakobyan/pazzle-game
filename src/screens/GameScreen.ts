@@ -1,12 +1,10 @@
 import Container = Phaser.GameObjects.Container
 import Phaser from 'phaser'
 import { HeaderContainer } from '../Components/HeaderContainer'
-import { menuConfig1 } from '../configs/menuConfigs'
 import { GameStates, MenuStates } from '../enums/MenuStates'
 import { MenuScreen } from './MenuScreen'
 import { PuzzleScreen } from './PuzzleScreen'
 import { InitialScreen } from './InitialScreen'
-import { Category, Level } from '../../typings/types'
 
 export class GameScreen extends Container {
     private header: HeaderContainer
@@ -45,6 +43,7 @@ export class GameScreen extends Container {
         header.setPosition(header.width / 2, header.height / 2)
         header.on('onBackBtnClick', this.handleBackBtnClick, this)
         header.on('onHintBtnClick', this.handleHintBtnClick, this)
+        header.on('onRestartBtnClick', this.handleRestartBtnClick, this)
         header.setVisible(false)
         this.add((this.header = header))
     }
@@ -125,6 +124,17 @@ export class GameScreen extends Container {
         console.log('handleBackBtnClicked')
     }
 
+    private handleRestartBtnClick(): void {
+        this.currentState = GameStates.MenuState
+        const tw = this.showWhiteScreenTween()
+        tw.on('complete', () => {
+            this.header.hideHint()
+            this.header.hideRestartIcon()
+            this.puzzleScreen.setVisible(false)
+            this.menuScreen.showCategoriesView(this.whiteScreen)
+        })
+    }
+
     private handleHintBtnClick(): void {
         this.puzzleScreen.showOrHideHint()
     }
@@ -148,6 +158,7 @@ export class GameScreen extends Container {
         const tw = this.showWhiteScreenTween()
         tw.on('complete', () => {
             this.header.hideHint()
+            this.header.hideRestartIcon()
             this.puzzleScreen.setVisible(false)
             this.menuScreen.showLevelsView(this.whiteScreen)
         })

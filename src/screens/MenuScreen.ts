@@ -52,6 +52,33 @@ export class MenuScreen extends Container {
         return this.currentState
     }
 
+    public showCategoriesView(whiteScreen?: Sprite): void {
+        this.hideWhiteScreen(whiteScreen)
+        this.header.updateTitleVisibility(true, 'Categories')
+        this.header.showBackButton()
+        this.currentState = MenuStates.CategoriesState
+        this.categoriesView.updateVisibility(true)
+        !this.nextBtn.visible && this.nextBtn.setVisible(true)
+        this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
+    }
+
+    public hideSubcategoriesView(): void {
+        const tw = this.showWhiteScreenTween()
+        tw.on('complete', () => {
+            this.subcategoriesView.setVisible(false)
+            this.showCategoriesView()
+        })
+    }
+
+    public hideLevelsView(isBackBtnClicked: boolean): void {
+        const tw = this.showWhiteScreenTween()
+        tw.on('complete', () => {
+            this.levelsView.setVisible(false)
+            this.playBtn.setVisible(false)
+            isBackBtnClicked && this.showSubcategoriesView(this.categoriesView.activeItem, false)
+        })
+    }
+
     private initialise(): void {
         this.initCategoriesView()
         this.initNextBtn()
@@ -240,7 +267,7 @@ export class MenuScreen extends Container {
         // this.nextBtn.disable()
         this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
         this.nextBtn.setVisible(true)
-        this.categoriesView.setVisible(false)
+        this.categoriesView.updateVisibility(false)
         this.hideWhiteScreen()
         this.subcategoriesView.setVisible(true)
         if (nextBtnClicked && activeItem.categoryConfig.name !== this.subcategoriesView.title) {
@@ -289,31 +316,6 @@ export class MenuScreen extends Container {
             onComplete: () => {
                 this.whiteScreen.setVisible(false)
             }
-        })
-    }
-
-    public hideSubcategoriesView(): void {
-        const tw = this.showWhiteScreenTween()
-        tw.on('complete', () => {
-            this.subcategoriesView.setVisible(false)
-            this.showCategoriesView()
-        })
-    }
-    private showCategoriesView(): void {
-        this.hideWhiteScreen()
-        this.header.updateTitleVisibility(true, 'Categories')
-        this.header.showBackButton()
-        this.currentState = MenuStates.CategoriesState
-        this.categoriesView.setVisible(true)
-        this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
-    }
-
-    public hideLevelsView(isBackBtnClicked: boolean): void {
-        const tw = this.showWhiteScreenTween()
-        tw.on('complete', () => {
-            this.levelsView.setVisible(false)
-            this.playBtn.setVisible(false)
-            isBackBtnClicked && this.showSubcategoriesView(this.categoriesView.activeItem, false)
         })
     }
 }
