@@ -10,6 +10,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
     public hintBkg: Phaser.GameObjects.Sprite
     private cellsBkg: Phaser.GameObjects.Sprite
     public cells: CellContainer[] = []
+
     constructor(scene: Phaser.Scene, private config: GameConfig) {
         super(scene)
         this.initialize()
@@ -40,7 +41,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
             edges: EdgesConfig[row]
         })
         images.forEach((img, i) => {
-            console.log(img.displayWidth, img.displayHeight)
             const cell = new CellContainer(this.scene, i)
             cell.setSize(img.displayWidth, img.displayHeight)
             img.preFX?.addGlow(0xffffff, 2)
@@ -63,7 +63,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         this.cellsBkg = this.scene.add.sprite(0, 0, 'cellsBkg')
         // this.cellsBkg.alpha = 0.3
         this.add(this.cellsBkg)
-        console.log(this.cellsBkg.width, this.cellsBkg.height)
     }
 
     private initBkg(): void {
@@ -76,6 +75,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         gr.destroy()
 
         this.bkg = this.scene.add.sprite(0, 0, 'boardBkg')
+        this.bkg.setAlpha(0.85)
         // this.bkg.rotation = -Math.PI * 0.5
         this.setSize(this.bkg.width, this.bkg.height)
         this.add(this.bkg)
@@ -87,7 +87,6 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         // this.hintBkg = this.scene.add.sprite(0, 0, category.name.toLocaleLowerCase(), `${subcategory.frame + '.png'}`)
         this.hintBkg.alpha = 0.3
         this.hintBkg.setVisible(false)
-        console.log(this.hintBkg.height)
         this.add(this.hintBkg)
     }
 }

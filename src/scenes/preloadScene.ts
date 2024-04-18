@@ -81,6 +81,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
     private loadAssets(): void {
         this.load.image('bkg', 'assets/img/bkg.png')
+        this.load.image('blur-bkg', 'assets/img/blur-bkg.png')
         this.load.image('puzzle-piece', 'assets/img/puzzle-piece.png')
         this.load.image('logo', 'assets/img/logo.png')
         this.load.image('diffBg', 'assets/img/diffBg.png')
@@ -89,6 +90,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('bkg1', 'assets/img/bkg1.png')
         this.load.image('car', 'assets/img/car.png')
         this.load.image('next-btn', 'assets/buttons/next-btn.png')
+        this.load.image('btn1', 'assets/buttons/btn1.png')
+        this.load.image('btn2', 'assets/buttons/btn2.png')
+        this.load.image('btn3', 'assets/buttons/btn3.png')
+        this.load.image('close-btn', 'assets/buttons/close-btn.png')
         this.load.image('hint-btn', 'assets/buttons/hint-btn.png')
         this.load.image('back-btn', 'assets/buttons/back-btn.png')
         this.load.image('next-icon', 'assets/icons/next-icon.png')
@@ -98,6 +103,12 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('mute-icon', 'assets/icons/mute.png')
         this.load.image('show-icon', 'assets/icons/show.png')
         this.load.image('unmute-icon', 'assets/icons/unmute.png')
+        this.load.image('biography-bkg', 'assets/popups/biography-bkg.png')
+        this.load.image('activity-bkg', 'assets/popups/activity-bkg.png')
+        this.load.image('quiz-bkg', 'assets/popups/quiz-bkg.png')
+        this.load.image('green-bkg', 'assets/popups/green-bkg.png')
+        this.load.image('yellow-bkg', 'assets/popups/yellow-bkg.png')
+        this.load.image('orange-bkg', 'assets/popups/orange-bkg.png')
 
         let categories = [
             'animals',

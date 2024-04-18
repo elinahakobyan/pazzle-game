@@ -1,5 +1,5 @@
 import Container = Phaser.GameObjects.Container
-import { MenuConfig } from '../../typings/types'
+import { Category, GameConfig, MenuConfig } from '../../typings/types'
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { HeaderContainer } from '../Components/HeaderContainer'
 import { LevelComponent } from '../Components/LevelComponent'
@@ -23,11 +23,7 @@ export class MenuScreen extends Container {
     private currentState: MenuStates
     // private gameConfig: GameConfig = {}
     // private gameConfig: {}
-    private gameConfig: {
-        level: { level: string; name: string }
-        category: { name: string }
-        subcategory: { name: string; frame: string; description?: string }
-    }
+    private gameConfig: GameConfig
     constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
         super(scene)
         this.gameConfig = {
@@ -238,9 +234,9 @@ export class MenuScreen extends Container {
         switch (this.currentState) {
             case MenuStates.CategoriesState: {
                 console.log('GameStates.SubcategoryState')
+
                 this.showSubcategoriesView(activeItem, true)
                 if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
-                    console.warn((activeItem as CategoryComponent).categoryConfig)
                     this.gameConfig.category.name = (activeItem as CategoryComponent).categoryConfig?.name
                 }
                 break
@@ -252,8 +248,13 @@ export class MenuScreen extends Container {
                     this.gameConfig.subcategory.name = (activeItem as CategoryComponent).categoryConfig.name
                     this.gameConfig.subcategory.frame = (activeItem as CategoryComponent).categoryConfig?.frame
                     this.gameConfig.subcategory.description = (
-                        activeItem as CategoryComponent
-                    ).categoryConfig?.description
+                        (activeItem as CategoryComponent).categoryConfig as {
+                            name: string
+                            id?: string | undefined
+                            frame: string
+                            description: string
+                        }
+                    ).description
                 }
                 break
             }
@@ -274,7 +275,10 @@ export class MenuScreen extends Container {
             this.subcategoriesView.deactivateSubcategory()
         }
         this.subcategoriesView.title = activeItem.categoryConfig.name
-        this.subcategoriesView.setContentConfig(activeItem.categoryConfig.themes, activeItem.categoryConfig.name)
+        this.subcategoriesView.setContentConfig(
+            ((activeItem as CategoryComponent).categoryConfig as Category).themes,
+            activeItem.categoryConfig.name
+        )
     }
 
     public showLevelsView(target?: Sprite): void {

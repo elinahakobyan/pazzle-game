@@ -5,6 +5,7 @@ import { GameStates, MenuStates } from '../enums/MenuStates'
 import { MenuScreen } from './MenuScreen'
 import { PuzzleScreen } from './PuzzleScreen'
 import { InitialScreen } from './InitialScreen'
+import { BiographyPopup } from '../popups/BiographyPopup'
 
 export class GameScreen extends Container {
     private header: HeaderContainer
@@ -27,6 +28,7 @@ export class GameScreen extends Container {
         this.initHeader()
         this.initInitialScreen()
         this.initBlocker()
+
         // this.initMenuScreen()
     }
 
@@ -64,11 +66,6 @@ export class GameScreen extends Container {
         this.add(this.menuScreen)
         // this.menuScreen.setVisible(false)
         this.bringToTop(this.header)
-
-        // const gr = this.scene.add.graphics()
-        // gr.fillStyle(0xfff000, 0.2)
-        // gr.fillRect(this.menuScreen.x, this.menuScreen.y, this.menuScreen.width, this.menuScreen.height)
-        // this.add(gr)
     }
 
     private showMenuScreen(config): void {
@@ -89,6 +86,39 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.initialScreen.setVisible(false)
             this.showMenuScreen(config)
+
+            const popupConfig = {
+                biography: '',
+                activity: '',
+                quiz: {
+                    1: {
+                        question: '',
+                        answer1: { text: '', id: '1', isRightAnswer: false },
+                        answer2: { text: '', id: '2', isRightAnswer: false },
+                        answer3: { text: '', id: '3', isRightAnswer: false },
+                        answer4: { text: '', id: '4', isRightAnswer: false }
+                    }
+                }
+            }
+
+            const sprite = this.scene.add.sprite(1920 / 2, 1080 / 2, 'blur-bkg')
+            this.add(sprite)
+
+            const infoPopup = new BiographyPopup(this.scene, popupConfig.biography)
+            infoPopup.setPosition(1920 / 2, 1080 / 2)
+            this.add(infoPopup)
+            //
+            // const sprite = this.scene.add.sprite(1920 / 2, 1080 / 2, 'blur-bkg')
+            // sprite.s
+            // sprite.alpha = 0.9
+            // const fx = sprite.preFX?.addBlur(0.5, 0, 0, 20, 0x000000, 6)
+            // this.scene.add.tween({
+            //     targets: fx,
+            //     strength: 0,
+            //     duration: 200,
+            //     yoyo: true
+            //     // repeat: -1
+            // })
         })
     }
 

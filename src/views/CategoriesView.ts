@@ -1,14 +1,12 @@
 import Container = Phaser.GameObjects.Container
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { MenuScreen } from '../screens/MenuScreen'
+import { Category } from '../../typings/types'
 
 export class CategoriesView extends Container {
     public activeItem: CategoryComponent | null
     public menuScreen: MenuScreen
-    constructor(
-        scene: Phaser.Scene,
-        private categoriesConfig: { name: string; frame: string; themes: { name: string; frame: string }[] }[]
-    ) {
+    constructor(scene: Phaser.Scene, private categoriesConfig: Category[]) {
         super(scene)
         this.activeItem = null
         this.initialize()

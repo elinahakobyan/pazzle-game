@@ -11,7 +11,15 @@ export class SubcategoriesView extends Container {
         this.activeItem = null
     }
 
-    public setContentConfig(themes, category: string): void {
+    public setContentConfig(
+        themes: {
+            name: string
+            id?: string
+            frame: string
+            description?: string
+        }[],
+        category: string
+    ): void {
         themes.forEach((t, i) => {
             this.categories[i].setContent(t, category)
         })

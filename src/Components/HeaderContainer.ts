@@ -102,7 +102,6 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         this.title.setVisible(visibility)
         if (!text) return
         const t = text == 'Categories' ? 'Կատեգորիաներ' : text == 'Levels' ? 'Մակարդակ' : text
-        console.log(text)
         this.title.text = t ? t : ''
     }
 

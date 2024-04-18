@@ -9,6 +9,8 @@ import { EdgesConfig } from '../configs/EdgesConfig'
 import Sprite = Phaser.GameObjects.Sprite
 import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
+import { BaseButton } from '../buttons/BaseButton'
+import { gameOverButtonConfigs } from '../configs/GameOverButtonConfigs'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
     public gameLayer: Phaser.GameObjects.Container
@@ -24,6 +26,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         y: number
     }[] = []
     glow: Phaser.FX.Glow | undefined
+    private biographyBtn: BaseButton
+    private buttons: BaseButton[] = []
     constructor(
         scene: Phaser.Scene,
         private header: HeaderContainer,
@@ -152,7 +156,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             this.removeListeners()
             this.hideHintIcon()
             this.showPiecesAnimation()
-            this.showGameOverText()
+
+            this.showButtons()
+            // this.showGameOverText()
             console.warn('GAMEOVER')
         }
     }
@@ -202,35 +208,41 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         })
     }
 
+    private showButtons(): void {
+        gameOverButtonConfigs.forEach(config => {
+            const btn = new BaseButton(this.scene, config)
+            btn.setPosition(config.position.x, config.position.y)
+            btn.addListener('pointerdown', () => {
+                btn.scaleDownTween()
+            })
+            btn.addListener('pointerup', () => {
+                btn.scaleUpTween()
+            })
+            btn.on('btnCLicked', () => {
+                //
+            })
+            this.buttons.push(btn)
+            this.add(btn)
+        })
+    }
+
     private hideHintIcon(): void {
         this.header.hideHint()
     }
 
     private showGameOverText(): void {
-        console.log(this.config)
         const x = this.boardContainer.x + this.boardContainer.width + 150
         const y = this.boardContainer.y - this.boardContainer.height / 2 + 70
-        // const header = this.scene.add.text(x, y, this.config.subcategory.name, {
-        //     color: '#ffffff',
-        //     fontFamily: 'Arti Regular',
-        //     // color:'#c7a496',
-        //     fontSize: '72px'
-        // })
-        // header.setOrigin(0.5)
-        // header.alpha = 0
-        // this.add(header)
-
-        // this.header.updateTitleVisibility(true, this.config.subcategory.name)
-
         const text = this.scene.add.text(
             x,
             y + 200,
             this.config.subcategory?.description
                 ? this.config.subcategory.description
-                : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+                : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's" +
+                      ' standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ' +
+                      'type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
             {
                 color: '#ffffff',
-                // color:'#c7a496',
                 fontSize: '32px',
                 align: 'center',
                 fontFamily: 'Arti Regular',
@@ -250,15 +262,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             onStart: () => this.header.updateTitleVisibility(true, this.config.subcategory.name),
             onComplete: () => this.header.showRestartIcon()
         })
-
-        // this.scene.add.tween({
-        //   targets:[header,text],
-        //   scale:1.1,
-        //   yoyo:true,
-        //   duration:300,
-        //   delay:this.pieceContainers.length*200,
-        //   ease: Phaser.Math.Easing.Cubic.Out,
-        // })
     }
 
     private checkForPlace(piece: PieceContainer): void {
