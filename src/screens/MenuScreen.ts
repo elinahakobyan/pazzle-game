@@ -32,6 +32,7 @@ export class MenuScreen extends Container {
             },
             subcategory: {
                 name: '',
+                id: '',
                 frame: '',
                 description: ''
             },
@@ -255,6 +256,14 @@ export class MenuScreen extends Container {
                             description: string
                         }
                     ).description
+                    this.gameConfig.subcategory.id = (
+                        (activeItem as CategoryComponent).categoryConfig as {
+                            name: string
+                            id?: string | undefined
+                            frame: string
+                            description: string
+                        }
+                    ).id
                 }
                 break
             }

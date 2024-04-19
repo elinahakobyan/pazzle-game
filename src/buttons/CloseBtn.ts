@@ -1,5 +1,7 @@
 import Container = Phaser.GameObjects.Container
 import Tween = Phaser.Tweens.Tween
+import { IocContext } from 'power-di'
+import { PopupService } from '../services/PopupService'
 
 export class CloseBtn extends Container {
     constructor(scene: Phaser.Scene) {
@@ -13,6 +15,7 @@ export class CloseBtn extends Container {
             duration: 150,
             scale: 1,
             complete: () => {
+                console.log('hahahah')
                 this.emit('closeBtnClicked')
             }
         })

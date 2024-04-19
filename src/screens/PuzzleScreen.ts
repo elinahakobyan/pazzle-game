@@ -11,6 +11,10 @@ import Pointer = Phaser.Input.Pointer
 import BasePlugin = Phaser.Plugins.BasePlugin
 import { BaseButton } from '../buttons/BaseButton'
 import { gameOverButtonConfigs } from '../configs/GameOverButtonConfigs'
+import { ButtonTypes } from '../enums/MenuStates'
+import { IocContext } from 'power-di'
+import { PopupService } from '../services/PopupService'
+import { charactersDescription } from '../configs/menuConfigs'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
     public gameLayer: Phaser.GameObjects.Container
@@ -26,8 +30,10 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         y: number
     }[] = []
     glow: Phaser.FX.Glow | undefined
+    private popupService = IocContext.DefaultInstance.get(PopupService)
     private biographyBtn: BaseButton
     private buttons: BaseButton[] = []
+    private blockerLayer: Phaser.GameObjects.Container
     constructor(
         scene: Phaser.Scene,
         private header: HeaderContainer,
@@ -51,6 +57,15 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         this.updateHeader()
         this.initBoardContainer()
         this.initPieces()
+        this.initBlockerLayer()
+    }
+
+    private initBlockerLayer(): void {
+        this.blockerLayer = this.scene.add.container()
+        this.blockerLayer.z = 10
+        this.add(this.blockerLayer)
+        this.popupService.blockerLayer = this.blockerLayer
+        this.popupService.initialize()
     }
 
     private updateHeader(): void {
@@ -156,7 +171,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             this.removeListeners()
             this.hideHintIcon()
             this.showPiecesAnimation()
-
             this.showButtons()
             // this.showGameOverText()
             console.warn('GAMEOVER')
@@ -209,21 +223,45 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
 
     private showButtons(): void {
-        gameOverButtonConfigs.forEach(config => {
+        gameOverButtonConfigs.forEach((config, i) => {
             const btn = new BaseButton(this.scene, config)
-            btn.setPosition(config.position.x, config.position.y)
+            btn.setPosition(2100, config.position.y)
+            // btn.setPosition(config.position.x, config.position.y)
             btn.addListener('pointerdown', () => {
                 btn.scaleDownTween()
             })
             btn.addListener('pointerup', () => {
                 btn.scaleUpTween()
             })
-            btn.on('btnCLicked', () => {
-                //
+            btn.on('baseBtnClicked', type => {
+                this.handleBtnClicked(config, type)
             })
             this.buttons.push(btn)
             this.add(btn)
+
+            this.scene.add.tween({
+                targets: btn,
+                x: config.position.x,
+                duration: 400,
+                delay: i * 100,
+                ease: Phaser.Math.Easing.Back.Out
+            })
         })
+    }
+
+    private handleBtnClicked(config, type: string): void {
+        if (this.config.subcategory.id) {
+            const config = charactersDescription[this.config.subcategory.id]
+            if (type === ButtonTypes.BiographyBtn) {
+                this.popupService.showBiographyPopup(this.scene, config.biography)
+                this.bringToTop(this.blockerLayer)
+            } else if (type === ButtonTypes.ActivityBtn) {
+                this.popupService.showActivityPopup(this.scene, config.activity)
+                this.bringToTop(this.blockerLayer)
+            } else {
+                // this.popupService.showBiographyPopup()
+            }
+        }
     }
 
     private hideHintIcon(): void {

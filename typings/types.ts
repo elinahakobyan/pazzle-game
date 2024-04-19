@@ -27,6 +27,7 @@ export interface Category {
 export interface SubCategory {
     name: string
     frame: string
+    id?: string
     description: string
 }
 export interface Level {

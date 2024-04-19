@@ -20,7 +20,7 @@ export class BaseButton extends Container {
             duration: 150,
             scale: 1,
             complete: () => {
-                this.emit('btnClicked')
+                this.emit('baseBtnClicked', this.config.text)
             }
         })
     }

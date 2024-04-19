@@ -8,3 +8,9 @@ export const enum GameStates {
     MenuState,
     GameState
 }
+
+export const enum ButtonTypes {
+    BiographyBtn = 'Կենսագրություն',
+    ActivityBtn = 'Գործունեություն',
+    QuizBtn = 'Հարցում'
+}

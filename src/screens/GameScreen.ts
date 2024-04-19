@@ -6,15 +6,19 @@ import { MenuScreen } from './MenuScreen'
 import { PuzzleScreen } from './PuzzleScreen'
 import { InitialScreen } from './InitialScreen'
 import { BiographyPopup } from '../popups/BiographyPopup'
+import { PopupService } from '../services/PopupService'
+import { IocContext } from 'power-di'
 
 export class GameScreen extends Container {
+    public blocker: Phaser.GameObjects.Sprite
+    public currentState: GameStates
     private header: HeaderContainer
     private menuScreen: MenuScreen
-    public currentState: GameStates
     private puzzleScreen: PuzzleScreen
     private whiteScreen: Phaser.GameObjects.Sprite
     private initialScreen: InitialScreen
-    private blocker: Phaser.GameObjects.Sprite
+    private popupService = IocContext.DefaultInstance.get(PopupService)
+    private blockerLayer: Phaser.GameObjects.Container
     constructor(scene) {
         super(scene)
         this.initialize()
@@ -27,16 +31,24 @@ export class GameScreen extends Container {
         this.crateWhiteScreen()
         this.initHeader()
         this.initInitialScreen()
-        this.initBlocker()
+        // this.initBlockerLayer()
+        this.initServices()
+        this.bringToTop(this.blockerLayer)
 
+        // this.initBlocker()
         // this.initMenuScreen()
     }
 
-    private initBlocker(): void {
-        this.blocker = this.scene.add.sprite(1920 / 2, 1080 / 2, 'whiteScreen')
-        this.blocker.alpha = 0
-        this.blocker.setInteractive()
-        this.add(this.blocker)
+    private initBlockerLayer(): void {
+        this.blockerLayer = this.scene.add.container()
+        this.blockerLayer.z = 10
+        this.add(this.blockerLayer)
+    }
+
+    private initServices(): void {
+        this.popupService.gameScreen = this
+        // this.popupService.blockerLayer = this.blockerLayer
+        // this.popupService.initialize()
     }
 
     private initInitialScreen(): void {
@@ -86,39 +98,7 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.initialScreen.setVisible(false)
             this.showMenuScreen(config)
-
-            const popupConfig = {
-                biography: '',
-                activity: '',
-                quiz: {
-                    1: {
-                        question: '',
-                        answer1: { text: '', id: '1', isRightAnswer: false },
-                        answer2: { text: '', id: '2', isRightAnswer: false },
-                        answer3: { text: '', id: '3', isRightAnswer: false },
-                        answer4: { text: '', id: '4', isRightAnswer: false }
-                    }
-                }
-            }
-
-            const sprite = this.scene.add.sprite(1920 / 2, 1080 / 2, 'blur-bkg')
-            this.add(sprite)
-
-            const infoPopup = new BiographyPopup(this.scene, popupConfig.biography)
-            infoPopup.setPosition(1920 / 2, 1080 / 2)
-            this.add(infoPopup)
-            //
-            // const sprite = this.scene.add.sprite(1920 / 2, 1080 / 2, 'blur-bkg')
-            // sprite.s
-            // sprite.alpha = 0.9
-            // const fx = sprite.preFX?.addBlur(0.5, 0, 0, 20, 0x000000, 6)
-            // this.scene.add.tween({
-            //     targets: fx,
-            //     strength: 0,
-            //     duration: 200,
-            //     yoyo: true
-            //     // repeat: -1
-            // })
+            this.bringToTop(this.blockerLayer)
         })
     }
 
@@ -135,6 +115,7 @@ export class GameScreen extends Container {
             this.add(this.puzzleScreen)
         }
         this.bringToTop(this.whiteScreen)
+        this.bringToTop(this.blockerLayer)
     }
 
     private handleBackBtnClick(): void {
@@ -171,6 +152,7 @@ export class GameScreen extends Container {
             this.header.hideRestartIcon()
             this.puzzleScreen.setVisible(false)
             this.menuScreen.showCategoriesView(this.whiteScreen)
+            this.bringToTop(this.blockerLayer)
         })
     }
 
