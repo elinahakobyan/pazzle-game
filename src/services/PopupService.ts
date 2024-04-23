@@ -41,6 +41,18 @@ export class PopupService {
         this.activePopup = activityPopup
     }
 
+    public showQuizPopup(scene: Scene, config: any): void {
+        console.log(this.blocker)
+        this.blocker.setVisible(true)
+        this.blocker.alpha = 0.5
+        // this.gameScreen.bringToTop(this.blockerLayer)
+        this.blockerLayer.bringToTop(this.blocker)
+        const activityPopup = new QuizPopup(scene, config)
+        activityPopup.setPosition(1920 / 2, 1080 / 2)
+        this.gameScreen.add(activityPopup)
+        this.activePopup = activityPopup
+    }
+
     public hideActivePopup(scene): void {
         scene.add.tween({
             targets: [this.activePopup, this.blocker],

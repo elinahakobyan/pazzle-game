@@ -8,6 +8,7 @@ import { InitialScreen } from './InitialScreen'
 import { BiographyPopup } from '../popups/BiographyPopup'
 import { PopupService } from '../services/PopupService'
 import { IocContext } from 'power-di'
+import { QuizPopup } from '../popups/QuizPopup'
 
 export class GameScreen extends Container {
     public blocker: Phaser.GameObjects.Sprite
@@ -34,6 +35,42 @@ export class GameScreen extends Container {
         // this.initBlockerLayer()
         this.initServices()
         this.bringToTop(this.blockerLayer)
+        // const config = [
+        //     {
+        //         question:
+        //             'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+        //         answers: [
+        //             { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: true },
+        //             { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+        //         ]
+        //     },
+        //     {
+        //         question:
+        //             'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+        //         answers: [
+        //             { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: true },
+        //             { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+        //         ]
+        //     },
+        //     {
+        //         question:
+        //             'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+        //         answers: [
+        //             { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: false },
+        //             { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: true },
+        //             { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+        //         ]
+        //     }
+        // ]
+        //
+        // const a = new QuizPopup(this.scene, config)
+        // a.setPosition(1920 / 2, 1080 / 2 - 200)
+        // this.add(a)
 
         // this.initBlocker()
         // this.initMenuScreen()

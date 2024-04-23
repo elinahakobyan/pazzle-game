@@ -19,7 +19,7 @@ export class BaseButton extends Container {
             targets: this,
             duration: 150,
             scale: 1,
-            complete: () => {
+            onComplete: () => {
                 this.emit('baseBtnClicked', this.config.text)
             }
         })

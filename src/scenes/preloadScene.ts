@@ -109,6 +109,11 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('green-bkg', 'assets/popups/green-bkg.png')
         this.load.image('yellow-bkg', 'assets/popups/yellow-bkg.png')
         this.load.image('orange-bkg', 'assets/popups/orange-bkg.png')
+        this.load.image('answer-bkg', 'assets/popups/answer-bkg.png')
+        this.load.image('answer-icon', 'assets/popups/answer-icon.png')
+        this.load.image('default-frame', 'assets/popups/default-frame.png')
+        this.load.image('green-frame', 'assets/popups/green-frame.png')
+        this.load.image('red-frame', 'assets/popups/red-frame.png')
 
         let categories = [
             'animals',

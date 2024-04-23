@@ -17,7 +17,7 @@ export class DifficultyLevel extends Container {
             targets: this,
             duration: 150,
             scale: 1,
-            complete: () => {
+            onComplete: () => {
                 this.emit('btnClicked')
             }
         })

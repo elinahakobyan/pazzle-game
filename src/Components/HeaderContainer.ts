@@ -22,7 +22,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
             x: -this.width / 2 - 150,
             ease: Phaser.Math.Easing.Elastic.Out,
             duration: 250,
-            complete: () => {
+            onComplete: () => {
                 this.backBtn.setVisible(false)
             }
         })
@@ -92,7 +92,7 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
             x: this.width + 100,
             ease: Phaser.Math.Easing.Elastic.Out,
             duration: 150,
-            complete: () => {
+            onComplete: () => {
                 this.hint.setVisible(false)
             }
         })

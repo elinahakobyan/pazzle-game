@@ -211,10 +211,10 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             alpha: 1,
             duration: 350,
             // delay:this.pieceContainers.length*160+250,
-            complete: () => {
+            onComplete: () => {
                 this.boardContainer.hintBkg.alpha = 1
             },
-            start: () => {
+            onStart: () => {
                 this.boardContainer.hintBkg.setVisible(true)
                 this.boardContainer.hintBkg.alpha = 0
             },
@@ -242,9 +242,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             this.scene.add.tween({
                 targets: btn,
                 x: config.position.x,
-                duration: 400,
+                duration: 200,
                 delay: i * 100,
-                ease: Phaser.Math.Easing.Back.Out
+                ease: Phaser.Math.Easing.Circular.InOut
             })
         })
     }
@@ -252,6 +252,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     private handleBtnClicked(config, type: string): void {
         if (this.config.subcategory.id) {
             const config = charactersDescription[this.config.subcategory.id]
+            console.log(config)
+
             if (type === ButtonTypes.BiographyBtn) {
                 this.popupService.showBiographyPopup(this.scene, config.biography)
                 this.bringToTop(this.blockerLayer)
@@ -259,7 +261,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 this.popupService.showActivityPopup(this.scene, config.activity)
                 this.bringToTop(this.blockerLayer)
             } else {
-                // this.popupService.showBiographyPopup()
+                this.popupService.showQuizPopup(this.scene, config.quiz)
             }
         }
     }

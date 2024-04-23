@@ -514,14 +514,37 @@ export const charactersDescription = {
             'Պոլսում։Այնտեղ նա հիմնել է 300 անդամից բաղկացած «Գուսան» երգչախումբը։ 1915 թվականի ապրիլ 24-ին նա շատ ուրիշ հայ մտավորականների պես ձերբակալվել է' +
             'և հարկադրված քայլել աքսորի ճամփաներով դեպի Արաբիայի անապատները։',
         activity: '',
-        quiz: {
-            1: {
-                question: '',
-                answer1: { text: '', id: '1', isRightAnswer: false },
-                answer2: { text: '', id: '2', isRightAnswer: false },
-                answer3: { text: '', id: '3', isRightAnswer: false },
-                answer4: { text: '', id: '4', isRightAnswer: false }
+        quiz: [
+            {
+                question:
+                    'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+                answers: [
+                    { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: true },
+                    { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+                ]
+            },
+            {
+                question:
+                    'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+                answers: [
+                    { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: true },
+                    { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+                ]
+            },
+            {
+                question:
+                    'Սողոմոն Գևորգի Սողոմոնյանը ծնվել է 1869 թվականի սեպտեմբերի 26-ին Թուրքիայի Քյոթահիա քաղաքում`երաժշտասեր մի ընտանիքում:',
+                answers: [
+                    { text: 'Սողոմոն Գևորգի', id: '1', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '2', isRightAnswer: false },
+                    { text: 'Սողոմոն Գևորգի', id: '3', isRightAnswer: true },
+                    { text: 'Սողոմոն Գևորգի', id: '4', isRightAnswer: false }
+                ]
             }
-        }
+        ]
     }
 }
