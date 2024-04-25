@@ -1,17 +1,15 @@
 import Container = Phaser.GameObjects.Container
+import Sprite = Phaser.GameObjects.Sprite
 import { Category, GameConfig, MenuConfig } from '../../typings/types'
 import { CategoryComponent } from '../Components/CategoryComponent'
 import { HeaderContainer } from '../Components/HeaderContainer'
 import { LevelComponent } from '../Components/LevelComponent'
 import { NextButton } from '../buttons/NextButton'
-import { menuConfig1 } from '../configs/menuConfigs'
-import { MenuStates } from '../enums/MenuStates'
+import { DifficultyLevelTypes, MenuStates } from '../enums/MenuStates'
 import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
 import { SubcategoriesView } from '../views/SubcategoriesView'
 import { GameScreen } from './GameScreen'
-import Sprite = Phaser.GameObjects.Sprite
-import { makeNinePatch } from '../configs/NinePatcheConfigs'
 
 export class MenuScreen extends Container {
     private categoriesView: CategoriesView
@@ -24,9 +22,15 @@ export class MenuScreen extends Container {
     // private gameConfig: GameConfig = {}
     // private gameConfig: {}
     private gameConfig: GameConfig
-    constructor(scene: Phaser.Scene, private header: HeaderContainer, private menuConfig: MenuConfig) {
+    constructor(
+        scene: Phaser.Scene,
+        private header: HeaderContainer,
+        private menuConfig: MenuConfig,
+        private difficultyLevel: string
+    ) {
         super(scene)
         this.gameConfig = {
+            difficultyLevel: difficultyLevel,
             category: {
                 name: ''
             },
@@ -64,6 +68,7 @@ export class MenuScreen extends Container {
         tw.on('complete', () => {
             this.subcategoriesView.setVisible(false)
             this.showCategoriesView()
+            this.header.updateBackBtnState()
         })
     }
 
@@ -72,6 +77,7 @@ export class MenuScreen extends Container {
         tw.on('complete', () => {
             this.levelsView.setVisible(false)
             this.playBtn.setVisible(false)
+            this.header.updateBackBtnState()
             isBackBtnClicked && this.showSubcategoriesView(this.categoriesView.activeItem, false)
         })
     }

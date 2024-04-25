@@ -5,6 +5,7 @@ import { MusicContainer } from './MusicContainer'
 import { RestartContainer } from './RestartContainer'
 
 export class HeaderContainer extends Phaser.GameObjects.Container {
+    public isBackBtnClicked: boolean = false
     private title: Phaser.GameObjects.Text
     private backBtn: BackButton
     private hint: HintContainer
@@ -14,6 +15,11 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         super(scene)
 
         this.initialise()
+    }
+
+    public updateBackBtnState(): void {
+        this.isBackBtnClicked = !this.isBackBtnClicked
+        console.log(this.isBackBtnClicked)
     }
 
     public hideBackButton(): void {
@@ -153,7 +159,13 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         })
         this.backBtn.on('pointerup', () => {
             this.backBtn.setScale(1)
-            this.emit('onBackBtnClick')
+            console.log('KAKAKAKAKAKAKAKAKAKAK')
+            if (!this.isBackBtnClicked) {
+                console.warn('emiteed')
+
+                this.emit('onBackBtnClick')
+                this.updateBackBtnState()
+            }
         })
         this.add(this.backBtn)
     }

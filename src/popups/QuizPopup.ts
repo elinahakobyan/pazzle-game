@@ -41,17 +41,31 @@ export class QuizPopup extends Container {
 
     private showNextQuiz(): void {
         this.currentQuizIndex++
-        if (!this.quizzes[this.currentQuizIndex]) return
-        this.scene.add.tween({
-            targets: this.quizzes[this.currentQuizIndex],
-            duration: 250,
-            alpha: 1,
-            // x: -800,
-            onComplete: () => {
-                this.quizzes[this.currentQuizIndex].setVisible(true)
-            }
+        if (!this.quizzes[this.currentQuizIndex]) {
+            this.showCongratulation()
+        } else {
+            this.scene.add.tween({
+                targets: this.quizzes[this.currentQuizIndex],
+                duration: 250,
+                alpha: 1,
+                // x: -800,
+                onComplete: () => {
+                    this.quizzes[this.currentQuizIndex].setVisible(true)
+                }
+            })
+            // this.quizzes[this.currentQuizIndex].setVisible(true)
+        }
+    }
+
+    private showCongratulation(): void {
+        const congratulation = this.scene.add.text(0, 0, 'CONGRATULATION', {
+            color: '#360A58',
+            fontSize: '52px',
+            fontFamily: 'Arti Regular',
+            fontStyle: 'bold'
         })
-        // this.quizzes[this.currentQuizIndex].setVisible(true)
+        congratulation.setOrigin(0.5)
+        this.add(congratulation)
     }
 
     private hideCurrentQuiz(): void {

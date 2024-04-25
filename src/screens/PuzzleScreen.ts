@@ -172,7 +172,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             this.hideHintIcon()
             this.showPiecesAnimation()
             this.showButtons()
-            // this.showGameOverText()
+            this.showGameOverText()
             console.warn('GAMEOVER')
         }
     }
@@ -223,6 +223,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
 
     private showButtons(): void {
+        if (this.config.difficultyLevel !== '2') return
         gameOverButtonConfigs.forEach((config, i) => {
             const btn = new BaseButton(this.scene, config)
             btn.setPosition(2100, config.position.y)
@@ -244,7 +245,9 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 x: config.position.x,
                 duration: 200,
                 delay: i * 100,
-                ease: Phaser.Math.Easing.Circular.InOut
+                ease: Phaser.Math.Easing.Circular.InOut,
+                onStart: () => this.header.updateTitleVisibility(true, this.config.subcategory.name),
+                onComplete: () => this.header.showRestartIcon()
             })
         })
     }
@@ -252,8 +255,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     private handleBtnClicked(config, type: string): void {
         if (this.config.subcategory.id) {
             const config = charactersDescription[this.config.subcategory.id]
-            console.log(config)
-
             if (type === ButtonTypes.BiographyBtn) {
                 this.popupService.showBiographyPopup(this.scene, config.biography)
                 this.bringToTop(this.blockerLayer)
@@ -262,6 +263,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 this.bringToTop(this.blockerLayer)
             } else {
                 this.popupService.showQuizPopup(this.scene, config.quiz)
+                this.bringToTop(this.blockerLayer)
             }
         }
     }
@@ -271,6 +273,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
 
     private showGameOverText(): void {
+        console.log(this.config)
+        if (this.config.difficultyLevel !== '1') return
         const x = this.boardContainer.x + this.boardContainer.width + 150
         const y = this.boardContainer.y - this.boardContainer.height / 2 + 70
         const text = this.scene.add.text(

@@ -65,7 +65,7 @@ export class InitialScreen extends Container {
             })
             diffLevel.on('btnClicked', () => {
                 // this.downTween && this.downTween.destroy()
-                this.emit('onNextBtnClicked', this.activeItem?.content)
+                this.emit('onNextBtnClicked', this.activeItem?.content, this.activeItem?.labelConfig.text)
             })
         })
     }

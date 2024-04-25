@@ -20,6 +20,7 @@ export class GameScreen extends Container {
     private initialScreen: InitialScreen
     private popupService = IocContext.DefaultInstance.get(PopupService)
     private blockerLayer: Phaser.GameObjects.Container
+    private isBackBtnClicked: boolean = false
     constructor(scene) {
         super(scene)
         this.initialize()
@@ -91,8 +92,8 @@ export class GameScreen extends Container {
     private initInitialScreen(): void {
         const initialScreen = new InitialScreen(this.scene)
         this.currentState = GameStates.InitialState
-        initialScreen.on('onNextBtnClicked', config => {
-            this.hideInitialScreen(config)
+        initialScreen.on('onNextBtnClicked', (config, difficultyLevel) => {
+            this.hideInitialScreen(config, difficultyLevel)
             // this.showMenuScreen(config)
         })
         this.add((this.initialScreen = initialScreen))
@@ -108,8 +109,8 @@ export class GameScreen extends Container {
         this.add((this.header = header))
     }
 
-    private initMenuScreen(menuConfig): void {
-        this.menuScreen = new MenuScreen(this.scene, this.header, menuConfig)
+    private initMenuScreen(menuConfig, difficultyLevel): void {
+        this.menuScreen = new MenuScreen(this.scene, this.header, menuConfig, difficultyLevel)
         this.currentState = GameStates.MenuState
         this.menuScreen.on('playBtnClicked', this.initPuzzleScreen, this)
         this.add(this.menuScreen)
@@ -117,24 +118,24 @@ export class GameScreen extends Container {
         this.bringToTop(this.header)
     }
 
-    private showMenuScreen(config): void {
+    private showMenuScreen(config, difficultyLevel): void {
         this.hideWhiteScreen()
         if (!this.menuScreen) {
-            this.initMenuScreen(config)
+            this.initMenuScreen(config, difficultyLevel)
             this.header.setVisible(true)
         } else {
             this.menuScreen.destroy()
             this.menuScreen.setVisible(false)
             this.header.setVisible(true)
-            this.initMenuScreen(config)
+            this.initMenuScreen(config, difficultyLevel)
         }
     }
-    private hideInitialScreen(config): void {
+    private hideInitialScreen(config, difficultyLevel): void {
         this.bringToTop(this.whiteScreen)
         const tw = this.showWhiteScreenTween()
         tw.on('complete', () => {
             this.initialScreen.setVisible(false)
-            this.showMenuScreen(config)
+            this.showMenuScreen(config, difficultyLevel)
             this.bringToTop(this.blockerLayer)
         })
     }
@@ -208,6 +209,7 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.header.setVisible(false)
             this.menuScreen.setVisible(false)
+            this.header.updateBackBtnState()
             this.showInitialScreen()
         })
     }
@@ -217,6 +219,7 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.header.hideHint()
             this.header.hideRestartIcon()
+            this.header.updateBackBtnState()
             this.puzzleScreen.setVisible(false)
             this.menuScreen.showLevelsView(this.whiteScreen)
         })

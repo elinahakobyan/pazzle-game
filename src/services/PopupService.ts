@@ -20,10 +20,8 @@ export class PopupService {
     public showBiographyPopup(scene: Scene, config: any): void {
         this.blocker.setVisible(true)
         this.blocker.alpha = 0.5
-
         // this.gameScreen.bringToTop(this.blockerLayer)
         this.blockerLayer.bringToTop(this.blocker)
-
         const biographyPopup = new BiographyPopup(scene, config)
         biographyPopup.setPosition(1920 / 2, 1080 / 2)
         this.gameScreen.add(biographyPopup)

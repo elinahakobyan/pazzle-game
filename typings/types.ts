@@ -1,7 +1,4 @@
-export interface MenuConfig {
-    categories: Category[]
-    levels: Level[]
-}
+import { DifficultyLevelTypes } from '../src/enums/MenuStates'
 
 export interface MenuConfig {
     categories: Category[]
@@ -9,6 +6,7 @@ export interface MenuConfig {
 }
 
 export interface GameConfig {
+    difficultyLevel: string
     category: { name: string }
     subcategory: SubCategory
     level: Level

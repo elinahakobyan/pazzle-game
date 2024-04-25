@@ -14,3 +14,7 @@ export const enum ButtonTypes {
     ActivityBtn = 'Գործունեություն',
     QuizBtn = 'Հարցում'
 }
+export const enum DifficultyLevelTypes {
+    Easy,
+    Hard
+}
