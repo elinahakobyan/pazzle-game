@@ -50,7 +50,9 @@ export class BiographyPopup extends Container {
       wordWrap: { width: this.bkg.width - 370, useAdvancedWrap: true }
     })
     label.setOrigin(0.5)
-    if (label.height > 700) {
+    if (label.height > 800) {
+      label.setFontSize('30px')
+    } else if (label.height > 700) {
       label.setFontSize('32px')
     }
 

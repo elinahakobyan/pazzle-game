@@ -101,27 +101,23 @@ export class AnswerComponent extends Container {
       color: '#ffffff',
       fontFamily: 'Arti Regular',
       align: 'center',
-      fontStyle: 'bold'
+      fontStyle: 'bold',
+      wordWrap: { width: 320, useAdvancedWrap: true }
     })
+
     console.log(text.width)
-    const w = this.bkg.width - 174
-
-    const gr = this.scene.add.graphics()
-    gr.fillStyle(0xffffff, 0.5)
-    gr.fillRect(0, 0, w, this.bkg.height)
-    this.add(gr)
-
-    if (text.width > 280) {
-      text.setFontSize('24px')
-    }
     if (text.width > 320) {
       text.setFontSize('20px')
+    } else if (text.width > 280) {
+      text.setFontSize('24px')
     }
-    const a = (w - text.width) / 2
+    const w = this.bkg.width - this.icon.displayWidth - text.width
+
+    const a = w / 4
     console.log(a, 'aa')
 
     text.setOrigin(0.5)
-    text.setPosition(this.icon.x + this.icon.displayWidth / 2 + text.width / 2 + Math.abs(a), this.icon.y)
+    text.setPosition(this.icon.x + this.icon.displayWidth / 2 + text.width / 2 + a, this.icon.y)
     this.add(text)
   }
 }
