@@ -19,7 +19,6 @@ export class QuizPopup extends Container {
         }[]
     ) {
         super(scene)
-        console.warn('QUIZ CONFIG', quizConfig)
         this.initialize()
     }
 

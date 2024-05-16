@@ -166,7 +166,6 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         })
         this.backBtn.on('pointerup', () => {
             if (this.allowToClick) {
-                console.log('kakakak')
                 this.backBtn.setScale(1)
                 this.emit('onBackBtnClick')
                 this.allowToClick = false
