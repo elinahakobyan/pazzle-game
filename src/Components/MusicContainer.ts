@@ -1,6 +1,11 @@
+import { IocContext } from 'power-di'
+import { SoundService } from '../services/SoundService'
+
 export class MusicContainer extends Phaser.GameObjects.Container {
     private showIcon: Phaser.GameObjects.Sprite
     private hideIcon: Phaser.GameObjects.Sprite
+    private soundService = IocContext.DefaultInstance.get(SoundService)
+
     constructor(scene: Phaser.Scene) {
         super(scene)
         this.initialize()
@@ -10,9 +15,11 @@ export class MusicContainer extends Phaser.GameObjects.Container {
         if (this.showIcon.visible) {
             this.showIcon.setVisible(false)
             this.hideIcon.setVisible(true)
+            this.soundService.playBkgMusic()
         } else {
             this.hideIcon.setVisible(false)
             this.showIcon.setVisible(true)
+            this.soundService.stopBkgMusic()
         }
     }
 

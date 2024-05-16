@@ -10,6 +10,8 @@ import { CategoriesView } from '../views/CategoriesView'
 import { LevelsView } from '../views/LevelsView'
 import { SubcategoriesView } from '../views/SubcategoriesView'
 import { GameScreen } from './GameScreen'
+import { IocContext } from 'power-di'
+import { SoundService } from '../services/SoundService'
 
 export class MenuScreen extends Container {
     private categoriesView: CategoriesView
@@ -158,10 +160,12 @@ export class MenuScreen extends Container {
     }
 
     private initNextBtn(): void {
+        const soundService = IocContext.DefaultInstance.get(SoundService)
         const btn = new NextButton(this.scene, { text: 'NEXT', frame: 'next' })
         btn.setPosition(1920 / 2 + 7, 1080 / 2 + 320)
         btn.disable()
         btn.on('pointerdown', () => {
+            soundService.playSfx('tap')
             btn.scaleDownTween()
         })
         btn.on('pointerup', () => {
@@ -173,11 +177,14 @@ export class MenuScreen extends Container {
         this.add((this.nextBtn = btn))
     }
     private initPlayBtn(): void {
+        const soundService = IocContext.DefaultInstance.get(SoundService)
+
         const btn = new NextButton(this.scene, { text: 'PLAY', frame: 'play' })
         btn.setPosition(1920 / 2 + 8, 1080 / 2 + 320)
         btn.disable()
 
         btn.on('pointerdown', () => {
+            soundService.playSfx('tap')
             btn.scaleDownTween()
         })
         btn.on('pointerup', () => {

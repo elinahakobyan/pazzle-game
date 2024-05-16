@@ -47,6 +47,7 @@ export default class PreloadScene extends Phaser.Scene {
         //   this.load.image(key, `assets/subcategories/vehicles/${key}.png`)
         // })
         this.loadAssets()
+        this.loadSounds()
         this.load.start()
     }
 
@@ -78,6 +79,15 @@ export default class PreloadScene extends Phaser.Scene {
     private initPreloadScreen(): void {
         this.preloadScreen = new PreloadScreen(this)
         this.add.existing(this.preloadScreen)
+    }
+
+    private loadSounds() {
+        this.load.audio('theme', 'assets/sounds/theme.mp3')
+        this.load.audio('right-answer', 'assets/sounds/right-answer.mp3')
+        this.load.audio('wrong-answer', 'assets/sounds/wrong-answer.mp3')
+        this.load.audio('tap', 'assets/sounds/tap.mp3')
+        this.load.audio('select', 'assets/sounds/select.mp3')
+        this.load.audio('sparkle', 'assets/sounds/sparkle.mp3')
     }
     private loadAssets(): void {
         this.load.image('bkg', 'assets/img/bkg.png')

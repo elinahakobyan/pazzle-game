@@ -1,5 +1,7 @@
 import Container = Phaser.GameObjects.Container
 import { LevelComponent } from '../Components/LevelComponent'
+import { IocContext } from 'power-di'
+import { SoundService } from '../services/SoundService'
 
 export class LevelsView extends Container {
     public activeItem: LevelComponent | null
@@ -13,23 +15,19 @@ export class LevelsView extends Container {
     }
 
     private initLevels(): void {
+        const soundService = IocContext.DefaultInstance.get(SoundService)
+
         const gap = 170
-        const w = 270 * 3 + 2 * gap
-
-        // const gap = 25
         const x = (1920 - (3 * 270 + 2 * gap)) / 2
-
-        // category.setPosition(i * (category.width + gap) + x + category.width / 2 + 5, 920 / 2 - 100)
-
         this.levelsConfigs.forEach((lvl, i) => {
             const level = new LevelComponent(this.scene, lvl)
-            // level.setPosition(100, 100)
             level.setPosition(
                 i * (level.width + gap) + x + level.width / 2 + 5,
                 // i * (level.width + gap) + 560,
                 920 / 2 - 100
             )
             level.on('pointerup', () => {
+                soundService.playSfx('select')
                 this.handleCategoryPointerUp(level)
             })
             this.add(level)

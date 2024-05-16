@@ -15,6 +15,9 @@ import { ButtonTypes } from '../enums/MenuStates'
 import { IocContext } from 'power-di'
 import { PopupService } from '../services/PopupService'
 import { charactersDescription } from '../configs/menuConfigs'
+import { SoundService } from '../services/SoundService'
+import { EventEmitter } from 'events'
+import { logger } from 'power-di/utils'
 
 export class PuzzleScreen extends Phaser.GameObjects.Container {
     public gameLayer: Phaser.GameObjects.Container
@@ -24,16 +27,16 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     private gapY: number = 0
     private isGameOver: boolean = false
     private pieceContainers: PieceContainer[] = []
-    private whiteScreen: Phaser.GameObjects.Sprite
     private shuffledPiecesPositions: {
         x: number
         y: number
     }[] = []
     glow: Phaser.FX.Glow | undefined
     private popupService = IocContext.DefaultInstance.get(PopupService)
-    private biographyBtn: BaseButton
+    private soundService = IocContext.DefaultInstance.get(SoundService)
     private buttons: BaseButton[] = []
     private blockerLayer: Phaser.GameObjects.Container
+    private event$: Phaser.Events.EventEmitter
     constructor(
         scene: Phaser.Scene,
         private header: HeaderContainer,
@@ -58,6 +61,17 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
         this.initBoardContainer()
         this.initPieces()
         this.initBlockerLayer()
+        this.attachListener()
+    }
+
+    private attachListener(): void {
+        this.popupService.event$.on('popupClosed', (type: ButtonTypes) => {
+            if (type === ButtonTypes.BiographyBtn) {
+                this.buttons[1].enable()
+            } else if (type === ButtonTypes.ActivityBtn) {
+                this.buttons[2].enable()
+            }
+        })
     }
 
     private initBlockerLayer(): void {
@@ -117,13 +131,15 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
 
     private onDragend(piece: PieceContainer): void {
         if (this.allowToPLace) {
+            this.soundService.playSfx('right-answer')
             piece.setPosition(piece.absolutePosition.x, piece.absolutePosition.y)
+            piece.disableInteractive()
             this.placedPiecesCount += 1
             this.allowToPLace = false
             this.checkForGameOver()
         } else {
+            this.soundService.playSfx('wrong-answer')
             piece.setPosition(piece.initialPos.x, piece.initialPos.y)
-            // this.placedPiecesCount -= 1
         }
     }
 
@@ -171,7 +187,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             this.removeListeners()
             this.hideHintIcon()
             this.showPiecesAnimation()
-            this.showButtons()
+            // this.showButtons()
             this.showGameOverText()
             console.warn('GAMEOVER')
         }
@@ -193,10 +209,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 duration: 300,
                 yoyo: true,
                 ease: Phaser.Math.Easing.Sine.In,
-                delay: i * 130,
-                start: () => {
-                    // this.bringToTop(piece)
-                }
+                delay: i * 130
             })
             this.scene.add.tween({
                 targets: piece,
@@ -204,6 +217,10 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 duration: 350,
                 delay: this.pieceContainers.length * 150,
                 ease: Phaser.Math.Easing.Cubic.In
+                // onComplete: () => {
+                //     this.soundService.playSfx('sparkle')
+                //
+                // }
             })
         })
         this.scene.add.tween({
@@ -213,6 +230,8 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             // delay:this.pieceContainers.length*160+250,
             onComplete: () => {
                 this.boardContainer.hintBkg.alpha = 1
+                this.showButtons()
+                this.soundService.playSfx('sparkle')
             },
             onStart: () => {
                 this.boardContainer.hintBkg.setVisible(true)
@@ -237,6 +256,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
             btn.on('baseBtnClicked', type => {
                 this.handleBtnClicked(config, type)
             })
+            config.active ? btn.enable() : btn.disable()
             this.buttons.push(btn)
             this.add(btn)
 
@@ -265,6 +285,7 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
                 this.popupService.showQuizPopup(this.scene, config.quiz)
                 this.bringToTop(this.blockerLayer)
             }
+            this.soundService.playSfx('select')
         }
     }
 

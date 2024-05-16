@@ -1,20 +1,26 @@
-import { injectable, IocContext } from 'power-di'
+import { injectable } from 'power-di'
 import { GameScreen } from '../screens/GameScreen'
 import { ActivityPopup } from '../popups/ActivityPopup'
 import { QuizPopup } from '../popups/QuizPopup'
 import { BiographyPopup } from '../popups/BiographyPopup'
 import { Scene } from 'phaser'
+import { ButtonTypes } from '../enums/MenuStates'
 import Container = Phaser.GameObjects.Container
+import { EventEmitter } from 'events'
+
 @injectable()
 export class PopupService {
     public gameScreen: GameScreen
+    public event$: EventEmitter
     public blockerLayer: Container
     private blocker: Phaser.GameObjects.Sprite
     private activePopup: BiographyPopup | QuizPopup | ActivityPopup | null
+    private activePopupType: ButtonTypes
     constructor() {}
 
     public initialize(): void {
         this.initBlocker()
+        this.event$ = new EventEmitter()
     }
 
     public showBiographyPopup(scene: Scene, config: any): void {
@@ -26,6 +32,7 @@ export class PopupService {
         biographyPopup.setPosition(1920 / 2, 1080 / 2)
         this.gameScreen.add(biographyPopup)
         this.activePopup = biographyPopup
+        this.activePopupType = ButtonTypes.BiographyBtn
     }
     public showActivityPopup(scene: Scene, config: any): void {
         console.log(this.blocker)
@@ -37,6 +44,7 @@ export class PopupService {
         activityPopup.setPosition(1920 / 2, 1080 / 2)
         this.gameScreen.add(activityPopup)
         this.activePopup = activityPopup
+        this.activePopupType = ButtonTypes.ActivityBtn
     }
 
     public showQuizPopup(scene: Scene, config: any): void {
@@ -49,6 +57,7 @@ export class PopupService {
         activityPopup.setPosition(1920 / 2, 1080 / 2)
         this.gameScreen.add(activityPopup)
         this.activePopup = activityPopup
+        this.activePopupType = ButtonTypes.QuizBtn
     }
 
     public hideActivePopup(scene): void {
@@ -61,6 +70,7 @@ export class PopupService {
                 this.activePopup?.destroy()
                 this.activePopup = null
                 this.blocker.alpha = 0
+                this.event$.emit('popupClosed', this.activePopupType)
                 // this.blocker.setVisible(false)
             }
         })

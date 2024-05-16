@@ -5,6 +5,7 @@ export class CategoryComponent extends Container {
     private frame: Phaser.GameObjects.Sprite
     private label: Phaser.GameObjects.Text
     private frameBorder: Phaser.GameObjects.Sprite
+
     public categoryConfig:
         | Category
         | {

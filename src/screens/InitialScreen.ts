@@ -3,6 +3,8 @@ import { NextButton } from '../buttons/NextButton'
 import { DifficultyLevel } from '../Components/DifficultyLevel'
 import { menuConfig1, menuConfig2 } from '../configs/menuConfigs'
 import Sprite = Phaser.GameObjects.Sprite
+import { IocContext } from 'power-di'
+import { SoundService } from '../services/SoundService'
 
 export class InitialScreen extends Container {
     private nextBtn: NextButton
@@ -55,12 +57,13 @@ export class InitialScreen extends Container {
                 position: { x: 1920 / 2 + 120, y: 920 - 50 - 50 }
             }
         ]
-
+        const soundService = IocContext.DefaultInstance.get(SoundService)
         config.forEach((c, i) => {
             const diffLevel = new DifficultyLevel(this.scene, c.labelConfig, c.content, c.rotation)
             diffLevel.setPosition(c.position.x, c.position.y)
             this.add(diffLevel)
             diffLevel.on('pointerup', () => {
+                soundService.playSfx('select')
                 this.handleCategoryPointerUp(diffLevel)
             })
             diffLevel.on('btnClicked', () => {

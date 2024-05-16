@@ -1,5 +1,7 @@
 import Container = Phaser.GameObjects.Container
 import { CategoryComponent } from '../Components/CategoryComponent'
+import { IocContext } from 'power-di'
+import { SoundService } from '../services/SoundService'
 
 export class SubcategoriesView extends Container {
     private categories: CategoryComponent[] = []
@@ -44,11 +46,12 @@ export class SubcategoriesView extends Container {
     private initSubcategories(): void {
         const gap = 25
         const x = (1920 - (5 * 326 + 4 * gap)) / 2
-
+        const soundService = IocContext.DefaultInstance.get(SoundService)
         for (let i = 0; i < 5; i++) {
             const category = new CategoryComponent(this.scene)
             category.setPosition(i * (category.width + gap) + x + category.width / 2 + 5, 920 / 2 - 100)
             category.on('pointerup', () => {
+                soundService.playSfx('select')
                 this.handleCategoryPointerUp(category)
             })
             this.add(category)
