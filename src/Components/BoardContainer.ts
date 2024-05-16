@@ -70,7 +70,7 @@ export class BoardContainer extends Phaser.GameObjects.Container {
         const boardH = 561
         const gr = this.scene.make.graphics({ x: 0, y: 0 }, false)
         gr.fillStyle(0xffffff)
-        gr.fillRoundedRect(0, 0, boardW, boardH, 8)
+        gr.fillRect(0, 0, boardW, boardH)
         gr.generateTexture('boardBkg', boardW, boardH)
         gr.destroy()
 

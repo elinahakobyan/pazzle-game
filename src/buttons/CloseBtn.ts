@@ -15,7 +15,6 @@ export class CloseBtn extends Container {
             duration: 150,
             scale: 1,
             onComplete: () => {
-                console.log('hahahah')
                 this.emit('closeBtnClicked')
             }
         })

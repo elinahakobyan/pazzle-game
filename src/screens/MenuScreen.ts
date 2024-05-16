@@ -21,8 +21,6 @@ export class MenuScreen extends Container {
     private levelsView: LevelsView
     private playBtn: NextButton
     private currentState: MenuStates
-    // private gameConfig: GameConfig = {}
-    // private gameConfig: {}
     private gameConfig: GameConfig
     constructor(
         scene: Phaser.Scene,
@@ -70,7 +68,8 @@ export class MenuScreen extends Container {
         tw.on('complete', () => {
             this.subcategoriesView.setVisible(false)
             this.showCategoriesView()
-            this.header.updateBackBtnState()
+            // this.header.allowToClick = true
+            // this.header.updateBackBtnState()
         })
     }
 
@@ -79,8 +78,9 @@ export class MenuScreen extends Container {
         tw.on('complete', () => {
             this.levelsView.setVisible(false)
             this.playBtn.setVisible(false)
-            this.header.updateBackBtnState()
+            // this.header.updateBackBtnState()
             isBackBtnClicked && this.showSubcategoriesView(this.categoriesView.activeItem, false)
+            // this.header.allowToClick = true
         })
     }
 
@@ -102,10 +102,12 @@ export class MenuScreen extends Container {
             Phaser.Geom.Rectangle.Contains
         )
         this.on('pointerup', () => {
-            if (this.getActiveItem()) {
+            let activeItem = this.getActiveItem()
+            if (activeItem) {
                 this.nextBtn.disable()
                 this.playBtn.visible && this.playBtn.disable()
-                this.getActiveItem().deactivate()
+                activeItem.deactivate()
+                activeItem.active = false
             }
         })
     }
@@ -248,7 +250,6 @@ export class MenuScreen extends Container {
         switch (this.currentState) {
             case MenuStates.CategoriesState: {
                 console.log('GameStates.SubcategoryState')
-
                 this.showSubcategoriesView(activeItem, true)
                 if (activeItem && (activeItem as CategoryComponent).categoryConfig) {
                     this.gameConfig.category.name = (activeItem as CategoryComponent).categoryConfig?.name
@@ -287,7 +288,6 @@ export class MenuScreen extends Container {
         this.currentState = MenuStates.SubcategoryState
         this.header.updateTitleVisibility(true, activeItem?.categoryConfig?.name)
         this.header.showBackButton()
-        // this.nextBtn.disable()
         this.getActiveItem() ? this.nextBtn.enable() : this.nextBtn.disable()
         this.nextBtn.setVisible(true)
         this.categoriesView.updateVisibility(false)
@@ -341,6 +341,7 @@ export class MenuScreen extends Container {
             duration: 500,
             onComplete: () => {
                 this.whiteScreen.setVisible(false)
+                this.header.allowToClick = true
             }
         })
     }

@@ -77,7 +77,6 @@ export class QuizPopup extends Container {
             delay: 1000,
             // x: -800,
             onComplete: () => {
-                console.log(this.quizzes[this.currentQuizIndex], this.currentQuizIndex)
                 this.quizzes[this.currentQuizIndex].setVisible(false)
                 this.quizzes[this.currentQuizIndex].destroy()
                 this.showNextQuiz()

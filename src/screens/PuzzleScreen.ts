@@ -294,7 +294,6 @@ export class PuzzleScreen extends Phaser.GameObjects.Container {
     }
 
     private showGameOverText(): void {
-        console.log(this.config)
         if (this.config.difficultyLevel !== '1') return
         const x = this.boardContainer.x + this.boardContainer.width + 150
         const y = this.boardContainer.y - this.boardContainer.height / 2 + 70

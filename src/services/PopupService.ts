@@ -35,7 +35,6 @@ export class PopupService {
         this.activePopupType = ButtonTypes.BiographyBtn
     }
     public showActivityPopup(scene: Scene, config: any): void {
-        console.log(this.blocker)
         this.blocker.setVisible(true)
         this.blocker.alpha = 0.5
         // this.gameScreen.bringToTop(this.blockerLayer)
@@ -48,7 +47,6 @@ export class PopupService {
     }
 
     public showQuizPopup(scene: Scene, config: any): void {
-        console.log(this.blocker)
         this.blocker.setVisible(true)
         this.blocker.alpha = 0.5
         // this.gameScreen.bringToTop(this.blockerLayer)

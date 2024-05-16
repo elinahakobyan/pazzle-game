@@ -25,7 +25,7 @@ export default class MainScene extends Phaser.Scene {
         //   this.destroyForegroundView()
         // })
         // this.add.existing((this.foregroundScreen = foregroundScreen))
-        this.initStatJS()
+        // this.initStatJS()
     }
 
     private destroyForegroundView(): void {

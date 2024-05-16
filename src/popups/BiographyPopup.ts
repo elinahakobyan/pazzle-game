@@ -58,8 +58,6 @@ export class BiographyPopup extends Container {
         } else if (label.height > 700) {
             label.setFontSize('32px')
         }
-
-        console.log(label.height)
         this.add(label)
     }
 }

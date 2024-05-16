@@ -207,7 +207,6 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.header.setVisible(false)
             this.menuScreen.setVisible(false)
-            this.header.updateBackBtnState()
             this.showInitialScreen()
         })
     }
@@ -217,7 +216,7 @@ export class GameScreen extends Container {
         tw.on('complete', () => {
             this.header.hideHint()
             this.header.hideRestartIcon()
-            this.header.updateBackBtnState()
+            // this.header.updateBackBtnState()
             this.puzzleScreen.setVisible(false)
             this.menuScreen.showLevelsView(this.whiteScreen)
         })
@@ -230,6 +229,7 @@ export class GameScreen extends Container {
             duration: 500,
             onComplete: () => {
                 this.whiteScreen.setVisible(false)
+                this.header.allowToClick = true
             }
         })
     }

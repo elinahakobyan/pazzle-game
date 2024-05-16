@@ -9,7 +9,7 @@ import { EventEmitter } from 'events'
 
 export class HeaderContainer extends Phaser.GameObjects.Container {
     public event$: EventEmitter
-    public isBackBtnClicked: boolean = false
+    public allowToClick: boolean = true
     private title: Phaser.GameObjects.Text
     private backBtn: BackButton
     private hint: HintContainer
@@ -21,11 +21,6 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
         super(scene)
 
         this.initialize()
-    }
-
-    public updateBackBtnState(): void {
-        this.isBackBtnClicked = !this.isBackBtnClicked
-        console.log(this.isBackBtnClicked)
     }
 
     public hideBackButton(): void {
@@ -164,18 +159,19 @@ export class HeaderContainer extends Phaser.GameObjects.Container {
     private initBackButton(): void {
         this.backBtn = new BackButton(this.scene)
         this.backBtn.setPosition(-this.width / 2 + 90, 0)
+        console.log('clicked')
         this.backBtn.on('pointerdown', () => {
             this.soundService.playSfx('tap')
             this.backBtn.setScale(0.95)
         })
         this.backBtn.on('pointerup', () => {
-            this.backBtn.setScale(1)
-            if (!this.isBackBtnClicked) {
-                console.warn('emiteed')
-
+            if (this.allowToClick) {
+                console.log('kakakak')
+                this.backBtn.setScale(1)
                 this.emit('onBackBtnClick')
-                this.updateBackBtnState()
+                this.allowToClick = false
             }
+            // this.updateBackBtnState()
         })
         this.add(this.backBtn)
     }

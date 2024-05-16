@@ -40,24 +40,22 @@ export class CategoriesView extends Container {
     }
 
     private handleCategoryPointerUp(category: CategoryComponent): void {
-        if (this.activeItem) {
+        if (this.activeItem && this.activeItem.active) {
             if (this.activeItem.categoryConfig.name === category.categoryConfig.name) {
                 this.activeItem.deactivate()
                 this.activeItem = null
                 this.emit('itemDeactivated')
-                // this.nextBtn.disable()
             } else {
                 this.activeItem.deactivate()
                 this.activeItem = category
                 this.activeItem.activate()
                 this.emit('itemActivated')
-                // this.nextBtn.enable()
             }
         } else {
             this.activeItem = category
             this.activeItem.activate()
             this.emit('itemActivated')
-            // this.nextBtn.enable()
+            this.activeItem.active = true
         }
     }
 }
